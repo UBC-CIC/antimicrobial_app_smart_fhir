@@ -1,5 +1,9 @@
 import './App.css';
 import React from "react";
+import Base from 'terra-base';
+import ApplicationBase from 'terra-application/lib/application-base';
+import ActionHeader from 'terra-action-header';
+
 
 class App extends React.Component {
     _isMounted;
@@ -37,9 +41,11 @@ class App extends React.Component {
 
     render() {
   return (
-      <div className="App">
-        <div>SMART ON FHIR LAUNCH SUCCESSFUL</div>
-      </div>
+      <Base locale="en">
+          <div className="App">
+              <div>SMART ON FHIR LAUNCH SUCCESSFUL</div>
+          </div>
+      </Base>
   );
 }
 
