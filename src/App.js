@@ -2,11 +2,14 @@ import './App.css';
 import React from "react";
 import { connect } from "react-redux";
 import ApplicationBase from 'terra-application/lib/application-base';
+import ApplicationLoadingOverlay from 'terra-application/lib/application-loading-overlay';
 import ActionHeader from 'terra-action-header';
 import PageContainer from "./Views/PageContainer/PageContainer";
 import ApplicationNavigationTestExample from "./Views/Pages/Example/Example";
 import Base from "terra-base";
 import {setPatientData, setAllergyData} from "./Actions/patientContextActions";
+import {setLoadingFlag, unsetLoadingFlag} from "./Actions/appStateActions";
+
 
 
 class App extends React.Component {
@@ -22,8 +25,9 @@ class App extends React.Component {
 
   async componentDidMount() {
       this._isMounted = true;
-      const {client, setPatientData, setAllergyData} = this.props;
+      const {client, setPatientData, setAllergyData, setLoadingFlag, unsetLoadingFlag} = this.props;
       try {
+          setLoadingFlag();
           let patient = await client.patient.read();
           setPatientData(patient);
           let observation = await client.patient.request("Observation");
@@ -40,6 +44,7 @@ class App extends React.Component {
                   allergies: allergy,
               })
           }
+          unsetLoadingFlag();
       } catch (err) {
           console.log("Error requesting FHIR resources: ", err);
       }
@@ -50,7 +55,7 @@ class App extends React.Component {
   }
 
     render() {
-      const {client} = this.props;
+      const {client, isLoadingData} = this.props;
       const {patient} = this.state;
       let name = "";
       if (patient) {
@@ -65,7 +70,9 @@ class App extends React.Component {
   return (
       <ApplicationBase locale={"en"}>
           <div className="App" style={{height: "100vh", width: "100vw"}}>
-             <PageContainer client={client} name={name} patient={patient}/>
+              {(isLoadingData)? <ApplicationLoadingOverlay isOpen={isLoadingData} /> :
+                  <PageContainer client={client} name={name} patient={patient}/>
+              }
           </div>
       </ApplicationBase>
   );
@@ -75,14 +82,16 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-
+        isLoadingData: state.appState.loadingPatientData,
     };
 };
 
 
 const mapDispatchToProps = {
     setPatientData,
-    setAllergyData
+    setAllergyData,
+    setLoadingFlag,
+    unsetLoadingFlag
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
