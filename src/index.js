@@ -3,9 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import FHIR from "fhirclient";
+import { applyMiddleware, createStore } from "redux";
+import thunk from "redux-thunk";
+import { Provider } from "react-redux";
 import reportWebVitals from './reportWebVitals';
+import reducers from "./Reducers";
 
-const root = document.getElementById('root');
+
+
+const store = createStore(
+    reducers, applyMiddleware(thunk)
+);
+
 
 const smart_on_fhir_launch = () => {
     // Initialize and authorize application (experimental)
@@ -15,7 +24,12 @@ const smart_on_fhir_launch = () => {
             scope: 'patient/Observation.read patient/Patient.read launch/patient'
         })
         .then(client => {
-            ReactDOM.render(<App client={client} />, root);
+            ReactDOM.render(
+                <Provider store={store}>
+                    <App client={client} />
+                </Provider>,
+                document.getElementById('root')
+            );
         });
 };
 
