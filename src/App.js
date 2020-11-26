@@ -9,6 +9,8 @@ import ApplicationNavigationTestExample from "./Views/Pages/Example/Example";
 import Base from "terra-base";
 import {setPatientData, setAllergyData} from "./Actions/patientContextActions";
 import {setLoadingFlag, unsetLoadingFlag} from "./Actions/appStateActions";
+import 'semantic-ui-css/semantic.min.css';
+
 
 
 
@@ -69,7 +71,7 @@ class App extends React.Component {
 
   return (
       <ApplicationBase locale={"en"}>
-          <div className="App" style={{height: "100vh", width: "100vw"}}>
+          <div className="App" style={{height: "100%", minHeight: "100vh", width: "100%"}}>
               {(isLoadingData)? <ApplicationLoadingOverlay isOpen={isLoadingData} /> :
                   <PageContainer client={client} name={name} patient={patient}/>
               }
