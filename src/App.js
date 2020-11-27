@@ -3,10 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import ApplicationBase from 'terra-application/lib/application-base';
 import ApplicationLoadingOverlay from 'terra-application/lib/application-loading-overlay';
-import ActionHeader from 'terra-action-header';
 import PageContainer from "./Views/PageContainer/PageContainer";
-import ApplicationNavigationTestExample from "./Views/Pages/Example/Example";
-import Base from "terra-base";
 import {setPatientData, setAllergyData} from "./Actions/patientContextActions";
 import {setLoadingFlag, unsetLoadingFlag} from "./Actions/appStateActions";
 import 'semantic-ui-css/semantic.min.css';
@@ -71,7 +68,7 @@ class App extends React.Component {
 
   return (
       <ApplicationBase locale={"en"}>
-          <div className="App" style={{height: "100%", minHeight: "100vh", width: "100%"}}>
+          <div className="App" style={{height: "100vh", width: "100vw"}}>
               {(isLoadingData)? <ApplicationLoadingOverlay isOpen={isLoadingData} /> :
                   <PageContainer client={client} name={name} patient={patient}/>
               }

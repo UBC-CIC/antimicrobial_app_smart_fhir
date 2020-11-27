@@ -20,7 +20,7 @@ const smart_on_fhir_launch = () => {
     // Initialize and authorize application (experimental)
     FHIR.oauth2
         .init({
-            clientId: 'my_web_app',
+            clientId: '3aa58dbb-7bf0-47ab-82e7-8cf132a7fbc9',
             scope: 'patient/Observation.read patient/Patient.read launch/patient'
         })
         .then(client => {
