@@ -8,14 +8,13 @@ import IconSearch from "terra-icon/lib/icon/IconSearch";
 import IconPill from "terra-icon/lib/icon/IconPill";
 import IconVisualization from "terra-icon/lib/icon/IconVisualization";
 import IconLightbulb from "terra-icon/lib/icon/IconLightbulb";
+import MySlidePanelManagerComponent from "../Pages/Example/SidePanelExample";
+import SidebarExampleTransitions from "../Pages/Example/SidePanelExample2";
 
 const titleConfig = {
     title: 'Antimicrobial View Demo',
 };
-const userConfig = {
-    name: 'Clinician',
-    initials: 'DR',
-};
+
 const extensionItems = [
     {
         icon: <IconSearch />,
@@ -73,18 +72,17 @@ const navigationItems = [
 
 
 const onAction = (e) => {
-    e.preventDefault();
+
 }
 
 const setActiveKey = (e) => {
-    e.preventDefault();
+
 }
 
 
 const PageContainer = (props) => {
     const [activeNavItem, setActiveNavItem] = useState('Patient_1');
     const {allergies} = props;
-    let activeKey = "Patient_1";
     let allergyList = [];
     if (allergies) {
         allergyList = allergies.map((allergy, index) => {
@@ -97,21 +95,15 @@ const PageContainer = (props) => {
             extensionItems={extensionItems}
             onSelectExtensionItem={onAction}
             navigationItems={navigationItems}
-            activeNavigationItemKey={activeKey}
-            onSelectNavigationItem={key => setActiveKey(key)}
-            onSelectUtilityItem={onAction}
-            onSelectSettings={() => onAction('settings')}
-            onSelectHelp={() => onAction('help')}
-            onSelectLogout={() => onAction('logout')}
+            activeNavigationItemKey={activeNavItem}
+            onSelectNavigationItem={key => setActiveNavItem(key)}
         >
-            <Grid style={{width: "100%", height: "100%"}}>
+            <Grid style={{width: "100vw", height: "100vh"}}>
                 <Grid.Row>
-                    <Grid.Column>
-                        <ActionHeader
-                            title={"Viewing Patient: " + `${props.name}`}
-                            onBack={() => alert('You clicked back!')}
-                            onClose={() => alert('You clicked close!')}
-                        />
+                    <Grid.Column textAlign={"center"} verticalAlign={"middle"} style={{backgroundColor: "whitesmoke", height: "35px", borderBottom: "1px solid lightgrey"}}>
+                        <div style={{marginTop: "8px"}}>
+                            <span style={{fontSize: "18px"}}><strong>Viewing Patient: {props.name}</strong></span>
+                        </div>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
@@ -182,54 +174,14 @@ const PageContainer = (props) => {
                         </Grid>
                     </Grid.Column>
                 </Grid.Row>
+                <Grid.Row >
+                    <Grid.Column>
+                        {/*<MySlidePanelManagerComponent />*/}
+                        <SidebarExampleTransitions />
+                    </Grid.Column>
+                </Grid.Row>
             </Grid>
         </ApplicationNavigation>
-
-            /*<div>
-                <DynamicGrid defaultTemplate={template}>
-                    <DynamicGrid.Region {...region1}>
-                        <div>
-                            Resistant Organisms
-                        </div>
-                    </DynamicGrid.Region>
-                    <DynamicGrid.Region {...region2}>
-                        <div>
-                            Diseases
-                        </div>
-                    </DynamicGrid.Region>
-                    <DynamicGrid.Region {...region3}>
-                        <div>
-                            Recent Antibiotics
-                        </div>
-                    </DynamicGrid.Region>
-                    <DynamicGrid.Region {...region4}>
-                        <div className={"col-4 d-flex"} style={{border: "2px solid red"}}>
-                            <div className={"row"}>
-                                <div className={"col d-flex justify-content-center align-items-center"}>
-                                    Allergies:
-                                </div>
-                            </div>
-                            <div className={"row"}>
-                                <div className={"col d-flex justify-content-center align-items-center"}>
-                                    {(allergies)? <div>{allergyList}</div> : null}
-                                </div>
-                            </div>
-                        </div>
-                    </DynamicGrid.Region>
-                </DynamicGrid>
-            </div>*/
-
-           /* <ApplicationNavigation
-                titleConfig={{
-                    title: 'Antimicrobial Demo',
-                }}
-                userConfig={userConfig}
-                navigationItems={navigationItems}
-                activeNavigationItemKey={"Patient_1"}
-                onSelectNavigationItem={(key) => { setActiveNavItem(key); }}
-            >
-                <PatientView key={"Patient"} title={"Patient"} />
-            </ApplicationNavigation>*/
     )
 }
 

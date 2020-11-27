@@ -11681,6 +11681,16 @@ terra-application@^1.40.0:
     uuid "^3.0.0"
     wicg-inert "^3.0.2"
 
+terra-arrange@^3.0.0:
+  version "3.40.0"
+  resolved "https://registry.yarnpkg.com/terra-arrange/-/terra-arrange-3.40.0.tgz#7972ef5f5df374c48b53ea8ad498b84b9601518b"
+  integrity sha512-dW5IaNVQNdU1miWHuf18waPFaMSvk0J4devyRU+ZxR2UyM0m8pOlgExoZUTWiZmCy3MuD+Q2WJUDdSUvNXU6Tw==
+  dependencies:
+    classnames "^2.2.5"
+    lodash.uniqueid "^4.0.1"
+    prop-types "^15.5.8"
+    terra-icon "^3.38.0"
+
 terra-avatar@^3.8.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/terra-avatar/-/terra-avatar-3.9.0.tgz#0314f5beeac65400307dd88948cbe6b1e5dbcea1"
@@ -11709,7 +11719,7 @@ terra-breakpoints@^2.0.0, terra-breakpoints@^2.31.0:
     classnames "^2.2.5"
     prop-types "^15.5.8"
 
-terra-button-group@^3.50.0:
+terra-button-group@^3.0.0, terra-button-group@^3.50.0:
   version "3.50.0"
   resolved "https://registry.yarnpkg.com/terra-button-group/-/terra-button-group-3.50.0.tgz#d9447ebb9cf40da587f05ccccee9926ba0f1f283"
   integrity sha512-K6vdKrw7jV3Jsj0nQEIUuv5lK98wUJEGZHsg+z4lmGkHZwy0qNNwQXsC+eSzBzCpyW5x0ySiKzovw5R8JNP5gQ==
@@ -11731,6 +11741,22 @@ terra-button@^3.3.0, terra-button@^3.42.0, terra-button@^3.50.0:
     prop-types "^15.5.8"
     terra-icon "^3.38.0"
     terra-theme-context "^1.0.0"
+
+terra-collapsible-menu-view@^6.44.0:
+  version "6.44.0"
+  resolved "https://registry.yarnpkg.com/terra-collapsible-menu-view/-/terra-collapsible-menu-view-6.44.0.tgz#f795ce3aba1109afa55275c4b0066bb6c59738a4"
+  integrity sha512-tU+xkZPEgovsKaMXjKlGI1aJUUX3PZ66QpqR5FhNicnhId3Kd1OxNArx6vAeuKKaxPPhtq5viFUSICc5HHrCAw==
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.5.8"
+    resize-observer-polyfill "^1.4.1"
+    terra-button "^3.3.0"
+    terra-button-group "^3.0.0"
+    terra-form-checkbox "^4.0.0"
+    terra-list "^4.0.0"
+    terra-menu "^6.44.0"
+    terra-mixins "^1.0.0"
+    terra-theme-context "^1.4.0"
 
 terra-content-container@^3.0.0, terra-content-container@^3.14.0:
   version "3.31.0"
@@ -11765,6 +11791,18 @@ terra-dynamic-grid@^3.29.0:
     aphrodite "^2.2.2"
     classnames "^2.2.5"
     prop-types "^15.5.8"
+
+terra-form-checkbox@^4.0.0:
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/terra-form-checkbox/-/terra-form-checkbox-4.9.0.tgz#cb7324cef2f270433ad43f97e6dcef27cb644470"
+  integrity sha512-xe+W5jrjHFDoZiFN7bzGrVKw+RGjWKkemdirPAExkY6Cps8m6F+/zGIoFvqY+sj8CAJXZScSKxq/2fGNFfQ7Ww==
+  dependencies:
+    classnames "^2.2.5"
+    lodash.uniqueid "^4.0.1"
+    prop-types "^15.5.8"
+    terra-mixins "^1.38.0"
+    terra-theme-context "^1.0.0"
+    terra-visually-hidden-text "^2.30.0"
 
 terra-grid@^6.25.0:
   version "6.25.0"
@@ -11811,7 +11849,7 @@ terra-i18n@^4.33.0:
     intl-locales-supported "^1.8.4"
     prop-types "^15.5.8"
 
-terra-icon@^3.11.0, terra-icon@^3.38.0:
+terra-icon@^3.11.0, terra-icon@^3.19.0, terra-icon@^3.38.0:
   version "3.38.0"
   resolved "https://registry.yarnpkg.com/terra-icon/-/terra-icon-3.38.0.tgz#e66ecb18465e9a59a9f6ab2fef74eaf93f91234b"
   integrity sha512-o5gK0hKTTfMRbTMSlj/s/h4iLrE/mO4iUN/7H4cOPfVqaNcFNxWUbbg3KBh72HKDZUpNbwyIZPs8Xyh7Fq8wZg==
@@ -11829,6 +11867,34 @@ terra-image@^3.0.0, terra-image@^3.31.0:
     object-fit-images "^3.2.4"
     prop-types "^15.5.8"
     terra-theme-context "^1.0.0"
+
+terra-list@^4.0.0:
+  version "4.40.0"
+  resolved "https://registry.yarnpkg.com/terra-list/-/terra-list-4.40.0.tgz#008fb49f4f014614fc49cdc57b06971372dbd3c8"
+  integrity sha512-o4EzRd3tYNoi0SjR2IlP9Aw3T2pj8O2kXoI9Jmz+ADnePe/u39t4nj/gZT/3ITTHf6zffWFyzcxjv9t/SYIQmg==
+  dependencies:
+    "@cerner/terra-docs" "^1.0.0"
+    classnames "^2.2.5"
+    keycode-js "^2.0.1"
+    prop-types "^15.5.8"
+    terra-icon "^3.38.0"
+    terra-mixins "^1.38.0"
+    terra-theme-context "^1.0.0"
+
+terra-menu@^6.44.0:
+  version "6.44.0"
+  resolved "https://registry.yarnpkg.com/terra-menu/-/terra-menu-6.44.0.tgz#a7427b3a6d90bfe629bc8f934630f68343ae30ef"
+  integrity sha512-Ae6t1HIKQcMq2WfQw9lzFQzTt5MXF6QYNnKkuannu1OLqU091NR9r4kY10+L+aAr05Wbv4jeJJxshiwmWA6vsg==
+  dependencies:
+    classnames "^2.2.5"
+    keycode-js "^2.0.1"
+    prop-types "^15.5.8"
+    terra-arrange "^3.0.0"
+    terra-content-container "^3.0.0"
+    terra-icon "^3.19.0"
+    terra-list "^4.0.0"
+    terra-popup "^6.44.0"
+    terra-theme-context "^1.4.0"
 
 terra-mixins@^1.0.0, terra-mixins@^1.38.0:
   version "1.38.0"
@@ -12005,7 +12071,7 @@ terra-toggle@^3.41.0:
     react-animate-height "^2.0.1"
     terra-icon "^3.38.0"
 
-terra-visually-hidden-text@^2.0.0:
+terra-visually-hidden-text@^2.0.0, terra-visually-hidden-text@^2.30.0:
   version "2.30.0"
   resolved "https://registry.yarnpkg.com/terra-visually-hidden-text/-/terra-visually-hidden-text-2.30.0.tgz#f47a6e81e3e7721a737edcaa6cb71690c7d073bd"
   integrity sha512-6aKTrffgjB98sVUNARWoWoehlGsS8KIZAYiQR8OZ9A2z64o3+G5nIu4Vp8HhPKmrIzYur7SVhibLCN6x3bwl3A==
