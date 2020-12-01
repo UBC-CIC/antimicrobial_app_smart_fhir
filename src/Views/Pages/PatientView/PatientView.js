@@ -1,34 +1,31 @@
 import React, { useState }  from 'react';
-import NavigationPrompt from 'terra-application/lib/navigation-prompt';
-import PropTypes from 'prop-types';
+import {connect} from "react-redux";
+import {Grid} from "semantic-ui-react";
+import DataViewer from "../../../Components/DataViewer/DataViewer";
 
 
-const PatientView = ({ title }) => {
-    const [hasPendingAction, setHasPendingAction] = useState(false);
+const PatientView = (props) => {
+
     return (
-        <div>
-            <p>{title}</p>
-            <p>
-                Toggle pending action:
-                {' '}
-                <button
-                    id="pending-action-toggle"
-                    type="button"
-                    onClick={() => {
-                        setHasPendingAction(!hasPendingAction);
-                    }}
-                >
-                    {hasPendingAction ? 'Disable' : 'Enable'}
-                </button>
-            </p>
-            {hasPendingAction ? <NavigationPrompt description="Testing ApplicationNavigation's navigation prompt handling" /> : undefined}
-        </div>
+        <Grid.Row style={{paddingTop: "40px"}}>
+            <Grid.Column>
+                <Grid.Row>
+                    <Grid.Column>
+                        <DataViewer />
+                    </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+
+                </Grid.Row>
+            </Grid.Column>
+        </Grid.Row>
     );
 };
 
-PatientView.propTypes = {
-    title: PropTypes.string,
+const mapStateToProps = (state) => {
+    return {
+        patient: state.patientData.currentPatient,
+    };
 };
 
-
-export default PatientView;
+export default connect(mapStateToProps, null) (PatientView);

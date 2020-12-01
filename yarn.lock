@@ -12044,6 +12044,16 @@ terra-status-view@^4.10.0:
     terra-mixins "^1.38.0"
     terra-theme-context "^1.0.0"
 
+terra-switch@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/terra-switch/-/terra-switch-1.3.0.tgz#d6e871f92f763e9630f6adde194f0edf4b6acd78"
+  integrity sha512-TlOQdZBq9NUPpyvLaEdIkASZ9rqlr8HAQXF6bafaAXXP/QKz0WdlgCQ6+8BXjPOCD5JMOOlSKOsC2mtOUBR2wQ==
+  dependencies:
+    classnames "^2.2.5"
+    keycode-js "^2.0.1"
+    prop-types "^15.5.8"
+    terra-theme-context "^1.0.0"
+
 terra-theme-context@^1.0.0, terra-theme-context@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/terra-theme-context/-/terra-theme-context-1.4.0.tgz#58326550b505fe721b45b5f00dfb31abd32a27d0"
