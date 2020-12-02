@@ -30,16 +30,38 @@ const setAllergyData = (allergies) => {
     let allergyArray = [];
 
     allergies.forEach(allergy => {
-        let formattedAllergy = {
-            category: allergy.resource.category[0],
-            clinicalStatus: allergy.resource.clinicalStatus.coding[0].code,
-            description: allergy.resource.code.text,
-            criticality: allergy.resource.criticality,
-            date: allergy.resource.recordedDate,
-            verification: allergy.resource.verificationStatus.coding[0].code
+        if (allergy.resource.category[0] === "medication") {
+            let reaction = null;
+            let date;
+            if (allergy.resource.reaction) {
+                reaction = {
+                    reaction: allergy.resource.reaction[0].manifestation[0].text,
+                    severity: allergy.resource.reaction[0].severity
+                }
+            }
+
+            if (allergy.resource.recordedDate) {
+                date = allergy.resource.recordedDate;
+            } else {
+                date = allergy.resource.meta.lastUpdated;
+            }
+
+            let formattedAllergy = {
+                category: allergy.resource.category[0],
+                clinicalStatus: allergy.resource.clinicalStatus.coding[0].code,
+                description: allergy.resource.code.text,
+                criticality: allergy.resource.criticality,
+                reaction: reaction,
+                date: date,
+                verification: allergy.resource.verificationStatus.coding[0].code
+            }
+            allergyArray.push(formattedAllergy);
         }
-        allergyArray.push(formattedAllergy);
     })
+
+    allergyArray.sort((a,b) => {
+        return Date.parse(b.date) - Date.parse(a.date);
+    });
 
     return allergyArray;
 }

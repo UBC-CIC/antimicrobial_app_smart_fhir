@@ -70,7 +70,7 @@ class App extends React.Component {
       <ApplicationBase locale={"en"}>
           <div className="App" style={{height: "100vh", width: "100vw"}}>
               {(isLoadingData)? <ApplicationLoadingOverlay isOpen={isLoadingData} /> :
-                  <PageContainer client={client} name={name} patient={patient}/>
+                  <PageContainer client={client} name={name}/>
               }
           </div>
       </ApplicationBase>

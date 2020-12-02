@@ -6,8 +6,8 @@ const VerticalSidebar = ({ visible }) => (
         animation={"scale down"}
         direction={"left"}
         icon='labeled'
-        inverted
-        vertical
+        inverted={"true"}
+        vertical={"true"}
         visible={visible}
         width='thin'
     >
