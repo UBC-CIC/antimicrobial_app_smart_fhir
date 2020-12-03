@@ -18,7 +18,6 @@ class App extends React.Component {
     super(props);
     this.state = {
         patient: null,
-        allergies: null,
     }
   }
 
@@ -34,13 +33,17 @@ class App extends React.Component {
           if (allergy.entry.length > 0) {
               setAllergyData(allergy.entry);
           }
+          let medication = await client.patient.request("MedicationRequest");
+          if (medication.entry.length > 0) {
+
+          }
           console.log("patient: ", patient);
           console.log("observation: ", observation);
           console.log("allergy: ", allergy);
+          console.log("medication: ", medication);
           if (this._isMounted) {
               this.setState({
                   patient: patient,
-                  allergies: allergy,
               })
           }
           unsetLoadingFlag();
@@ -68,7 +71,7 @@ class App extends React.Component {
 
   return (
       <ApplicationBase locale={"en"}>
-          <div className="App" style={{height: "100vh", width: "100vw"}}>
+          <div className="App" style={{height: "100vh", width: "100vw", backgroundColor: "#f2f8fc"}}>
               {(isLoadingData)? <ApplicationLoadingOverlay isOpen={isLoadingData} /> :
                   <PageContainer client={client} name={name}/>
               }

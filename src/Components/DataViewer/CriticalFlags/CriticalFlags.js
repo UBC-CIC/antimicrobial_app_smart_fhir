@@ -16,17 +16,17 @@ const CriticalFlags = (props) => {
     }
 
 return(
-    <Grid.Column>
+    <Grid.Column  width={12}>
         <Grid style={{backgroundColor: "whitesmoke", borderRadius: "10px", filter: "drop-shadow(0 1px 0.10rem lightgrey)"}}>
             <Grid.Row style={{paddingTop: "10px", paddingBottom: "0px"}}>
                 <Grid.Column textAlign={"left"} style={{marginLeft: "2.00%"}}>
-                    <h1>Critical Flags</h1>
+                    <h2>Critical Flags</h2>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row>
                 <Grid.Column>
                     <Grid>
-                        <Grid.Row columns={4} style={{height: "100px !important"}}>
+                        <Grid.Row columns={4} style={{height: "80px !important"}}>
                             <Grid.Column textAlign={"center"} verticalAlign={"top"}>
                                 <ModalManager>
                                     <Flag title={"Resistant Organisms:"} content={""} modalData={null} type={"organism"} alert={false} />

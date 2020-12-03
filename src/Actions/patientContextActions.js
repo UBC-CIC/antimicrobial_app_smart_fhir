@@ -16,4 +16,12 @@ export const setAllergyData = (payload) => {
     }
 }
 
+// Sets patient medication data
+export const setMedicationData = (payload) => {
+    return {
+        type: "SET_MEDICATION_DATA",
+        payload: payload,
+    }
+}
+
 //====================================================================================================

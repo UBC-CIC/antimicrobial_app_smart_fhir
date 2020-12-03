@@ -23,14 +23,14 @@ const AllergyModal = (props) => {
         }
 
         let entry = {
-            key: index,
+            key: index.toString(),
                 cells: [
                     { key: 'cell-0', children: allergy.description },
                     { key: 'cell-1', children: reaction},
                     { key: 'cell-2', children: severity },
-                    { key: 'cell-2', children: date },
-                    { key: 'cell-2', children: allergy.clinicalStatus },
-                    { key: 'cell-2', children: allergy.verification },
+                    { key: 'cell-3', children: date },
+                    { key: 'cell-4', children: allergy.clinicalStatus },
+                    { key: 'cell-5', children: allergy.verification },
         ],
         }
         rowData.push(entry);
@@ -40,14 +40,14 @@ const AllergyModal = (props) => {
 
     return(
         <Grid>
-            <Grid.Row>
+            <Grid.Row style={{paddingBottom: "0px"}} >
                 <Grid.Column>
                     <DisclosureManagerHeaderAdapter
                         title="Known Medication Allergies"
                     />
                 </Grid.Column>
             </Grid.Row>
-            <Grid.Row>
+            <Grid.Row style={{paddingTop: "0px"}}>
                 <Grid.Column>
                     <Table
                         summaryId="compact-table"

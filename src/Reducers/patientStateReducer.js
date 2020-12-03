@@ -1,6 +1,9 @@
 const initialPatientState = {
     currentPatient: null,
     allergies: null,
+    antibiotics: null,
+    diseases: null,
+    resistantOrganisms: null,
 }
 
 
@@ -26,36 +29,75 @@ const setPatientData = (patient) => {
     };
 }
 
+const setAntibioticsData = (antibiotics) => {
+    let antibioticsArray = [];
+
+    antibiotics.forEach(antibiotic => {
+
+        let formattedAntibiotic = {
+            description: antibiotic.resource.medicationCodeableConcept.text,
+            duration: {
+                unit: antibiotic.resource.dispenseRequest.expectedSupplyDuration.unit,
+                value: antibiotic.resource.dispenseRequest.expectedSupplyDuration.value
+            },
+            type: antibiotic.resource.dispenseRequest.quantity.unit,
+            dosage: antibiotic.resource.dosageInstruction[0].text,
+            date: antibiotic.resource.meta.lastUpdated,
+            status: antibiotic.resource.status,
+        }
+
+        antibioticsArray.push(formattedAntibiotic);
+    })
+
+    return antibioticsArray;
+}
+
 const setAllergyData = (allergies) => {
     let allergyArray = [];
 
     allergies.forEach(allergy => {
         if (allergy.resource.category[0] === "medication") {
-            let reaction = null;
-            let date;
-            if (allergy.resource.reaction) {
-                reaction = {
-                    reaction: allergy.resource.reaction[0].manifestation[0].text,
-                    severity: allergy.resource.reaction[0].severity
+            if (allergy.resource.code) {
+                let reaction = null;
+                if (allergy.resource.reaction) {
+                    reaction = {
+                        reaction: allergy.resource.reaction[0].manifestation[0].text,
+                        severity: allergy.resource.reaction[0].severity
+                    }
                 }
-            }
 
-            if (allergy.resource.recordedDate) {
-                date = allergy.resource.recordedDate;
-            } else {
-                date = allergy.resource.meta.lastUpdated;
-            }
+                let date;
+                if (allergy.resource.recordedDate) {
+                    date = allergy.resource.recordedDate;
+                } else {
+                    date = allergy.resource.meta.lastUpdated;
+                }
 
-            let formattedAllergy = {
-                category: allergy.resource.category[0],
-                clinicalStatus: allergy.resource.clinicalStatus.coding[0].code,
-                description: allergy.resource.code.text,
-                criticality: allergy.resource.criticality,
-                reaction: reaction,
-                date: date,
-                verification: allergy.resource.verificationStatus.coding[0].code
+                let verification = "Unknown";
+                if (allergy.resource.verificationStatus) {
+                    verification = allergy.resource.verificationStatus.coding[0].code;
+                }
+
+                let criticality = "Unknown";
+                if (allergy.resource.criticality) {
+                    criticality = allergy.resource.criticality;
+                }
+
+                let clinicalStatus = "Unknown";
+                if (allergy.resource.clinicalStatus) {
+                    clinicalStatus = allergy.resource.clinicalStatus.coding[0].code;
+                }
+
+                let formattedAllergy = {
+                    clinicalStatus: clinicalStatus,
+                    description: allergy.resource.code.text,
+                    criticality: criticality,
+                    reaction: reaction,
+                    date: date,
+                    verification: verification
+                }
+                allergyArray.push(formattedAllergy);
             }
-            allergyArray.push(formattedAllergy);
         }
     })
 
@@ -82,6 +124,12 @@ const patientStateReducer = (patientState = initialPatientState, action) => {
             return {
                 ...newPatientState,
                 allergies: setAllergyData(action.payload)
+            }
+        }
+        case "SET_MEDICATION_DATA": {
+            return {
+                ...newPatientState,
+                antibiotics: setAntibioticsData(action.payload)
             }
         }
         default:

@@ -1,13 +1,13 @@
 import React, { useState }  from 'react';
 import {connect} from "react-redux";
-import {Grid} from "semantic-ui-react";
+import {Divider, Grid} from "semantic-ui-react";
 import DataViewer from "../../../Components/DataViewer/DataViewer";
 
 
 const PatientView = (props) => {
 
     return (
-        <Grid.Row style={{paddingTop: "40px"}}>
+        <Grid.Row style={{paddingTop: "40px", width: "100vh"}}>
             <Grid.Column>
                 <Grid.Row>
                     <Grid.Column>
@@ -15,7 +15,12 @@ const PatientView = (props) => {
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
-
+                    <Grid.Column>
+                        <Divider />
+                    </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                    Static display placeholder...
                 </Grid.Row>
             </Grid.Column>
         </Grid.Row>

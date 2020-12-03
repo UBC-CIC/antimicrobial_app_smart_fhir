@@ -11,7 +11,7 @@ const VerticalSidebar = ({ visible }) => (
         visible={visible}
         width='thin'
     >
-        <Segment basic>
+        <Segment basic style={{backgroundColor: "whitesmoke"}}>
             <Grid>
                 <Grid.Row style={{paddingBottom: "0px"}}>
                     <Grid.Column textAlign={"left"}>
@@ -35,7 +35,7 @@ const VerticalSidebar = ({ visible }) => (
                                </Grid.Column>
                                <Grid.Column width={2}/>
                            </Grid.Row>
-                           <Grid.Row style={{paddingBottom: "0px"}}>
+                           <Grid.Row style={{paddingBottom: "0px", paddingTop: "6px"}}>
                                <Grid.Column width={11} textAlign={"left"} verticalAlign={"middle"}>
                                    <span style={{fontSize: "10px"}}>CRP</span>
                                </Grid.Column>
@@ -44,7 +44,7 @@ const VerticalSidebar = ({ visible }) => (
                                </Grid.Column>
                                <Grid.Column width={2}/>
                            </Grid.Row>
-                           <Grid.Row style={{paddingBottom: "0px"}}>
+                           <Grid.Row style={{paddingBottom: "0px", paddingTop: "6px"}}>
                                <Grid.Column width={11} textAlign={"left"} verticalAlign={"middle"}>
                                    <span style={{fontSize: "10px"}}>Pre-Calcitorin</span>
                                </Grid.Column>
@@ -53,7 +53,7 @@ const VerticalSidebar = ({ visible }) => (
                                </Grid.Column>
                                <Grid.Column width={2}/>
                            </Grid.Row>
-                           <Grid.Row style={{paddingBottom: "0px"}}>
+                           <Grid.Row style={{paddingBottom: "0px", paddingTop: "6px"}}>
                                <Grid.Column width={11} textAlign={"left"} verticalAlign={"middle"}>
                                    <span style={{fontSize: "10px"}}>Temperature</span>
                                </Grid.Column>
@@ -62,7 +62,7 @@ const VerticalSidebar = ({ visible }) => (
                                </Grid.Column>
                                <Grid.Column width={2}/>
                            </Grid.Row>
-                           <Grid.Row style={{paddingBottom: "0px"}}>
+                           <Grid.Row style={{paddingBottom: "0px", paddingTop: "6px"}}>
                                <Grid.Column width={11} textAlign={"left"} verticalAlign={"middle"}>
                                    <span style={{fontSize: "10px"}}>Blood Pressure</span>
                                </Grid.Column>
@@ -71,7 +71,61 @@ const VerticalSidebar = ({ visible }) => (
                                </Grid.Column>
                                <Grid.Column width={2}/>
                            </Grid.Row>
-                           <Grid.Row>
+                           <Grid.Row style={{paddingBottom: "0px", paddingTop: "6px"}}>
+                               <Grid.Column width={11} textAlign={"left"} verticalAlign={"middle"}>
+                                   <span style={{fontSize: "10px"}}>Heart Rate</span>
+                               </Grid.Column>
+                               <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
+                                   <Checkbox />
+                               </Grid.Column>
+                               <Grid.Column width={2}/>
+                           </Grid.Row>
+                           <Grid.Row style={{paddingBottom: "0px", paddingTop: "6px"}}>
+                               <Grid.Column width={11} textAlign={"left"} verticalAlign={"middle"}>
+                                   <span style={{fontSize: "10px"}}>Respiratory Rate</span>
+                               </Grid.Column>
+                               <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
+                                   <Checkbox />
+                               </Grid.Column>
+                               <Grid.Column width={2}/>
+                           </Grid.Row>
+                           <Grid.Row style={{paddingBottom: "0px", paddingTop: "6px"}}>
+                               <Grid.Column width={11} textAlign={"left"} verticalAlign={"middle"}>
+                                   <span style={{fontSize: "10px"}}>Oxygen Sat</span>
+                               </Grid.Column>
+                               <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
+                                   <Checkbox />
+                               </Grid.Column>
+                               <Grid.Column width={2}/>
+                           </Grid.Row>
+                           <Grid.Row style={{paddingBottom: "0px", paddingTop: "6px"}}>
+                               <Grid.Column width={11} textAlign={"left"} verticalAlign={"middle"}>
+                                   <span style={{fontSize: "10px"}}>Oxygen Mode</span>
+                               </Grid.Column>
+                               <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
+                                   <Checkbox />
+                               </Grid.Column>
+                               <Grid.Column width={2}/>
+                           </Grid.Row>
+                           <Grid.Row style={{paddingBottom: "0px", paddingTop: "6px"}}>
+                               <Grid.Column width={11} textAlign={"left"} verticalAlign={"middle"}>
+                                   <span style={{fontSize: "10px"}}>Imaging</span>
+                               </Grid.Column>
+                               <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
+                                   <Checkbox />
+                               </Grid.Column>
+                               <Grid.Column width={2}/>
+                           </Grid.Row>
+                           <Grid.Row style={{paddingBottom: "0px", paddingTop: "6px"}}>
+                               <Grid.Column width={11} textAlign={"left"} verticalAlign={"middle"}>
+                                   <span style={{fontSize: "10px"}}>Procedures</span>
+                               </Grid.Column>
+                               <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
+                                   <Checkbox />
+                               </Grid.Column>
+                               <Grid.Column width={2}/>
+                           </Grid.Row>
+                           <Grid.Row style={{paddingTop: "3px"}}>
                                <Grid.Column>
                                    <Divider />
                                </Grid.Column>

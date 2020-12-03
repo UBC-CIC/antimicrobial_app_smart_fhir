@@ -2,17 +2,15 @@ import React, { useState }  from 'react';
 import { connect } from "react-redux";
 import ApplicationNavigation from 'terra-application/lib/application-navigation';
 import PatientView from "../Pages/PatientView/PatientView";
-import {Grid} from "semantic-ui-react";
-import ActionHeader from "terra-action-header";
+import {Grid, Icon, Menu, Sidebar} from "semantic-ui-react";
 import IconSearch from "terra-icon/lib/icon/IconSearch";
 import IconPill from "terra-icon/lib/icon/IconPill";
 import IconVisualization from "terra-icon/lib/icon/IconVisualization";
 import IconLightbulb from "terra-icon/lib/icon/IconLightbulb";
-import MySlidePanelManagerComponent from "../Pages/Example/SidePanelExample";
-import SidebarExampleTransitions from "../Pages/Example/SidePanelExample2";
+
 
 const titleConfig = {
-    title: 'Antimicrobial View Demo',
+    title: 'Microbial-Insights',
 };
 
 const extensionItems = [
@@ -75,13 +73,10 @@ const onAction = (e) => {
 
 }
 
-const setActiveKey = (e) => {
-
-}
-
 
 const PageContainer = (props) => {
     const [activeNavItem, setActiveNavItem] = useState('Patient_1');
+    const [activeSidebarItem, setActiveSidebarItem] = useState("home");
 
     return (
         <ApplicationNavigation
@@ -92,7 +87,7 @@ const PageContainer = (props) => {
             activeNavigationItemKey={activeNavItem}
             onSelectNavigationItem={key => setActiveNavItem(key)}
         >
-            <Grid style={{width: "100vw", height: "100vh"}}>
+            <Grid style={{width: "100vw", padding: "0px"}}>
                 <Grid.Row>
                     <Grid.Column textAlign={"center"} verticalAlign={"middle"} style={{backgroundColor: "whitesmoke", position: "fixed", marginTop: "35px", zIndex: "10", height: "35px", borderBottom: "1px solid lightgrey"}}>
                         <div style={{marginTop: "8px"}}>
@@ -100,13 +95,58 @@ const PageContainer = (props) => {
                         </div>
                     </Grid.Column>
                 </Grid.Row>
-                <PatientView />
+            </Grid>
+            <Grid style={{width: "100vw", height: "100vh"}}>
+                <Grid.Row>
+                    <Grid.Column width={2} style={{backgroundColor: "#d7d7d7", margin: "0px", padding: "0px"}} >
+                                    <Grid>
+                                        <Grid.Row>
+                                            <Grid.Column style={{height: "198px"}}>
+
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                        <Grid.Row>
+                                            <Grid.Column textAlign={"center"} verticalAlign={"middle"} style={{marginLeft: "10px"}}>
+                                                <Menu icon={"labeled"} fluid vertical color={"grey"} style={{backgroundColor: "#d7d7d7"}}>
+                                                    <Menu.Item
+                                                        name={"home"}
+                                                        as={"a"}
+                                                        active={activeSidebarItem === "home"}
+                                                        color={"grey"}
+                                                        onClick={() => setActiveSidebarItem("home")}
+                                                    >
+
+                                                        <Icon name='home' />
+                                                        Home
+                                                    </Menu.Item >
+                                                    <Menu.Item
+                                                        name={"static"}
+                                                        as={"a"}
+                                                        active={activeSidebarItem === "static"}
+                                                        color={"grey"}
+                                                        onClick={() => setActiveSidebarItem("static")}
+                                                    >
+                                                        <Icon name='file outline' />
+                                                        Static Display
+                                                    </Menu.Item>
+                                                </Menu>
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                    </Grid>
+                    </Grid.Column>
+                    <Grid.Column width={14} style={{padding: "0px"}}>
+                        <br/>
+                        <Grid>
+                            <PatientView />
+                        </Grid>
+                    </Grid.Column>
+                </Grid.Row>
                 <Grid.Row >
                     <Grid.Column>
                         {/*<MySlidePanelManagerComponent />*/}
                         {/*<SidebarExampleTransitions />*/}
                         <div>
-                            Static Display Placeholder...
+                            Footer..
                         </div>
                     </Grid.Column>
                 </Grid.Row>

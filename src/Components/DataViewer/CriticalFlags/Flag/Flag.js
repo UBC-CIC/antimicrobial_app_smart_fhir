@@ -45,8 +45,8 @@ const Flag = (props) => {
     }
 
 
-    const alertStyle = {border: "3px solid #e6bebe", backgroundColor: "#e6bebe", height: "120px", borderRadius: "10px", overflowY: "auto", overflowX: "hidden"};
-    const nonAlertStyle = {border: "3px solid lightgray", backgroundColor: "lightgray", height: "120px", borderRadius: "10px", overflowY: "auto",  overflowX: "hidden"};
+    const alertStyle = {border: "3px solid #e6bebe", backgroundColor: "#e6bebe", height: "90px", borderRadius: "10px", overflowY: "auto", overflowX: "hidden", filter: "drop-shadow(0 1px 0.15rem #e6bebe)"};
+    const nonAlertStyle = {border: "3px solid lightgray", backgroundColor: "lightgray", height: "90px", borderRadius: "10px", overflowY: "auto",  overflowX: "hidden", filter: "drop-shadow(0 1px 0.15rem lightgrey)"};
 
 
     return(
@@ -56,7 +56,7 @@ const Flag = (props) => {
             <Grid>
                 <Grid.Row style={{paddingBottom: "0px"}}>
                     <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
-                        <span style={{fontSize: "18px"}}><strong>{title}</strong></span>
+                        <span style={{fontSize: "16px"}}><strong>{title}</strong></span>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row style={{paddingTop: "0px"}}>
