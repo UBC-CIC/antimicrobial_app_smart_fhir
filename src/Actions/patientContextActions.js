@@ -24,4 +24,12 @@ export const setMedicationData = (payload) => {
     }
 }
 
+// Sets patient observation data
+export const setObservationData = (payload) => {
+    return {
+        type: "SET_OBSERVATION_DATA",
+        payload: payload,
+    }
+}
+
 //====================================================================================================

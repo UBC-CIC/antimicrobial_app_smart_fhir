@@ -4,9 +4,11 @@ import { connect } from "react-redux";
 import ApplicationBase from 'terra-application/lib/application-base';
 import ApplicationLoadingOverlay from 'terra-application/lib/application-loading-overlay';
 import PageContainer from "./Views/PageContainer/PageContainer";
-import {setPatientData, setAllergyData} from "./Actions/patientContextActions";
+import {setPatientData, setAllergyData, setMedicationData} from "./Actions/patientContextActions";
 import {setLoadingFlag, unsetLoadingFlag} from "./Actions/appStateActions";
+import medicationIdentifier from "./Services/medicationIdentifier";
 import 'semantic-ui-css/semantic.min.css';
+require('dotenv').config()
 
 
 
@@ -23,7 +25,7 @@ class App extends React.Component {
 
   async componentDidMount() {
       this._isMounted = true;
-      const {client, setPatientData, setAllergyData, setLoadingFlag, unsetLoadingFlag} = this.props;
+      const {client, setPatientData, setAllergyData, setMedicationData, setLoadingFlag, unsetLoadingFlag} = this.props;
       try {
           setLoadingFlag();
           let patient = await client.patient.read();
@@ -35,12 +37,13 @@ class App extends React.Component {
           }
           let medication = await client.patient.request("MedicationRequest");
           if (medication.entry.length > 0) {
-
+                setMedicationData(medication.entry);
           }
           console.log("patient: ", patient);
           console.log("observation: ", observation);
           console.log("allergy: ", allergy);
           console.log("medication: ", medication);
+          await medicationIdentifier("penicillin");
           if (this._isMounted) {
               this.setState({
                   patient: patient,
@@ -93,7 +96,8 @@ const mapDispatchToProps = {
     setPatientData,
     setAllergyData,
     setLoadingFlag,
-    unsetLoadingFlag
+    unsetLoadingFlag,
+    setMedicationData
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
