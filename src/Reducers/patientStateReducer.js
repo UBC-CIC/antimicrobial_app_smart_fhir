@@ -7,6 +7,7 @@ const initialPatientState = {
     resistantOrganisms: null,
     graphingData: {
         temperature: null,
+        bloodPressure: null,
     }
 }
 
@@ -115,22 +116,40 @@ const setAllergyDataHelper = (allergies) => {
 
 const setObservationDataHelper = (observations) => {
     let temperatureData = [];
+    let bloodPressureData = [];
 
     observations.forEach(observation => {
 
-        if (observation.resource.code.text === "temperature") {
-
-            let temperatureEntry = {
-                timestamp: observation.resource.effectiveDateTime,
-                unit: observation.resource.valueQuantity.unit,
-                value: observation.resource.valueQuantity.value
+        switch (observation.resource.code.text) {
+            case "temperature": {
+                let temperatureEntry = {
+                    timestamp: observation.resource.effectiveDateTime,
+                    unit: observation.resource.valueQuantity.unit,
+                    value: observation.resource.valueQuantity.value
+                }
+                temperatureData.push(temperatureEntry);
+                break;
             }
-            temperatureData.push(temperatureEntry);
+            case "Blood pressure": {
+                let components = observation.resource.component;
+                components.forEach( entry => {
+                    let bloodPressureEntry = {
+                        timestamp: observation.resource.effectiveDateTime,
+                        type: entry.code.text,
+                        unit: entry.valueQuantity.unit,
+                        value: entry.valueQuantity.value
+                    }
+                    bloodPressureData.push(bloodPressureEntry);
+                })
+                break;
+            }
+            default:
+                break;
         }
-    })
-
+    });
     return {
         temperature: temperatureData,
+        bloodPressure: bloodPressureData,
     }
 }
 

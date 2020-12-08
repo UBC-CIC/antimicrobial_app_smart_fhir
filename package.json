@@ -12,6 +12,7 @@
     "autoprefixer": "^10.0.2",
     "aws-amplify": "^3.3.11",
     "aws-sdk": "^2.804.0",
+    "chart.js": "^2.9.4",
     "dotenv": "^8.2.0",
     "fhirclient": "^2.3.10",
     "intl": "^1.2.5",

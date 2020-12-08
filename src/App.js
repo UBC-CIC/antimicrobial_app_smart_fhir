@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import ApplicationBase from 'terra-application/lib/application-base';
 import ApplicationLoadingOverlay from 'terra-application/lib/application-loading-overlay';
 import PageContainer from "./Views/PageContainer/PageContainer";
-import {setPatientData, setAllergyData, setMedicationData} from "./Actions/patientContextActions";
+import {setPatientData, setAllergyData, setMedicationData, setObservationData} from "./Actions/patientContextActions";
 import {setLoadingFlag, unsetLoadingFlag} from "./Actions/appStateActions";
 import medicationIdentifier from "./Services/medicationIdentifier";
 import 'semantic-ui-css/semantic.min.css';
@@ -25,12 +25,15 @@ class App extends React.Component {
 
   async componentDidMount() {
       this._isMounted = true;
-      const {client, setPatientData, setAllergyData, setMedicationData, setLoadingFlag, unsetLoadingFlag} = this.props;
+      const {client, setPatientData, setAllergyData, setMedicationData, setObservationData, setLoadingFlag, unsetLoadingFlag} = this.props;
       try {
           setLoadingFlag();
           let patient = await client.patient.read();
           setPatientData(patient);
           let observation = await client.patient.request("Observation");
+          if (observation.entry.length > 0) {
+              setObservationData(observation.entry)
+          }
           let allergy = await client.patient.request("AllergyIntolerance");
           if (allergy.entry.length > 0) {
               setAllergyData(allergy.entry);
@@ -97,7 +100,8 @@ const mapDispatchToProps = {
     setAllergyData,
     setLoadingFlag,
     unsetLoadingFlag,
-    setMedicationData
+    setMedicationData,
+    setObservationData
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
