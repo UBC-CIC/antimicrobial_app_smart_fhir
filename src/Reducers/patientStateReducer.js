@@ -1,13 +1,17 @@
+
 const initialPatientState = {
     currentPatient: null,
     allergies: null,
     antibiotics: null,
     diseases: null,
     resistantOrganisms: null,
+    graphingData: {
+        temperature: null,
+    }
 }
 
 
-const setPatientData = (patient) => {
+const setPatientDataHelper = (patient) => {
     let prefix = null;
     if (patient.name[0].prefix) {
         prefix = patient.name[0].prefix[0];
@@ -29,7 +33,7 @@ const setPatientData = (patient) => {
     };
 }
 
-const setAntibioticsData = (antibiotics) => {
+const setAntibioticsDataHelper = (antibiotics) => {
     let antibioticsArray = [];
 
     antibiotics.forEach(antibiotic => {
@@ -52,7 +56,7 @@ const setAntibioticsData = (antibiotics) => {
     return antibioticsArray;
 }
 
-const setAllergyData = (allergies) => {
+const setAllergyDataHelper = (allergies) => {
     let allergyArray = [];
 
     allergies.forEach(allergy => {
@@ -109,6 +113,28 @@ const setAllergyData = (allergies) => {
 }
 
 
+const setObservationDataHelper = (observations) => {
+    let temperatureData = [];
+
+    observations.forEach(observation => {
+
+        if (observation.resource.code.text === "temperature") {
+
+            let temperatureEntry = {
+                timestamp: observation.resource.effectiveDateTime,
+                unit: observation.resource.valueQuantity.unit,
+                value: observation.resource.valueQuantity.value
+            }
+            temperatureData.push(temperatureEntry);
+        }
+    })
+
+    return {
+        temperature: temperatureData,
+    }
+}
+
+
 const patientStateReducer = (patientState = initialPatientState, action) => {
 
     let newPatientState = patientState;
@@ -117,19 +143,25 @@ const patientStateReducer = (patientState = initialPatientState, action) => {
         case "SET_PATIENT_DATA": {
             return {
                 ...newPatientState,
-                currentPatient: setPatientData(action.payload)
+                currentPatient: setPatientDataHelper(action.payload)
             }
         }
         case "SET_ALLERGY_DATA": {
             return {
                 ...newPatientState,
-                allergies: setAllergyData(action.payload)
+                allergies: setAllergyDataHelper(action.payload)
             }
         }
         case "SET_MEDICATION_DATA": {
             return {
                 ...newPatientState,
-                antibiotics: setAntibioticsData(action.payload)
+                antibiotics: setAntibioticsDataHelper(action.payload)
+            }
+        }
+        case "SET_OBSERVATION_DATA": {
+            return {
+                ...newPatientState,
+                graphingData: setObservationDataHelper(action.payload)
             }
         }
         default:

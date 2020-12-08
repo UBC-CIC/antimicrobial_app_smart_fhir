@@ -98,7 +98,7 @@ const PageContainer = (props) => {
             </Grid>
             <Grid style={{width: "100vw", height: "100vh"}}>
                 <Grid.Row>
-                    <Grid.Column width={2} style={{backgroundColor: "#d7d7d7", margin: "0px", padding: "0px"}} >
+                    <Grid.Column width={2} style={{backgroundColor: "#d7d7d7", margin: "0px", padding: "0px", height: "100%"}} >
                                     <Grid>
                                         <Grid.Row>
                                             <Grid.Column style={{height: "198px"}}>
@@ -134,20 +134,11 @@ const PageContainer = (props) => {
                                         </Grid.Row>
                                     </Grid>
                     </Grid.Column>
-                    <Grid.Column width={14} style={{padding: "0px"}}>
+                    <Grid.Column width={14} style={{padding: "0px", height: "100%"}}>
                         <br/>
                         <Grid>
                             <PatientView />
                         </Grid>
-                    </Grid.Column>
-                </Grid.Row>
-                <Grid.Row >
-                    <Grid.Column>
-                        {/*<MySlidePanelManagerComponent />*/}
-                        {/*<SidebarExampleTransitions />*/}
-                        <div>
-                            Footer..
-                        </div>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

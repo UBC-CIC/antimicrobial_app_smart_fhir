@@ -10,6 +10,11 @@
       "StackName": "amplify-smartonfhir-dev-142711",
       "StackId": "arn:aws:cloudformation:ca-central-1:413418423344:stack/amplify-smartonfhir-dev-142711/e1eae440-2dda-11eb-944b-0e239b93a4b6",
       "AmplifyAppId": "d3oadmz2oimwdi"
+    },
+    "categories": {
+      "auth": {
+        "smartonfhir650cc344": {}
+      }
     }
   }
 }

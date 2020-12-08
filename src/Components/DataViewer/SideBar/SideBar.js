@@ -10,8 +10,9 @@ const VerticalSidebar = ({ visible }) => (
         vertical={"true"}
         visible={visible}
         width='thin'
+        style={{backgroundColor: "whitesmoke"}}
     >
-        <Segment basic style={{backgroundColor: "whitesmoke"}}>
+        <Segment basic>
             <Grid>
                 <Grid.Row style={{paddingBottom: "0px"}}>
                     <Grid.Column textAlign={"left"}>
