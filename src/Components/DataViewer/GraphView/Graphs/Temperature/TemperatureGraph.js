@@ -8,7 +8,6 @@ import {Grid} from "semantic-ui-react";
 const TemperatureGraph = (props) => {
     const [thisChart, setChart] = useState(null);
     const {temperatureData} = props;
-    console.log("temperatureData: ", temperatureData);
     let tempData = [];
     if (temperatureData) {
         temperatureData.forEach(entry => {
@@ -48,9 +47,9 @@ const TemperatureGraph = (props) => {
                             },
                             ticks: {
                                 beginAtZero: true,
-                                min: 30,
-                                max: 45,
-                                stepSize: 1
+                                min: 35,
+                                max: 40,
+                                stepSize: 0.5
                             }
                         }
                     ],
@@ -79,7 +78,7 @@ const TemperatureGraph = (props) => {
         <Grid>
             <Grid.Row>
                 <Grid.Column>
-                    <canvas id="temperatureGraph" width="500" height="400" />
+                    <canvas id="temperatureGraph" width="500" height="400" style={{backgroundColor: "white", padding: "10px"}} />
                 </Grid.Column>
             </Grid.Row>
         </Grid>

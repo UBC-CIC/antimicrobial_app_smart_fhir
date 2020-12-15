@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {connect} from "react-redux";
-import {Grid} from "semantic-ui-react";
+import {Grid, Divider} from "semantic-ui-react";
 import TemperatureGraph from "./Graphs/Temperature/TemperatureGraph";
 import BloodPressureGraph from "./Graphs/BloodPressure/BloodPressureGraph";
 

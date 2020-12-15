@@ -11,26 +11,43 @@ const AllergyModal = (props) => {
     let rows = {};
     let rowData = [];
     allergies.forEach((allergy, index) => {
-        let reaction = "N/A"
-        let severity = allergy.criticality;
+        let description = "N/A";
+        let reaction = "N/A";
+        let severity = "N/A";
+        let date = "N/A";
+        let status = "N/A";
+        let verification = "N/A";
+        if (allergy.description) {
+            description = allergy.description;
+        }
+        if (allergy.criticality) {
+            severity = allergy.criticality;
+        }
         if (allergy.reaction) {
             reaction = allergy.reaction.reaction;
-            severity = allergy.reaction.severity;
+            if (allergy.reaction.severity) {
+                severity = allergy.reaction.severity;
+            }
         }
-        let date = "Unknown";
         if (allergy.date) {
             date = new Date(allergy.date).toLocaleString();
+        }
+        if (allergy.clinicalStatus) {
+            status = allergy.clinicalStatus;
+        }
+        if (allergy.verification) {
+            verification = allergy.verification;
         }
 
         let entry = {
             key: index.toString(),
                 cells: [
-                    { key: 'cell-0', children: allergy.description },
+                    { key: 'cell-0', children: description },
                     { key: 'cell-1', children: reaction},
                     { key: 'cell-2', children: severity },
                     { key: 'cell-3', children: date },
-                    { key: 'cell-4', children: allergy.clinicalStatus },
-                    { key: 'cell-5', children: allergy.verification },
+                    { key: 'cell-4', children: status },
+                    { key: 'cell-5', children: verification },
         ],
         }
         rowData.push(entry);
@@ -50,8 +67,8 @@ const AllergyModal = (props) => {
             <Grid.Row style={{paddingTop: "0px"}}>
                 <Grid.Column>
                     <Table
-                        summaryId="compact-table"
-                        summary="This table has compact row padding."
+                        summaryId="allergy-table"
+                        summary="This tables contains details about the patient's antibiotic allergies."
                         cellPaddingStyle="compact"
                         numberOfColumns={1}
                         dividerStyle="horizontal"

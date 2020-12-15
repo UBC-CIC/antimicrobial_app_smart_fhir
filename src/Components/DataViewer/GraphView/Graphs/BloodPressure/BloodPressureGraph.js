@@ -8,7 +8,6 @@ import {Grid} from "semantic-ui-react";
 const BloodPressureGraph = (props) => {
     const [thisChart, setChart] = useState(null);
     const {bloodPressureData} = props;
-    console.log("bloodPressureData: ", bloodPressureData);
     let bpData = {
         systolic: [],
         diastolic: []
@@ -40,7 +39,7 @@ const BloodPressureGraph = (props) => {
                         label: "Systolic",
                         data: bpData.systolic,
                         borderWidth: 2,
-                        borderColor: "rgba(200, 0, 127, 1)",
+                        borderColor: "rgb(255,92,96)",
                         fill: false,
                         cubicInterpolationMode: "monotone"
                     },
@@ -48,7 +47,7 @@ const BloodPressureGraph = (props) => {
                         label: "Diastolic",
                         data: bpData.diastolic,
                         borderWidth: 2,
-                        borderColor: "rgba(0, 127, 255, 1)",
+                        borderColor: "rgba(0, 130, 255, 1)",
                         fill: false,
                         cubicInterpolationMode: "monotone"
                     }
@@ -97,7 +96,7 @@ const BloodPressureGraph = (props) => {
         <Grid>
             <Grid.Row>
                 <Grid.Column>
-                    <canvas id="bloodPressureGraph" width="500" height="400" />
+                    <canvas id="bloodPressureGraph" width="500" height="400" style={{backgroundColor: "white", padding: "10px"}} />
                 </Grid.Column>
             </Grid.Row>
         </Grid>

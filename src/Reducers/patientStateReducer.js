@@ -6,9 +6,10 @@ const initialPatientState = {
     diseases: null,
     resistantOrganisms: null,
     graphingData: {
-        temperature: null,
-        bloodPressure: null,
-    }
+        temperature: [],
+        bloodPressure: [],
+    },
+    graphToDisplay: null,
 }
 
 
@@ -34,68 +35,57 @@ const setPatientDataHelper = (patient) => {
     };
 }
 
-const setAntibioticsDataHelper = (antibiotics) => {
-    let antibioticsArray = [];
-
-    antibiotics.forEach(antibiotic => {
-
-        let formattedAntibiotic = {
-            description: antibiotic.resource.medicationCodeableConcept.text,
-            duration: {
-                unit: antibiotic.resource.dispenseRequest.expectedSupplyDuration.unit,
-                value: antibiotic.resource.dispenseRequest.expectedSupplyDuration.value
-            },
-            type: antibiotic.resource.dispenseRequest.quantity.unit,
-            dosage: antibiotic.resource.dosageInstruction[0].text,
-            date: antibiotic.resource.meta.lastUpdated,
-            status: antibiotic.resource.status,
-        }
-
-        antibioticsArray.push(formattedAntibiotic);
-    })
-
-    return antibioticsArray;
-}
-
 const setAllergyDataHelper = (allergies) => {
     let allergyArray = [];
 
     allergies.forEach(allergy => {
-        if (allergy.resource.category[0] === "medication") {
             if (allergy.resource.code) {
-                let reaction = null;
-                if (allergy.resource.reaction) {
-                    reaction = {
-                        reaction: allergy.resource.reaction[0].manifestation[0].text,
-                        severity: allergy.resource.reaction[0].severity
-                    }
-                }
-
+                let reaction;
                 let date;
-                if (allergy.resource.recordedDate) {
-                    date = allergy.resource.recordedDate;
-                } else {
-                    date = allergy.resource.meta.lastUpdated;
-                }
+                let verification;
+                let criticality;
+                let clinicalStatus;
+                let description;
+                try {
+                    if (allergy.resource.reaction) {
+                        reaction = {
+                            reaction: allergy.resource.reaction[0].manifestation[0].text,
+                            severity: allergy.resource.reaction[0].severity
+                        }
+                    }
 
-                let verification = "Unknown";
-                if (allergy.resource.verificationStatus) {
-                    verification = allergy.resource.verificationStatus.coding[0].code;
-                }
 
-                let criticality = "Unknown";
-                if (allergy.resource.criticality) {
-                    criticality = allergy.resource.criticality;
-                }
+                    if (allergy.resource.recordedDate) {
+                        date = allergy.resource.recordedDate;
+                    }
 
-                let clinicalStatus = "Unknown";
-                if (allergy.resource.clinicalStatus) {
-                    clinicalStatus = allergy.resource.clinicalStatus.coding[0].code;
+
+                    if (allergy.resource.verificationStatus) {
+                        verification = allergy.resource.verificationStatus.coding[0].code;
+                    }
+
+
+                    if (allergy.resource.criticality) {
+                        criticality = allergy.resource.criticality;
+                    }
+
+
+                    if (allergy.resource.clinicalStatus) {
+                        clinicalStatus = allergy.resource.clinicalStatus.coding[0].code;
+                    }
+
+
+                    if (allergy.resource.code.text) {
+                        description = allergy.resource.code.text;
+                    }
+
+                } catch (err) {
+
                 }
 
                 let formattedAllergy = {
                     clinicalStatus: clinicalStatus,
-                    description: allergy.resource.code.text,
+                    description: description,
                     criticality: criticality,
                     reaction: reaction,
                     date: date,
@@ -103,12 +93,16 @@ const setAllergyDataHelper = (allergies) => {
                 }
                 allergyArray.push(formattedAllergy);
             }
-        }
+
     })
 
-    allergyArray.sort((a,b) => {
-        return Date.parse(b.date) - Date.parse(a.date);
-    });
+    try {
+        allergyArray.sort((a,b) => {
+            return Date.parse(b.date) - Date.parse(a.date);
+        });
+    } catch (err) {
+
+    }
 
     return allergyArray;
 }
@@ -153,6 +147,17 @@ const setObservationDataHelper = (observations) => {
     }
 }
 
+const setDefaultGraph = (graphData) => {
+
+    if (graphData.temperature.length > 0) {
+        return "temperature";
+    } else if (graphData.bloodPressure.length > 0) {
+        return "bloodPressure";
+    } else
+        return null;
+
+}
+
 
 const patientStateReducer = (patientState = initialPatientState, action) => {
 
@@ -162,25 +167,40 @@ const patientStateReducer = (patientState = initialPatientState, action) => {
         case "SET_PATIENT_DATA": {
             return {
                 ...newPatientState,
-                currentPatient: setPatientDataHelper(action.payload)
+                currentPatient: setPatientDataHelper(action.payload),
             }
         }
         case "SET_ALLERGY_DATA": {
             return {
                 ...newPatientState,
-                allergies: setAllergyDataHelper(action.payload)
+                allergies: setAllergyDataHelper(action.payload),
             }
         }
         case "SET_MEDICATION_DATA": {
             return {
                 ...newPatientState,
-                antibiotics: setAntibioticsDataHelper(action.payload)
+                antibiotics: action.payload,
             }
         }
         case "SET_OBSERVATION_DATA": {
+            let newGraphingData = setObservationDataHelper(action.payload);
+            let defaultGraph = setDefaultGraph(newGraphingData);
             return {
                 ...newPatientState,
-                graphingData: setObservationDataHelper(action.payload)
+                graphingData: newGraphingData,
+                graphToDisplay: defaultGraph,
+            }
+        }
+        case "SET_DISEASE_DATA": {
+            return {
+                ...newPatientState,
+                diseases: action.payload,
+            }
+        }
+        case "SET_GRAPH_DISPLAY": {
+            return {
+                ...newPatientState,
+                graphToDisplay: action.payload,
             }
         }
         default:

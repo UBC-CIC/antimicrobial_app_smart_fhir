@@ -1,5 +1,4 @@
 const initialAppState = {
-
     loadingPatientData: false,
 }
 

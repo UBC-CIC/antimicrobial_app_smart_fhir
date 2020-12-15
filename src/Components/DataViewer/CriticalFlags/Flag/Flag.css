@@ -1,0 +1,26 @@
+.flagContainerAlert {
+    border: 3px solid #e6bebe;
+    background-color: #e6bebe;
+    height: 90px;
+    border-radius: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    filter: drop-shadow(0 1px 0.10rem lightgray);
+}
+
+
+.flagContainerNonAlert {
+    border: 3px solid whitesmoke;
+    background-color: whitesmoke;
+    height: 90px;
+    border-radius: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    filter: drop-shadow(0 1px 0.10rem lightgray);
+}
+
+.flagHeader {
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 500;
+}

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {Grid} from "semantic-ui-react";
 import { withDisclosureManager, DisclosureManagerHeaderAdapter } from 'terra-application/lib/disclosure-manager';
 import AllergyModal from "../Allergy/AllergyModal/AllergyModal";
-
+import AntibioticsModal from "../Antibiotics/AntibioticsModal/AntibioticsModal";
+import DiseaseModal from "../Disease/DiseaseModal/DiseaseModal";
+import "./Flag.css";
 
 
 const Flag = (props) => {
@@ -21,9 +23,11 @@ const Flag = (props) => {
             break;
         }
         case "antibiotic": {
+            modal = <AntibioticsModal antibiotics={modalData} />
             break;
         }
         case "disease": {
+            modal = <DiseaseModal diseases={modalData} />
             break;
         }
         case "organism": {
@@ -38,25 +42,21 @@ const Flag = (props) => {
             preferredType: 'modal',
             size: 'medium',
             content: {
-                key: 'modal-component-a-instance',
+                key: 'modal-component-instance',
                 component: modal
             }
         });
     }
 
 
-    const alertStyle = {border: "3px solid #e6bebe", backgroundColor: "#e6bebe", height: "90px", borderRadius: "10px", overflowY: "auto", overflowX: "hidden", filter: "drop-shadow(0 1px 0.15rem #e6bebe)"};
-    const nonAlertStyle = {border: "3px solid lightgray", backgroundColor: "lightgray", height: "90px", borderRadius: "10px", overflowY: "auto",  overflowX: "hidden", filter: "drop-shadow(0 1px 0.15rem lightgrey)"};
-
-
     return(
-        <div style={(alert)? alertStyle : nonAlertStyle} className={"flagContainer"}
+        <div className={(alert)? "flagContainerAlert" : "flagContainerNonAlert"}
         onClick={handleModalPopup}
         >
             <Grid>
                 <Grid.Row style={{paddingBottom: "0px"}}>
                     <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
-                        <span style={{fontSize: "16px"}}><strong>{title}</strong></span>
+                        <span className={"flagHeader"}>{title}</span>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row style={{paddingTop: "0px"}}>
