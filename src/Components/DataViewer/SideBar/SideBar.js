@@ -62,7 +62,6 @@ const VerticalSidebar = (props) => {
     }, [props.defaultGraph]);
 
     const onSelectGraph = (e) => {
-        e.preventDefault();
         const {setGraphToDisplay} = props;
         setGraphToDisplay(e.target.value);
     }
@@ -87,7 +86,7 @@ const VerticalSidebar = (props) => {
                     </Grid.Row>
                     <Grid.Row style={{paddingTop: "0px"}}>
                         <Grid.Column>
-                            <span style={{fontSize: "14px"}}>(Max 4 Options)</span>
+                            <span style={{fontSize: "14px"}}></span>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
@@ -98,9 +97,9 @@ const VerticalSidebar = (props) => {
                                         <span style={{fontSize: "10px"}}>WBC</span>
                                     </Grid.Column>
                                     <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
-                                        <Radio id="wbc" labelText="WBC" isLabelHidden name="multiple-group"
+                                        <Radio id="wbc" value={"wbc"} labelText="WBC" isLabelHidden name="multiple-group"
                                                defaultChecked={(graphToDisplay === "wbc")} disabled={disabledGraphs.wbc}
-                                               onChange={() => onSelectGraph}
+                                               onChange={onSelectGraph}
                                         />
                                     </Grid.Column>
                                     <Grid.Column width={2}/>
@@ -110,9 +109,9 @@ const VerticalSidebar = (props) => {
                                         <span style={{fontSize: "10px"}}>CRP</span>
                                     </Grid.Column>
                                     <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
-                                        <Radio id="crp" labelText="CRP" isLabelHidden name="multiple-group"
+                                        <Radio id="crp" value={"crp"} labelText="CRP" isLabelHidden name="multiple-group"
                                                defaultChecked={(graphToDisplay === "crp")} disabled={disabledGraphs.crp}
-                                               onChange={() => onSelectGraph}
+                                               onChange={onSelectGraph}
                                         />
                                     </Grid.Column>
                                     <Grid.Column width={2}/>
@@ -122,9 +121,9 @@ const VerticalSidebar = (props) => {
                                         <span style={{fontSize: "10px"}}>Procalcitonin</span>
                                     </Grid.Column>
                                     <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
-                                        <Radio id="procalcitonin" labelText="Procalcitonin" isLabelHidden
+                                        <Radio id="procalcitonin" value={"procalcitonin"} labelText="Procalcitonin" isLabelHidden
                                                name="multiple-group" defaultChecked={(graphToDisplay === "procalcitonin")}
-                                               disabled={disabledGraphs.procalcitonin} onChange={() => onSelectGraph} />
+                                               disabled={disabledGraphs.procalcitonin} onChange={onSelectGraph} />
                                     </Grid.Column>
                                     <Grid.Column width={2}/>
                                 </Grid.Row>
@@ -133,9 +132,9 @@ const VerticalSidebar = (props) => {
                                         <span style={{fontSize: "10px"}}>Temperature</span>
                                     </Grid.Column>
                                     <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
-                                        <Radio id="temperature" labelText="Temperature" isLabelHidden
+                                        <Radio id="temperature" value={"temperature"} labelText="Temperature" isLabelHidden
                                                name="multiple-group" defaultChecked={(graphToDisplay === "temperature")}
-                                               disabled={disabledGraphs.temperature} onChange={() => onSelectGraph} />
+                                               disabled={disabledGraphs.temperature} onChange={onSelectGraph} />
                                     </Grid.Column>
                                     <Grid.Column width={2}/>
                                 </Grid.Row>
@@ -144,9 +143,9 @@ const VerticalSidebar = (props) => {
                                         <span style={{fontSize: "10px"}}>Blood Pressure</span>
                                     </Grid.Column>
                                     <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
-                                        <Radio id="bloodPressure" labelText="Blood Pressure" isLabelHidden
+                                        <Radio id="bloodPressure" value={"bloodPressure"} labelText="Blood Pressure" isLabelHidden
                                                name="multiple-group" defaultChecked={(graphToDisplay === "bloodPressure")}
-                                               disabled={disabledGraphs.bloodPressure} onChange={() => onSelectGraph} />
+                                               disabled={disabledGraphs.bloodPressure} onChange={onSelectGraph} />
                                     </Grid.Column>
                                     <Grid.Column width={2}/>
                                 </Grid.Row>
@@ -155,9 +154,9 @@ const VerticalSidebar = (props) => {
                                         <span style={{fontSize: "10px"}}>Heart Rate</span>
                                     </Grid.Column>
                                     <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
-                                        <Radio id="heartRate" labelText="Heart Rate" isLabelHidden
+                                        <Radio id="heartRate" value={"heartRate"} labelText="Heart Rate" isLabelHidden
                                                name="multiple-group" defaultChecked={(graphToDisplay === "heartRate")}
-                                               disabled={disabledGraphs.heartRate} onChange={() => onSelectGraph} />
+                                               disabled={disabledGraphs.heartRate} onChange={onSelectGraph} />
                                     </Grid.Column>
                                     <Grid.Column width={2}/>
                                 </Grid.Row>
@@ -166,9 +165,9 @@ const VerticalSidebar = (props) => {
                                         <span style={{fontSize: "10px"}}>Respiratory Rate</span>
                                     </Grid.Column>
                                     <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
-                                        <Radio id="respiratoryRate" labelText="Respiratory Rate" isLabelHidden
+                                        <Radio id="respiratoryRate" value={"respiratoryRate"} labelText="Respiratory Rate" isLabelHidden
                                                name="multiple-group" defaultChecked={(graphToDisplay === "respiratoryRate")}
-                                               disabled={disabledGraphs.respiratoryRate} onChange={() => onSelectGraph} />
+                                               disabled={disabledGraphs.respiratoryRate} onChange={onSelectGraph} />
                                     </Grid.Column>
                                     <Grid.Column width={2}/>
                                 </Grid.Row>
@@ -177,9 +176,9 @@ const VerticalSidebar = (props) => {
                                         <span style={{fontSize: "10px"}}>Oxygen Sat</span>
                                     </Grid.Column>
                                     <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
-                                        <Radio id="oxygenSat" labelText="Oxygen Sat" isLabelHidden
+                                        <Radio id="oxygenSat" value={"oxygenSat"} labelText="Oxygen Sat" isLabelHidden
                                                name="multiple-group" defaultChecked={(graphToDisplay === "oxygenSat")}
-                                               disabled={disabledGraphs.oxygenSat} onChange={() => onSelectGraph} />
+                                               disabled={disabledGraphs.oxygenSat} onChange={onSelectGraph} />
                                     </Grid.Column>
                                     <Grid.Column width={2}/>
                                 </Grid.Row>
@@ -188,9 +187,9 @@ const VerticalSidebar = (props) => {
                                         <span style={{fontSize: "10px"}}>Oxygen Mode</span>
                                     </Grid.Column>
                                     <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
-                                        <Radio id="oxygenMode" labelText="Oxygen Mode" isLabelHidden
+                                        <Radio id="oxygenMode" value={"oxygenMode"} labelText="Oxygen Mode" isLabelHidden
                                                name="multiple-group" defaultChecked={(graphToDisplay === "oxygenMode")}
-                                               disabled={disabledGraphs.oxygenMode} onChange={() => onSelectGraph}/>
+                                               disabled={disabledGraphs.oxygenMode} onChange={onSelectGraph}/>
                                     </Grid.Column>
                                     <Grid.Column width={2}/>
                                 </Grid.Row>
@@ -199,9 +198,9 @@ const VerticalSidebar = (props) => {
                                         <span style={{fontSize: "10px"}}>Imaging</span>
                                     </Grid.Column>
                                     <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
-                                        <Radio id="imaging" labelText="Imaging" isLabelHidden name="multiple-group"
+                                        <Radio id="imaging" value={"imaging"} labelText="Imaging" isLabelHidden name="multiple-group"
                                                defaultChecked={(graphToDisplay === "imaging")}
-                                               disabled={disabledGraphs.imaging} onChange={() => onSelectGraph} />
+                                               disabled={disabledGraphs.imaging} onChange={onSelectGraph} />
                                     </Grid.Column>
                                     <Grid.Column width={2}/>
                                 </Grid.Row>
@@ -210,9 +209,9 @@ const VerticalSidebar = (props) => {
                                         <span style={{fontSize: "10px"}}>Procedures</span>
                                     </Grid.Column>
                                     <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
-                                        <Radio id="procedures" labelText="Procedures" isLabelHidden
+                                        <Radio id="procedures" value={"procedures"} labelText="Procedures" isLabelHidden
                                                name="multiple-group" defaultChecked={(graphToDisplay === "procedures")}
-                                               disabled={disabledGraphs.procedures} onChange={() => onSelectGraph}/>
+                                               disabled={disabledGraphs.procedures} onChange={onSelectGraph}/>
                                     </Grid.Column>
                                     <Grid.Column width={2}/>
                                 </Grid.Row>

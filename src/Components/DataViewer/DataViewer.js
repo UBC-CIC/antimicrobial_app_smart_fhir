@@ -36,7 +36,7 @@ const DataViewer = (props) => {
                             visible={visibleSideBar}
                         />
                         <Sidebar.Pusher>
-                            <Segment basic style={{height: "100%"}}>
+                            <Segment basic style={{height: "100%", width: "100%"}}>
                                 <GraphView />
                             </Segment>
                         </Sidebar.Pusher>
