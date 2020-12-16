@@ -54,7 +54,7 @@ const Flag = (props) => {
         onClick={handleModalPopup}
         >
             <Grid>
-                <Grid.Row style={{paddingBottom: "0px"}}>
+                <Grid.Row style={{paddingBottom: "5px"}}>
                     <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
                         <span className={"flagHeader"}>{title}</span>
                     </Grid.Column>

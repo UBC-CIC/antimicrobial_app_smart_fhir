@@ -11442,6 +11442,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+react-lifecycles-compat@^3.0.2:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+  integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
 react-native-get-random-values@^1.4.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/react-native-get-random-values/-/react-native-get-random-values-1.5.0.tgz#91cda18f0e66e3d9d7660ba80c61c914030c1e05"
@@ -13367,6 +13372,16 @@ terra-form-checkbox@^4.0.0:
     terra-theme-context "^1.0.0"
     terra-visually-hidden-text "^2.30.0"
 
+terra-form-field@^4.13.0:
+  version "4.13.0"
+  resolved "https://registry.yarnpkg.com/terra-form-field/-/terra-form-field-4.13.0.tgz#de0c9a6db34141b42fafb79fc8d55c104e08f0ff"
+  integrity sha512-gX5YF6l3UkBcLDq7cQSvbJMhDfPWEuI62kiIh4Sk8bd0mHf2kb5Ee9Wd42q1dwEifGPZLbQZf/ZberSzd1n7hQ==
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.5.8"
+    terra-icon "^3.39.0"
+    terra-theme-context "^1.0.0"
+
 terra-form-radio@^4.19.0:
   version "4.19.0"
   resolved "https://registry.yarnpkg.com/terra-form-radio/-/terra-form-radio-4.19.0.tgz#5256c3349ec88e7c86c116641f910ed36093e5dc"
@@ -13380,6 +13395,23 @@ terra-form-radio@^4.19.0:
     terra-theme-context "^1.0.0"
     terra-visually-hidden-text "^2.31.0"
 
+terra-form-select@^6.22.0:
+  version "6.22.0"
+  resolved "https://registry.yarnpkg.com/terra-form-select/-/terra-form-select-6.22.0.tgz#f26d08efe5250e8acb63bc30df1cdb8c0cc590a3"
+  integrity sha512-aQ2DqZID3ng4AxDnC3LvIpWAbc4yGrpnHtE0NYHZ8VxcdSE45WBMFORoZ+bbSWutPs/vKd+HRLHkyOBka1S0bA==
+  dependencies:
+    classnames "^2.2.5"
+    keycode-js "^2.0.1"
+    lodash.uniqueid "^4.0.1"
+    mutationobserver-shim "0.3.3"
+    prop-types "^15.5.8"
+    react-lifecycles-compat "^3.0.2"
+    terra-form-field "^4.13.0"
+    terra-hookshot "^5.0.0"
+    terra-mixins "^1.38.0"
+    terra-theme-context "^1.0.0"
+    wicg-inert "^3.0.2"
+
 terra-grid@^6.25.0:
   version "6.25.0"
   resolved "https://registry.yarnpkg.com/terra-grid/-/terra-grid-6.25.0.tgz#e56994b37777c861f8484eea468e135ee9b0f401"
@@ -13389,6 +13421,19 @@ terra-grid@^6.25.0:
     prop-types "^15.5.8"
     terra-breakpoints "^2.31.0"
     terra-theme-context "^1.0.0"
+
+terra-hookshot@^5.0.0:
+  version "5.32.0"
+  resolved "https://registry.yarnpkg.com/terra-hookshot/-/terra-hookshot-5.32.0.tgz#9a90901070f0e4d8517f9db4724af757de9478c4"
+  integrity sha512-RIf/RMRNj3/t/OOGH3KOSNnzF+EJ09PtrXASZgkzVpPlzwYtGrbaw5j9q96oo09ndXNNbOl/LPJ19oF20U+NyA==
+  dependencies:
+    classlist-polyfill "^1.2.0"
+    classnames "^2.2.5"
+    keycode-js "^2.0.1"
+    prop-types "^15.5.8"
+    react-onclickoutside "^6.7.1"
+    react-portal "^4.1.2"
+    resize-observer-polyfill "^1.4.1"
 
 terra-hookshot@^5.31.0:
   version "5.31.0"
