@@ -1,11 +1,16 @@
-import {Grid, Segment, Sidebar, Divider} from "semantic-ui-react";
+import {Grid, Segment, Sidebar, Divider, Button, Label, Icon} from "semantic-ui-react";
 import {connect} from "react-redux";
 import React, { useState, useEffect } from "react";
 import {setGraphToDisplay} from "../../../Actions/patientContextActions";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import Radio from 'terra-form-radio';
+
 
 const VerticalSidebar = (props) => {
     const [graphToDisplay, setGraph] = useState("temperature");
+    const [dateOpen, setDateOpen] = useState(false);
+    const [selectedDate, handleDateChange] = useState(new Date("2000-01-01T00:00:00.000Z"));
     const [disabledGraphs, setDisabled] = useState({
         wbc: true,
         crp: true,
@@ -61,10 +66,16 @@ const VerticalSidebar = (props) => {
         setGraph(props.defaultGraph);
     }, [props.defaultGraph]);
 
+    useEffect(() => {
+        // when date changes, call action to update date
+
+    }, [selectedDate])
+
     const onSelectGraph = (e) => {
         const {setGraphToDisplay} = props;
         setGraphToDisplay(e.target.value);
     }
+
 
     return (
         <Sidebar
@@ -215,9 +226,41 @@ const VerticalSidebar = (props) => {
                                     </Grid.Column>
                                     <Grid.Column width={2}/>
                                 </Grid.Row>
-                                <Grid.Row style={{paddingTop: "3px"}}>
+                                <Grid.Row style={{paddingTop: "3px", paddingBottom: "5px"}}>
                                     <Grid.Column>
                                         <Divider/>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row style={{padding: "0px"}}>
+                                    <Grid.Column textAlign={"left"} verticalAlign={"middle"}
+                                                 style={{paddingLeft: "22px", paddingBottom: "0px", paddingTop: "0px"}}
+                                    >
+                                        <span style={{fontSize: "11px"}}>Start Date:</span>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row style={{padding: "0px"}}>
+                                    <Grid.Column>
+                                        <Button as='div' labelPosition='left' size='mini'>
+                                            <Label as='a' basic pointing='right'  style={{paddingLeft: "3px", paddingRight: "5px"}}>
+                                                <span style={{fontSize: "10px"}}>{selectedDate.toLocaleDateString()}</span>
+                                            </Label>
+                                            <Button animated size='mini' onClick={() => setDateOpen(true)}>
+                                                <Button.Content hidden>Date</Button.Content>
+                                                <Button.Content visible>
+                                                    <Icon name='calendar alternate outline' />
+                                                </Button.Content>
+                                            </Button>
+                                        </Button>
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                            <DatePicker
+                                                open={dateOpen}
+                                                value={selectedDate}
+                                                onChange={handleDateChange}
+                                                onClose={() => setDateOpen(false)}
+                                                TextFieldComponent={() => null}
+                                                disableFuture={true}
+                                            />
+                                        </MuiPickersUtilsProvider>
                                     </Grid.Column>
                                 </Grid.Row>
                             </Grid>
@@ -233,7 +276,8 @@ const mapStateToProps = (state) => {
     return {
         isLoadingData: state.appState.loadingPatientData,
         availableData: state.patientData.graphingData,
-        defaultGraph: state.patientData.graphToDisplay
+        defaultGraph: state.patientData.graphToDisplay,
+        patient: state.patientData.currentPatient,
     };
 };
 

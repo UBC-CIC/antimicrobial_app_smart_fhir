@@ -152,7 +152,7 @@ const TemperatureGraph = (props) => {
                 <Grid.Column width={4}>
                     <Grid style={{paddingLeft: "0px"}}>
                         <Grid.Row>
-                            <Grid.Column textAlign={"center"} verticalAlign={"center"}>
+                            <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
                                 <h3>Temperature Options</h3>
                             </Grid.Column>
                         </Grid.Row>

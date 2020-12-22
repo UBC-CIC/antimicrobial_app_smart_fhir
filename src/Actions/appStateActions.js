@@ -13,3 +13,11 @@ export const unsetLoadingFlag = () => {
         type: "UNSET_LOADING_FLAG",
     }
 }
+
+// Sets tgt
+export const setTGT = (payload) => {
+    return {
+        type: "SET_TGT",
+        payload: payload,
+    }
+}

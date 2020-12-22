@@ -33,7 +33,7 @@ const GraphView = (props) => {
         <Grid>
         <Grid.Row>
             <Grid.Column style={{marginLeft: "15px", marginRight: "15px"}}>
-                <Grid style={{backgroundColor: "white", borderRadius: "8px"}}>
+                <Grid style={{backgroundColor: "white", borderRadius: "8px", filter: "drop-shadow(0 1px 0.15rem lightgrey)"}}>
                     <Grid.Row className={"graphViewHeader"}>
                         <Grid.Column textAlign={"left"} verticalAlign={"middle"} style={{marginLeft: "2.00%"}}>
                             <span className={"graphViewTitle"}><strong>Graph View</strong></span>

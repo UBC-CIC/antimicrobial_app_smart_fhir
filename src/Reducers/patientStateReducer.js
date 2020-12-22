@@ -10,6 +10,7 @@ const initialPatientState = {
         bloodPressure: [],
     },
     graphToDisplay: null,
+    graphDataStartDate: "1900-01-01",
 }
 
 
@@ -201,6 +202,12 @@ const patientStateReducer = (patientState = initialPatientState, action) => {
             return {
                 ...newPatientState,
                 graphToDisplay: action.payload,
+            }
+        }
+        case "SET_GRAPH_DATA_START_DATE": {
+            return {
+                ...newPatientState,
+                graphDataStartDate: action.payload,
             }
         }
         default:

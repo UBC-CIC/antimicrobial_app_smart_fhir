@@ -1,4 +1,4 @@
-import awsmobile from '../aws-exports';
+import awsmobile from '../../aws-exports';
 const aws = require('aws-sdk');
 
 
@@ -24,7 +24,6 @@ const medicationParser = async (payload) => {
                 console.log(err, err.stack); // an error occurred
                 reject(err.stack);
             } else {
-                //console.log(data);
                 resolve(data); // successful response
             }
         });

@@ -5,9 +5,11 @@ import ApplicationBase from 'terra-application/lib/application-base';
 import ApplicationLoadingOverlay from 'terra-application/lib/application-loading-overlay';
 import PageContainer from "./Views/PageContainer/PageContainer";
 import {setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData} from "./Actions/patientContextActions";
-import {setLoadingFlag, unsetLoadingFlag} from "./Actions/appStateActions";
-import medicationIdentifier from "./Services/medicationIdentifier";
-import medicationParser from "./Services/medicationParser";
+import {setLoadingFlag, unsetLoadingFlag, setTGT} from "./Actions/appStateActions";
+import medicationIdentifier from "./Services/ComprehendMedical/medicationIdentifier";
+import medicationParser from "./Services/ComprehendMedical/medicationParser";
+import generateTGT from "./Services/UMLS/generateTGT";
+import generateUMLSToken from "./Services/UMLS/generateUMLSToken";
 import 'semantic-ui-css/semantic.min.css';
 const axios = require('axios');
 require('dotenv').config()
@@ -27,9 +29,17 @@ class App extends React.Component {
 
   async componentDidMount() {
       this._isMounted = true;
-      const {client, setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData, setLoadingFlag, unsetLoadingFlag} = this.props;
+      const {client, setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData, setLoadingFlag, unsetLoadingFlag, setTGT} = this.props;
       try {
           setLoadingFlag();
+          let tgt;
+          try {
+              tgt = await generateTGT();
+              setTGT(tgt);
+          } catch (e) {
+              console.error("Error retrieving UMLS token: ", e);
+          }
+
           let patient = await client.patient.read();
           setPatientData(patient);
           let observation = await client.patient.request("Observation");
@@ -49,7 +59,7 @@ class App extends React.Component {
           let medication = await client.patient.request("MedicationRequest");
           if (medication.entry) {
               if (medication.entry.length > 0) {
-                  setMedicationData(medication.entry);
+                  setMedicationData({medications: medication.entry, tgt: tgt});
               }
           }
           let diagnosticReports = await client.patient.request("DiagnosticReport");
@@ -64,28 +74,14 @@ class App extends React.Component {
                   setConditionData(conditions.entry);
               }
           }
-          const response = await axios.get("http://id.nlm.nih.gov/mesh/D009761.json");
-          console.log("mesh API lookup: ", response);
-         /* try {
-              const response = await axios.get('https://api.fda.gov/drug/drugsfda.json?api_key=nVYFrg4BHjZnjQqXjIbjWZprMDvdX2Fz38tyDDje&search=openfda.rxcui.exact:29046');
-              console.log("openFDA: ", response);
-          } catch (error) {
-              console.error(error);
-          }*/
 
-          //console.log("rexResult", rexResult);
           console.log("patient: ", patient);
           console.log("observations: ", observation);
           console.log("allergies: ", allergy);
           console.log("medications: ", medication);
           console.log("diagnostic reports: ", diagnosticReports);
           console.log("conditions: ", conditions);
-          /*let result = await medicationIdentifier("penicillin G");
-          let resultTwo = await medicationParser("penicillin G");
-          console.log("test identifier input: penicillin");
-          console.log("test identifier output: ", result);
-          console.log("test parser input: penicillin");
-          console.log("test parser output: ", resultTwo);*/
+
           if (this._isMounted) {
               this.setState({
                   patient: patient,
@@ -93,7 +89,7 @@ class App extends React.Component {
           }
           unsetLoadingFlag();
       } catch (err) {
-          console.log("Error requesting FHIR resources: ", err);
+          console.error("Error requesting FHIR resources: ", err);
       }
   }
 
@@ -141,7 +137,8 @@ const mapDispatchToProps = {
     unsetLoadingFlag,
     setMedicationData,
     setObservationData,
-    setConditionData
+    setConditionData,
+    setTGT
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

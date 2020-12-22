@@ -1,5 +1,7 @@
-import medicationIdentifier from "../Services/medicationIdentifier";
-import medicationParser from "../Services/medicationParser";
+import medicationIdentifier from "../Services/ComprehendMedical/medicationIdentifier";
+import medicationParser from "../Services/ComprehendMedical/medicationParser";
+import generateUMLSToken from "../Services/UMLS/generateUMLSToken";
+import antibioticIdentifier from "../Services/AntibioticIdentifier/AntibioticIdentifier";
 const axios = require('axios');
 
 
@@ -47,10 +49,11 @@ export const setMedicationData = (payload) => {
 }
 
 // Processes patient medication data
-export const processMedicationData = (medication) => {
+export const processMedicationData = (meds) => {
     return async (dispatch) => {
         let antibioticsArray = [];
-
+        let medication = meds.medications;
+        let tgt = meds.tgt;
         for (let medicine of medication) {
             let shouldInclude = false;
             console.log("input: ", medicine.resource.medicationCodeableConcept.text);
@@ -67,29 +70,42 @@ export const processMedicationData = (medication) => {
             // if we were able to parse the medication name, we call inferRxNorm to find the closest
             // matching rxNorm concept and code
             let result;
+            let medicationIdentities = [];
             if (parsedMedication && !shouldInclude) {
                 for (let entity of parsedMedication.Entities) {
                     if ((entity.Category === "MEDICATION") && (entity.Score > 0.75)) {
                         result = await medicationIdentifier(entity.Text);
                         console.log("parserOutput: ", entity.Text);
+                        medicationIdentities.push(result);
                     } else if ((entity.Category === "MEDICATION") && (entity.Score <= 0.75)) {
                         shouldInclude = true;
                     }
                 }
             }
-            console.log("rxNorm result: ", result);
-            let rxNormPrediction = null;
-            if (result && !shouldInclude) {
-                if (result.Entities.length > 0) {
-                    rxNormPrediction = {
-                        prediction: result.Entities[0].RxNormConcepts[0].description,
-                        code: result.Entities[0].RxNormConcepts[0].Code,
-                        confidence: result.Entities[0].RxNormConcepts[0].Score
-                    }
-                    // if our confidence in our closest matching RxNorm concept value is low,
-                    // include the medication in the result as a fail safe
-                    if (result.Entities[0].RxNormConcepts[0].Code < 0.60) {
-                        shouldInclude = true;
+
+            // check if medication is an antibiotic
+            if (!shouldInclude) {
+                shouldInclude = await antibioticIdentifier(medicationIdentities, tgt);
+            }
+
+           /* let rxNormPrediction = null;
+            let rxNormPredictions = [];
+            console.log("results: ", result);
+            console.log("medicationIdentiies: ", medicationIdentities);
+            if ((medicationIdentities.length > 0) && !shouldInclude) {
+                for (result of medicationIdentities) {
+                    if (result.Entities.length > 0) {
+                        rxNormPrediction = {
+                            prediction: result.Entities[0].RxNormConcepts[0].description,
+                            code: result.Entities[0].RxNormConcepts[0].Code,
+                            confidence: result.Entities[0].RxNormConcepts[0].Score
+                        }
+                        rxNormPredictions.push(rxNormPrediction);
+                        // if our confidence in our closest matching RxNorm concept value is low,
+                        // include the medication in the result as a fail safe
+                        if (result.Entities[0].RxNormConcepts[0].Code < 0.60) {
+                            shouldInclude = true;
+                        }
                     }
                 }
             }
@@ -104,6 +120,7 @@ export const processMedicationData = (medication) => {
                     let mesh;
                     if (rxNormResponse) {
                         let properties = rxNormResponse.data.propConceptGroup.propConcept;
+                        console.log("properties", properties);
                         if (properties.length > 0) {
                             for (let i = 0; i < Math.min(properties.length - 1, 20); i++) {
                                 if (properties[i].propName === "ATC") {
@@ -126,16 +143,15 @@ export const processMedicationData = (medication) => {
                     // if we don't have an atc, check if we were able to retrieve a MESH value (Medical Subject Heading)
                     // then check if mesh includes any relevant keywords
                     if (mesh && !shouldInclude) {
-                        let meshResponse = await axios.get(`https://id.nlm.nih.gov/mesh/lookup/qualifiers?descriptor=${mesh}`);
-                        if (meshResponse) {
-                            console.log("mesh Code:", mesh);
-                            let qualifiers = ["immunology"];
-                            if (meshResponse.data.length > 0) {
-                                meshResponse.data.forEach(quality => {
-                                    if (qualifiers.includes(quality.label)) {
-                                        shouldInclude = true;
-                                    }
-                                })
+                        let token = await generateUMLSToken(tgt);
+                        let authURL = `https://uts-ws.nlm.nih.gov/rest/content/current/source/MSH/${mesh}/attributes?includeAttributeNames=PA&ticket=${token}`;
+                        let results = await axios.get(authURL);
+                        console.log("UMLS result: ", results);
+                        if (results.data.result.length > 0) {
+                            for (let entry of results.data.result) {
+                                if (entry.value === "D000900") {
+                                    shouldInclude = true;
+                                }
                             }
                         }
                     }
@@ -143,7 +159,7 @@ export const processMedicationData = (medication) => {
                 } catch (error) {
                     console.error(error);
                 }
-            }
+            }*/
 
             let startDate = null;
             let endDate = null;
@@ -201,7 +217,6 @@ export const processMedicationData = (medication) => {
 
             let formattedAntibiotic = {
                 description: description,
-                rxNormPrediction: rxNormPrediction,
                 duration: {
                     unit: durationUnit,
                     value: durationValue
@@ -263,7 +278,6 @@ export const processConditionData = (conditions) => {
         conditionArray.sort((a, b) => {
             return Date.parse(b.onsetDate) - Date.parse(a.onsetDate);
         });
-        console.log("processed Diseas data: ", conditionArray);
         dispatch({type: "SET_DISEASE_DATA", payload: conditionArray});
     }
 
