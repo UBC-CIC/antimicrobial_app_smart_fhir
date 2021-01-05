@@ -4,6 +4,7 @@ import {Grid} from "semantic-ui-react";
 import TemperatureGraph from "./Graphs/Temperature/TemperatureGraph";
 import BloodPressureGraph from "./Graphs/BloodPressure/BloodPressureGraph";
 import MedicationGraph from "./Graphs/Medication/MedicationGraph";
+import ModalManager from 'terra-application/lib/modal-manager';
 import "./GraphView.css";
 
 
@@ -47,7 +48,9 @@ const GraphView = (props) => {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
-                            {(!isLoadingData)? <MedicationGraph /> : null }
+                            <ModalManager>
+                                {(!isLoadingData)? <MedicationGraph /> : null }
+                            </ModalManager>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
