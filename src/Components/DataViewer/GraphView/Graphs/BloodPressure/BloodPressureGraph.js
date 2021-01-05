@@ -7,37 +7,62 @@ import {Button, Divider, Grid, Icon, Input} from "semantic-ui-react";
 
 const BloodPressureGraph = (props) => {
     const [thisChart, setChart] = useState(null);
-    const {bloodPressureData} = props;
-    let bpData = {
-        systolic: [],
-        diastolic: []
-    };
-    if (bloodPressureData) {
-        bloodPressureData.forEach(entry => {
-            if (entry.type === "Systolic blood pressure") {
-                bpData.systolic.push({
-                    x: new Date(entry.timestamp),
-                    y: entry.value
-                })
-            } else {
-                bpData.diastolic.push({
-                    x: new Date(entry.timestamp),
-                    y: entry.value
-                })
-            }
-        })
-    }
-    bpData.systolic.sort((a,b) => a.x - b.x);
-    bpData.diastolic.sort((a,b) => a.x - b.x);
-    console.log("tempData: ", bpData);
+    const [graphData, setGraphData] = useState({systolic: [], diastolic: []});
+    const [upperBound, setUpperBound] = useState(200);
+    const [lowerBound, setLowerBound] = useState(0);
+    const [stepSize, setStepSize] = useState(20);
+    const [boundsError, setBoundsError] = useState(false);
+    const [stepSizeError, setStepSizeError] = useState(false);
+    const [form, setForm] = useState({
+        upperBound: 200,
+        lowerBound: 0,
+        stepSize: 20
+    });
+    const {bloodPressureData, graphDate} = props;
+
     useEffect(() => {
-        let chart = new ChartJS("bloodPressureGraph", {
+        let bpData = {
+            systolic: [],
+            diastolic: []
+        };
+        if (bloodPressureData) {
+            bloodPressureData.forEach(entry => {
+                if ((Date.parse(new Date(entry.timestamp)) - (Date.parse(graphDate))) >= 0) {
+                    if (entry.type === "systolic blood pressure") {
+                        bpData.systolic.push({
+                            x: new Date(entry.timestamp),
+                            y: entry.value
+                        })
+                    } else if (entry.type === "diastolic blood pressure") {
+                        bpData.diastolic.push({
+                            x: new Date(entry.timestamp),
+                            y: entry.value
+                        })
+                    }
+                }
+            })
+        }
+        bpData.systolic.sort((a,b) => a.x - b.x);
+        bpData.diastolic.sort((a,b) => a.x - b.x);
+        setGraphData(bpData);
+    }, [graphDate]);
+
+    useEffect(() => {
+        if (thisChart) {
+            thisChart.destroy();
+        }
+        let chart = buildGraph();
+        setChart(chart);
+    }, [lowerBound, upperBound, stepSize, graphData]);
+
+    const buildGraph = () => {
+        return new ChartJS("bloodPressureGraph", {
             type: "line",
             data: {
                 datasets: [
                     {
                         label: "Systolic",
-                        data: bpData.systolic,
+                        data: graphData.systolic,
                         borderWidth: 2,
                         borderColor: "rgb(255,92,96)",
                         fill: false,
@@ -45,7 +70,7 @@ const BloodPressureGraph = (props) => {
                     },
                     {
                         label: "Diastolic",
-                        data: bpData.diastolic,
+                        data: graphData.diastolic,
                         borderWidth: 2,
                         borderColor: "rgba(0, 130, 255, 1)",
                         fill: false,
@@ -65,9 +90,9 @@ const BloodPressureGraph = (props) => {
                             },
                             ticks: {
                                 beginAtZero: true,
-                                min: 0,
-                                max: 200,
-                                stepSize: 20
+                                min: lowerBound,
+                                max: upperBound,
+                                stepSize: stepSize
                             }
                         }
                     ],
@@ -88,8 +113,48 @@ const BloodPressureGraph = (props) => {
                 }
             }
         })
-    })
+    }
 
+    const onUpperBoundChange = (e) => {
+        setForm({
+            ...form,
+            upperBound: Number(e.target.value),
+        })
+    }
+
+    const onLowerBoundChange = (e) => {
+        setForm({
+            ...form,
+            lowerBound: Number(e.target.value),
+        })
+    }
+
+    const onStepSizeChange = (e) => {
+        setForm({
+            ...form,
+            stepSize: Number(e.target.value),
+        })
+    }
+
+    // change blood pressure graph parameters
+    const onRefreshGraph = (e) => {
+        e.preventDefault();
+
+        if (form.upperBound > form.lowerBound) {
+            setBoundsError(false);
+            let range = form.upperBound - form.lowerBound;
+            if ((form.stepSize < range) && (form.stepSize > 0)) {
+                setStepSizeError(false);
+                setStepSize(form.stepSize);
+                setUpperBound(form.upperBound);
+                setLowerBound(form.lowerBound);
+            } else {
+                setStepSizeError(true);
+            }
+        } else {
+            setBoundsError(true);
+        }
+    }
 
 
     return(
@@ -128,7 +193,9 @@ const BloodPressureGraph = (props) => {
                                             label={{ basic: true, content: 'mmHg' }}
                                             labelPosition='right'
                                             placeholder='Enter upper bound...'
-
+                                            defaultValue={upperBound}
+                                            onChange={onUpperBoundChange}
+                                            className={(boundsError)? "errorStyle" : null}
                                         />
                                     </Grid.Column>
                                 </Grid.Row>
@@ -150,7 +217,9 @@ const BloodPressureGraph = (props) => {
                                             label={{ basic: true, content: 'mmHg' }}
                                             labelPosition='right'
                                             placeholder='Enter lower bound...'
-
+                                            defaultValue={lowerBound}
+                                            onChange={onLowerBoundChange}
+                                            className={(boundsError)? "errorStyle" : null}
                                         />
                                     </Grid.Column>
                                 </Grid.Row>
@@ -172,7 +241,9 @@ const BloodPressureGraph = (props) => {
                                             label={{ basic: true, content: 'mmHg' }}
                                             labelPosition='right'
                                             placeholder='Enter step size...'
-
+                                            defaultValue={stepSize}
+                                            onChange={onStepSizeChange}
+                                            className={(stepSizeError)? "errorStyle" : null}
                                         />
                                     </Grid.Column>
                                 </Grid.Row>
@@ -182,7 +253,7 @@ const BloodPressureGraph = (props) => {
                                         <Button
                                             animated
                                             color={"teal"}
-
+                                            onClick={onRefreshGraph}
                                         >
                                             <Button.Content visible>Update Graph</Button.Content>
                                             <Button.Content hidden>
@@ -204,6 +275,7 @@ const BloodPressureGraph = (props) => {
 const mapStateToProps = (state) => {
     return {
         bloodPressureData: state.patientData.graphingData.bloodPressure,
+        graphDate: state.patientData.graphDataStartDate,
     };
 };
 

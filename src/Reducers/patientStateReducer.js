@@ -10,7 +10,7 @@ const initialPatientState = {
         bloodPressure: [],
     },
     graphToDisplay: null,
-    graphDataStartDate: "1900-01-01",
+    graphDataStartDate: new Date("2000-01-01T00:00:00.000Z"),
 }
 
 
@@ -36,78 +36,6 @@ const setPatientDataHelper = (patient) => {
     };
 }
 
-const setAllergyDataHelper = (allergies) => {
-    let allergyArray = [];
-
-    allergies.forEach(allergy => {
-            if (allergy.resource.code) {
-                let reaction;
-                let date;
-                let verification;
-                let criticality;
-                let clinicalStatus;
-                let description;
-                try {
-                    if (allergy.resource.reaction) {
-                        reaction = {
-                            reaction: allergy.resource.reaction[0].manifestation[0].text,
-                            severity: allergy.resource.reaction[0].severity
-                        }
-                    }
-
-
-                    if (allergy.resource.recordedDate) {
-                        date = allergy.resource.recordedDate;
-                    }
-
-
-                    if (allergy.resource.verificationStatus) {
-                        verification = allergy.resource.verificationStatus.coding[0].code;
-                    }
-
-
-                    if (allergy.resource.criticality) {
-                        criticality = allergy.resource.criticality;
-                    }
-
-
-                    if (allergy.resource.clinicalStatus) {
-                        clinicalStatus = allergy.resource.clinicalStatus.coding[0].code;
-                    }
-
-
-                    if (allergy.resource.code.text) {
-                        description = allergy.resource.code.text;
-                    }
-
-                } catch (err) {
-
-                }
-
-                let formattedAllergy = {
-                    clinicalStatus: clinicalStatus,
-                    description: description,
-                    criticality: criticality,
-                    reaction: reaction,
-                    date: date,
-                    verification: verification
-                }
-                allergyArray.push(formattedAllergy);
-            }
-
-    })
-
-    try {
-        allergyArray.sort((a,b) => {
-            return Date.parse(b.date) - Date.parse(a.date);
-        });
-    } catch (err) {
-
-    }
-
-    return allergyArray;
-}
-
 
 const setObservationDataHelper = (observations) => {
     let temperatureData = [];
@@ -115,7 +43,7 @@ const setObservationDataHelper = (observations) => {
 
     observations.forEach(observation => {
 
-        switch (observation.resource.code.text) {
+        switch (observation.resource.code.text.toLowerCase()) {
             case "temperature": {
                 let temperatureEntry = {
                     timestamp: observation.resource.effectiveDateTime,
@@ -125,12 +53,13 @@ const setObservationDataHelper = (observations) => {
                 temperatureData.push(temperatureEntry);
                 break;
             }
-            case "Blood pressure": {
+            case "blood pressure": {
                 let components = observation.resource.component;
                 components.forEach( entry => {
                     let bloodPressureEntry = {
                         timestamp: observation.resource.effectiveDateTime,
-                        type: entry.code.text,
+                        type: entry.code.text.toLowerCase(),
+                        code: entry.code.coding[0].code,
                         unit: entry.valueQuantity.unit,
                         value: entry.valueQuantity.value
                     }
@@ -174,7 +103,7 @@ const patientStateReducer = (patientState = initialPatientState, action) => {
         case "SET_ALLERGY_DATA": {
             return {
                 ...newPatientState,
-                allergies: setAllergyDataHelper(action.payload),
+                allergies: action.payload,
             }
         }
         case "SET_MEDICATION_DATA": {
@@ -205,6 +134,7 @@ const patientStateReducer = (patientState = initialPatientState, action) => {
             }
         }
         case "SET_GRAPH_DATA_START_DATE": {
+            console.log("new time: ", action.payload);
             return {
                 ...newPatientState,
                 graphDataStartDate: action.payload,

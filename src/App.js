@@ -36,51 +36,135 @@ class App extends React.Component {
           try {
               tgt = await generateTGT();
               setTGT(tgt);
+
+              /*let linkRXEndpoint = `https://rxnav.nlm.nih.gov/REST/rxcui/309114/allProperties.json?prop=names+codes`;
+              let rxNormResponse = await axios.get(linkRXEndpoint);
+
+              console.log("rxNormResponse Test: ", rxNormResponse);
+
+              let linkATCEndpoint = `https://rxnav.nlm.nih.gov/REST/rxcui/309114/property.json?propName=ATC`;
+              let rxNormResponseATC = await axios.get(linkATCEndpoint);
+
+              console.log("rxNormResponseATC Test: ", rxNormResponseATC);
+
+              let linkMESHEndpoint = `https://rxnav.nlm.nih.gov/REST/rxcui/309114/property.json?propName=MESH`;
+              let rxNormResponseMESH = await axios.get(linkMESHEndpoint);
+
+              console.log("rxNormResponseMESH Test: ", rxNormResponseMESH);*/
+
+
+
           } catch (e) {
               console.error("Error retrieving UMLS token: ", e);
           }
 
           let patient = await client.patient.read();
           setPatientData(patient);
-          let observation = await client.patient.request("Observation");
+          let observation;
+          try {
+              observation = await client.patient.request("Observation", {pageLimit: 0});
+          } catch (e) {
+              console.log("Fetching Observation Resource failed: ", e);
+          }
+          if (observation) {
+              if (observation.length > 0) {
+                  let observationArray= [];
+                  for (let array of observation) {
+                      if (array.entry.length > 0) {
+                          array.entry.forEach(observed => {
+                              observationArray.push(observed);
+                          })
+                      }
+                  }
+                  setObservationData(observationArray);
+              }
+          }
+          let allergy;
+          try {
+              allergy = await client.patient.request("AllergyIntolerance", {pageLimit: 0});
+          } catch (e) {
+              console.log("Fetching AllergyIntolerance Resource failed: ", e);
+          }
+          if (allergy) {
+              if (allergy.length > 0) {
+              let allergyArray = [];
+              for (let array of allergy) {
+                if (array.entry.length > 0) {
+                     array.entry.forEach(item => {
+                              allergyArray.push(item);
+                          })
+                }
+              }
+                  setAllergyData({allergies: allergyArray, tgt: tgt});
+              }
+          }
 
-          if (observation.entry) {
-              if (observation.entry.length > 0) {
-                  setObservationData(observation.entry)
+         let medication;
+         try {
+             medication = await client.patient.request("MedicationRequest", {pageLimit: 0});
+         } catch (e) {
+             console.log("Fetching MedicationRequest Resource failed: ", e);
+         }
+          if (medication) {
+              if (medication.length > 0) {
+              let medicationArray = [];
+              for (let array of medication) {
+                if (array.entry.length > 0) {
+                    array.entry.forEach(item => {
+                              medicationArray.push(item);
+                          })
+                }
+              }
+                  setMedicationData({medications: medicationArray, tgt: tgt});
               }
           }
-          let allergy = await client.patient.request("AllergyIntolerance");
+         let diagnosticReports;
+         try {
+             diagnosticReports = await client.patient.request("DiagnosticReport", {pageLimit: 0});
+         } catch (e) {
+             console.log("Fetching DiagnosticReport Resource failed: ", e);
+         }
+          if (diagnosticReports) {
+              if (diagnosticReports.length > 0) {
+                  let diagnosticReportArray = [];
+                  for (let array of diagnosticReports) {
+                      if (array.entry.length > 0) {
+                          array.entry.forEach(item => {
+                              diagnosticReportArray.push(item);
+                          })
+                      }
+                  }
+              }
 
-          if (allergy.entry) {
-              if (allergy.entry.length > 0) {
-                  setAllergyData(allergy.entry);
-              }
           }
-          let medication = await client.patient.request("MedicationRequest");
-          if (medication.entry) {
-              if (medication.entry.length > 0) {
-                  setMedicationData({medications: medication.entry, tgt: tgt});
-              }
+          let conditions;
+          try {
+              conditions =  await client.patient.request("Condition", {pageLimit: 0});
+          } catch (e) {
+              console.log("Fetching Condition Resource failed: ", e);
           }
-          let diagnosticReports = await client.patient.request("DiagnosticReport");
-          if (diagnosticReports.entry) {
-              if (diagnosticReports.entry.length > 0) {
+          if (conditions) {
+              if (conditions.length > 0) {
+                  let conditionArray = [];
+                  for (let array of conditions) {
+                      if (array.entry.length > 0) {
+                          array.entry.forEach(item => {
+                              conditionArray.push(item);
+                          })
+                      }
+                      }
+                  setConditionData(conditionArray);
+                  }
 
               }
-          }
-          let conditions =  await client.patient.request("Condition");
-          if (conditions.entry) {
-              if (conditions.entry.length > 0) {
-                  setConditionData(conditions.entry);
-              }
-          }
+
 
           console.log("patient: ", patient);
           console.log("observations: ", observation);
           console.log("allergies: ", allergy);
           console.log("medications: ", medication);
-          console.log("diagnostic reports: ", diagnosticReports);
-          console.log("conditions: ", conditions);
+          //console.log("diagnostic reports: ", diagnosticReports);
+          //console.log("conditions: ", conditions);
 
           if (this._isMounted) {
               this.setState({

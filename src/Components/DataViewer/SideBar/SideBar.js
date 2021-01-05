@@ -1,13 +1,14 @@
 import {Grid, Segment, Sidebar, Divider, Button, Label, Icon} from "semantic-ui-react";
 import {connect} from "react-redux";
 import React, { useState, useEffect } from "react";
-import {setGraphToDisplay} from "../../../Actions/patientContextActions";
+import {setGraphToDisplay, setGraphDataStart} from "../../../Actions/patientContextActions";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import Radio from 'terra-form-radio';
 
 
 const VerticalSidebar = (props) => {
+    const {setGraphDataStart, graphDate} = props;
     const [graphToDisplay, setGraph] = useState("temperature");
     const [dateOpen, setDateOpen] = useState(false);
     const [selectedDate, handleDateChange] = useState(new Date("2000-01-01T00:00:00.000Z"));
@@ -24,6 +25,10 @@ const VerticalSidebar = (props) => {
         imaging: true,
         procedures: true,
     })
+
+    useEffect(() => {
+        setGraphDataStart(selectedDate);
+    }, [selectedDate]);
 
     useEffect(() => {
         let wbc = true;
@@ -66,10 +71,6 @@ const VerticalSidebar = (props) => {
         setGraph(props.defaultGraph);
     }, [props.defaultGraph]);
 
-    useEffect(() => {
-        // when date changes, call action to update date
-
-    }, [selectedDate])
 
     const onSelectGraph = (e) => {
         const {setGraphToDisplay} = props;
@@ -242,7 +243,7 @@ const VerticalSidebar = (props) => {
                                     <Grid.Column>
                                         <Button as='div' labelPosition='left' size='mini'>
                                             <Label as='a' basic pointing='right'  style={{paddingLeft: "3px", paddingRight: "5px"}}>
-                                                <span style={{fontSize: "10px"}}>{selectedDate.toLocaleDateString()}</span>
+                                                <span style={{fontSize: "10px"}}>{graphDate.toLocaleDateString()}</span>
                                             </Label>
                                             <Button animated size='mini' onClick={() => setDateOpen(true)}>
                                                 <Button.Content hidden>Date</Button.Content>
@@ -278,8 +279,9 @@ const mapStateToProps = (state) => {
         availableData: state.patientData.graphingData,
         defaultGraph: state.patientData.graphToDisplay,
         patient: state.patientData.currentPatient,
+        graphDate: state.patientData.graphDataStartDate,
     };
 };
 
 
-export default connect(mapStateToProps, {setGraphToDisplay})(VerticalSidebar);
+export default connect(mapStateToProps, {setGraphToDisplay, setGraphDataStart})(VerticalSidebar);

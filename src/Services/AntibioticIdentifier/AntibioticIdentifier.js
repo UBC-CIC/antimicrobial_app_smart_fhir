@@ -12,7 +12,6 @@ const antibioticIdentifier = async (medicationIdentities, tgt) => {
         for (let result of medicationIdentities) {
             if (result.Entities.length > 0) {
                 rxNormPrediction = {
-                    prediction: result.Entities[0].RxNormConcepts[0].Description,
                     code: result.Entities[0].RxNormConcepts[0].Code,
                     confidence: result.Entities[0].RxNormConcepts[0].Score
                 }
@@ -26,6 +25,8 @@ const antibioticIdentifier = async (medicationIdentities, tgt) => {
             }
         }
     }
+
+
     if (!shouldInclude) {
         shouldInclude = await rxNormPredictionsHelper(rxNormPredictions, tgt);
     }
@@ -37,13 +38,13 @@ const antibioticIdentifier = async (medicationIdentities, tgt) => {
 
 // processes the results of Comprehend Medical InferRXNorm
 const rxNormPredictionsHelper = async (rxNormPredictions, tgt) => {
-    let shouldInclude = false;
+
 
     for (let prediction of rxNormPredictions) {
-        try {
             // check the RxNorm database for property codes for our chosen RxConcept
             // check for ATC and MESH properties for validation
-            if (prediction && !shouldInclude) {
+           // if a match is found, return true
+            if (prediction) {
                 try {
                     let linkATCEndpoint = `https://rxnav.nlm.nih.gov/REST/rxcui/${prediction.code}/property.json?propName=ATC`;
                     let rxNormResponseATC = await axios.get(linkATCEndpoint);
@@ -60,11 +61,11 @@ const rxNormPredictionsHelper = async (rxNormPredictions, tgt) => {
                     }
 
                     // check if were able to retrieve ATC codes and if it's an antibiotic (starts with "J")
-                    if ((atc.length !== 0) && !shouldInclude) {
+                    if (atc.length !== 0) {
                         // eslint-disable-next-line no-loop-func
                         atc.forEach(entry => {
-                            if (entry.startsWith("J")) {
-                                shouldInclude = true;
+                            if (entry.startsWith("J") || entry.startsWith("QJ")) {
+                                return true;
                             }
                         })
                     }
@@ -72,10 +73,10 @@ const rxNormPredictionsHelper = async (rxNormPredictions, tgt) => {
                     // if we don't have an atc, try to retrieve a MESH value (Medical Subject Heading)
                     // then check if mesh includes code for antibiotics
                     let mesh = [];
-                    if (!shouldInclude) {
-                        let linkMESHEndpoint = `https://rxnav.nlm.nih.gov/REST/rxcui/${prediction.code}/property.json?propName=MESH`;
-                        let rxNormResponseMESH = await axios.get(linkMESHEndpoint);
 
+                        let rxNormResponseMESH;
+                            let linkMESHEndpoint = `https://rxnav.nlm.nih.gov/REST/rxcui/${prediction.code}/property.json?propName=MESH`;
+                            rxNormResponseMESH = await axios.get(linkMESHEndpoint);
                         if (rxNormResponseMESH) {
                             if (rxNormResponseMESH.data.propConceptGroup) {
                                 let properties = rxNormResponseMESH.data.propConceptGroup.propConcept;
@@ -94,32 +95,23 @@ const rxNormPredictionsHelper = async (rxNormPredictions, tgt) => {
                             if (results.data.result.length > 0) {
                                 for (let entry of results.data.result) {
                                     if (entry.value === "D000900") {
-                                        shouldInclude = true;
+                                        return true;
                                     }
                                 }
                             }
                         }
-                    }
+
 
                 } catch (error) {
                     console.error(error);
-                    // fail-safe: return true if we hit an error.
-                    // Better to include false positive then omit an actual antibiotic.
+                    // fail-safe - return true. Better to include false positives then omit actual antibiotic
                     return true;
                 }
             }
 
-
-        } catch (error) {
-            console.error(error);
-            // fail-safe: return true if we hit an error.
-            // Better to include false positive then omit an actual antibiotic.
-            return true;
-        }
     }
 
-    console.log("rxNorm return value: ", shouldInclude);
-    return shouldInclude;
+    return false;
 }
 
 

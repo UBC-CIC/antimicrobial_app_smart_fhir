@@ -20,27 +20,34 @@ const TemperatureGraph = (props) => {
         upperBound: 40,
         lowerBound: 35,
         stepSize: 0.5
-    })
-    const {temperatureData} = props;
-    let tempData = [];
-    if (temperatureData) {
-        temperatureData.forEach(entry => {
-            tempData.push({
-                x: new Date(entry.timestamp),
-                y: entry.value
-            });
-        })
-    }
+    });
+    const [graphData, setGraphData] = useState([]);
+    const {temperatureData, graphDate} = props;
 
-    tempData.sort((a,b) => a.x - b.x);
-    console.log("tempData: ", tempData);
+    useEffect(() => {
+        let tempData = [];
+        if (temperatureData) {
+            temperatureData.forEach(entry => {
+                if ((Date.parse(new Date(entry.timestamp)) - (Date.parse(graphDate))) >= 0) {
+                    tempData.push({
+                        x: new Date(entry.timestamp),
+                        y: entry.value
+                    });
+                }
+            })
+        }
+        tempData.sort((a,b) => a.x - b.x);
+        setGraphData(tempData);
+    }, [graphDate])
+
+
     useEffect(() => {
         if (thisChart) {
             thisChart.destroy();
         }
         let chart = buildGraph();
         setChart(chart);
-    }, [lowerBound, upperBound, stepSize])
+    }, [lowerBound, upperBound, stepSize, graphData])
 
     const buildGraph = () => {
         return new ChartJS("temperatureGraph", {
@@ -49,7 +56,7 @@ const TemperatureGraph = (props) => {
                 datasets: [
                     {
                         label: "Temperature",
-                        data: tempData,
+                        data: graphData,
                         borderWidth: 2,
                         borderColor: "rgb(200,0,0)",
                         fill: false,
@@ -253,6 +260,7 @@ const TemperatureGraph = (props) => {
 const mapStateToProps = (state) => {
     return {
         temperatureData: state.patientData.graphingData.temperature,
+        graphDate: state.patientData.graphDataStartDate,
     };
 };
 

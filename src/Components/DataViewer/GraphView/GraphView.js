@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {Grid} from "semantic-ui-react";
 import TemperatureGraph from "./Graphs/Temperature/TemperatureGraph";
 import BloodPressureGraph from "./Graphs/BloodPressure/BloodPressureGraph";
+import MedicationGraph from "./Graphs/Medication/MedicationGraph";
 import "./GraphView.css";
 
 
@@ -42,6 +43,11 @@ const GraphView = (props) => {
                     <Grid.Row>
                         <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
                             {(!isLoadingData)? graph : null }
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
+                            {(!isLoadingData)? <MedicationGraph /> : null }
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
