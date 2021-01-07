@@ -19,4 +19,4 @@ To deploy this solution into your AWS Account please follow our [Deployment Guid
 * January 30, 2021: Initial release.
 
 # License
-This project is distributed under  [Apache 2.0](https://github.com/UBC-CIC/antimicrobial_app_smart_fhir/blob/master/LICENSE.md) 
+This project is distributed under  [Apache-2.0](https://github.com/UBC-CIC/antimicrobial_app_smart_fhir/blob/main/LICENSE) 
