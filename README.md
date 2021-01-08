@@ -1,4 +1,4 @@
-# Microbial Insights - An Antimicrobial SMART on FHIR Web Application
+# Antimicrobial SMART on FHIR Application
 Microbial Insights is a prototype SMART on FHIR clinical decision support application that aims to display relevant patient electronic health record (EHR) information to clincial professionals when dealing with infection cases.  
 
 ## Stack
