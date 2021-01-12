@@ -1,17 +1,19 @@
 import {Grid, Segment, Sidebar, Divider, Button, Label, Icon} from "semantic-ui-react";
 import {connect} from "react-redux";
 import React, { useState, useEffect } from "react";
-import {setGraphToDisplay, setGraphDataStart} from "../../../Actions/patientContextActions";
+import {setGraphToDisplay, setGraphDataStart, setGraphDataEnd} from "../../../Actions/patientContextActions";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import Radio from 'terra-form-radio';
 
 
 const VerticalSidebar = (props) => {
-    const {setGraphDataStart, graphDate} = props;
+    const {setGraphDataStart, setGraphDataEnd, graphDateStart, graphDateEnd} = props;
     const [graphToDisplay, setGraph] = useState("temperature");
-    const [dateOpen, setDateOpen] = useState(false);
-    const [selectedDate, handleDateChange] = useState(new Date("2000-01-01T00:00:00.000Z"));
+    const [dateStartOpen, setStartDateOpen] = useState(false);
+    const [dateEndOpen, setEndDateOpen] = useState(false);
+    const [selectedStartDate, handleStartDateChange] = useState(new Date("2000-01-01T00:00:00.000Z"));
+    const [selectedEndDate, handleEndDateChange] = useState(new Date());
     const [disabledGraphs, setDisabled] = useState({
         wbc: true,
         crp: true,
@@ -27,29 +29,27 @@ const VerticalSidebar = (props) => {
     })
 
     useEffect(() => {
-        setGraphDataStart(selectedDate);
-    }, [selectedDate]);
+        setGraphDataStart(selectedStartDate);
+    }, [selectedStartDate]);
 
     useEffect(() => {
-        let wbc = true;
-        let crp = true;
-        let procalcitonin = true;
-        let temperature = true;
-        let bloodPressure = true;
-        let heartRate = true;
-        let respiratoryRate = true;
-        let oxygenSat = true;
-        let oxygenMode = true;
+        setGraphDataEnd(selectedEndDate);
+    }, [selectedEndDate]);
+
+    useEffect(() => {
+        let wbc = !(props.availableData.wbc.length > 0);
+        let crp = !(props.availableData.crp.length > 0);
+        let procalcitonin = !(props.availableData.procalcitonin.length > 0);
+        let temperature = !(props.availableData.temperature.length > 0);
+        let bloodPressure = !(props.availableData.bloodPressure.length > 0);
+        let heartRate = !(props.availableData.heartRate.length > 0);
+        let respiratoryRate = !(props.availableData.respiratoryRate.length > 0);
+        let oxygenSat = !(props.availableData.oxygenSaturation.length > 0);
+        let oxygenMode = !(props.availableData.oxygenMode.length > 0);
         let imaging = true;
         let procedures = true;
 
 
-        if (props.availableData.temperature.length > 0) {
-            temperature = false;
-        }
-        if (props.availableData.bloodPressure.length > 0) {
-           bloodPressure = false;
-        }
 
         setDisabled({
             wbc: wbc,
@@ -234,7 +234,7 @@ const VerticalSidebar = (props) => {
                                 </Grid.Row>
                                 <Grid.Row style={{padding: "0px"}}>
                                     <Grid.Column textAlign={"left"} verticalAlign={"middle"}
-                                                 style={{paddingLeft: "22px", paddingBottom: "0px", paddingTop: "0px"}}
+                                                 style={{paddingLeft: "20px", paddingBottom: "0px", paddingTop: "0px"}}
                                     >
                                         <span style={{fontSize: "11px"}}>Start Date:</span>
                                     </Grid.Column>
@@ -243,9 +243,9 @@ const VerticalSidebar = (props) => {
                                     <Grid.Column>
                                         <Button as='div' labelPosition='left' size='mini'>
                                             <Label as='a' basic pointing='right'  style={{paddingLeft: "3px", paddingRight: "5px"}}>
-                                                <span style={{fontSize: "10px"}}>{graphDate.toLocaleDateString()}</span>
+                                                <span style={{fontSize: "10px"}}>{graphDateStart.toLocaleDateString()}</span>
                                             </Label>
-                                            <Button animated size='mini' onClick={() => setDateOpen(true)}>
+                                            <Button animated size='mini' onClick={() => setStartDateOpen(true)}>
                                                 <Button.Content hidden>Date</Button.Content>
                                                 <Button.Content visible>
                                                     <Icon name='calendar alternate outline' />
@@ -254,10 +254,44 @@ const VerticalSidebar = (props) => {
                                         </Button>
                                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                             <DatePicker
-                                                open={dateOpen}
-                                                value={selectedDate}
-                                                onChange={handleDateChange}
-                                                onClose={() => setDateOpen(false)}
+                                                open={dateStartOpen}
+                                                value={selectedStartDate}
+                                                maxDate={selectedEndDate}
+                                                onChange={handleStartDateChange}
+                                                onClose={() => setStartDateOpen(false)}
+                                                TextFieldComponent={() => null}
+                                                disableFuture={true}
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row style={{paddingBottom: "0px", paddingRight: "0px", paddingLeft: "0px"}}>
+                                    <Grid.Column textAlign={"left"} verticalAlign={"middle"}
+                                                 style={{paddingLeft: "20px", paddingBottom: "0px", paddingTop: "0px"}}
+                                    >
+                                        <span style={{fontSize: "11px"}}>End Date:</span>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row style={{padding: "0px"}}>
+                                    <Grid.Column>
+                                        <Button as='div' labelPosition='left' size='mini'>
+                                            <Label as='a' basic pointing='right'  style={{paddingLeft: "3px", paddingRight: "5px"}}>
+                                                <span style={{fontSize: "10px"}}>{graphDateEnd.toLocaleDateString()}</span>
+                                            </Label>
+                                            <Button animated size='mini' onClick={() => setEndDateOpen(true)}>
+                                                <Button.Content hidden>Date</Button.Content>
+                                                <Button.Content visible>
+                                                    <Icon name='calendar alternate outline' />
+                                                </Button.Content>
+                                            </Button>
+                                        </Button>
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                            <DatePicker
+                                                open={dateEndOpen}
+                                                value={selectedEndDate}
+                                                minDate={selectedStartDate}
+                                                onChange={handleEndDateChange}
+                                                onClose={() => setEndDateOpen(false)}
                                                 TextFieldComponent={() => null}
                                                 disableFuture={true}
                                             />
@@ -279,9 +313,10 @@ const mapStateToProps = (state) => {
         availableData: state.patientData.graphingData,
         defaultGraph: state.patientData.graphToDisplay,
         patient: state.patientData.currentPatient,
-        graphDate: state.patientData.graphDataStartDate,
+        graphDateStart: state.patientData.graphDataStartDate,
+        graphDateEnd: state.patientData.graphDataEndDate,
     };
 };
 
 
-export default connect(mapStateToProps, {setGraphToDisplay, setGraphDataStart})(VerticalSidebar);
+export default connect(mapStateToProps, {setGraphToDisplay, setGraphDataStart, setGraphDataEnd})(VerticalSidebar);

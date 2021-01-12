@@ -3,11 +3,10 @@ import {connect} from "react-redux";
 import Chart from 'react-apexcharts';
 import { withDisclosureManager } from 'terra-application/lib/disclosure-manager';
 import MedicationWarningModal from "./MedicationWarningModal/MedicationWarningModal";
-import {Button, Divider, Grid, Icon, Input} from "semantic-ui-react";
+import {Button, Grid, Icon} from "semantic-ui-react";
 import formatDistance from 'date-fns/formatDistance'
 
-const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDate, antibiotics }) => {
-    //const {graphDate, antibiotics, disclosureManager} = props;
+const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateStart, graphDateEnd, antibiotics }) => {
     const [options, setOptions] = useState({
         chart: {
             type: 'rangeBar'
@@ -38,7 +37,8 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDate, a
         },
         xaxis: {
             type: 'datetime',
-            min: new Date(graphDate).getTime(),
+            min: new Date(graphDateStart).getTime(),
+            max: new Date(graphDateEnd).getTime(),
         },
         legend: {
             position: 'bottom'
@@ -82,13 +82,14 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDate, a
             },
             xaxis: {
                 type: 'datetime',
-                min: new Date(graphDate).getTime(),
+                min: new Date(graphDateStart).getTime(),
+                max: new Date(graphDateEnd).getTime()
             },
             legend: {
                 position: 'bottom'
             }
         });
-    }, [graphDate])
+    }, [graphDateStart, graphDateEnd])
 
     useEffect(() => {
         let medData = [];
@@ -102,13 +103,16 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDate, a
                 // if no end date is specified, we need to warn the user
                 if (!endDate) {
                     unGraphed.push(antibiotic);
+                    endDate = startDate;
                 }
 
                 if (!startDate) {
                     unGraphed.push(antibiotic);
                 } else {
-                    if (!endDate) {
-                        endDate = startDate;
+                    let start = new Date(startDate).getTime();
+                    let end = new Date(endDate).getTime();
+                    if (end === start) {
+                        end += 86400000
                     }
                     let entry = {};
                     entry.name = antibiotic.description;
@@ -116,12 +120,12 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDate, a
                         {
                             x: 'Period',
                             y: [
-                                new Date(startDate).getTime(),
-                                new Date(endDate).getTime() + 86400000
+                                start,
+                                end
                             ]
                         }
                     ];
-                    let startTimeFrame = new Date(graphDate).getTime();
+                    let startTimeFrame = new Date(graphDateStart).getTime();
                     let observedStart = new Date(startDate).getTime();
                     let observedEnd = new Date(endDate).getTime();
                     if (observedStart >= startTimeFrame || observedEnd >= startTimeFrame) {
@@ -134,7 +138,7 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDate, a
             setSeries(medData);
         }
         setUnGraphedData(unGraphed);
-    }, [graphDate, antibiotics]);
+    }, [graphDateStart, antibiotics]);
 
     const handleModalPopup = () => {
         disclosureManager.disclose({
@@ -149,34 +153,41 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDate, a
 
     return(
         <Grid>
-            <Grid.Row style={{paddingBottom: "0px"}}>
-                <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
-                    <Grid>
-                        <Grid.Row>
-                            <Grid.Column width={5} />
-                            <Grid.Column width={4} textAlign={"right"} verticalAlign={"middle"}>
-                                <h3>Medication Regime</h3>
-                            </Grid.Column>
-                            <Grid.Column width={4} textAlign={"left"} verticalAlign={"middle"}>
-                                {(unGraphedData.length > 0)? <Button icon style={{backgroundColor: "white"}}
-                                                                     onClick={handleModalPopup}
-                                >
-                                    <Icon name={"warning sign"} style={{color: "red", filter: "drop-shadow(0 0 0.75rem crimson)"}}/>
-                                </Button>
-                                :
-                                null}
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Grid.Column>
-            </Grid.Row>
             <Grid.Row style={{paddingTop: "0px"}}>
-                <Grid.Column>
+                <Grid.Column width={11}>
                     {(series.length > 0)?
                         <Chart options={options} series={series} type="rangeBar" width={"100%"} height={"100%"} />
                         :
-                        <div><span>Medication Data N/A</span></div>
+                        <div><span><h3>Medication Data N/A</h3></span></div>
                     }
+                </Grid.Column>
+                <Grid.Column width={1}>
+                    <Grid divided style={{height: "100%", padding: "0px"}}>
+                        <Grid.Row>
+                            <Grid.Column />
+                            <Grid.Column />
+                        </Grid.Row>
+                    </Grid>
+                </Grid.Column>
+                <Grid.Column width={4} textAlign={"center"} verticalAlign={"middle"}>
+                    <Grid>
+                        <Grid.Row style={{paddingBottom: "0px"}}>
+                            <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
+                                <h3>Medication Regimen</h3>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row style={{paddingTop: "0px"}}>
+                            <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
+                                {(unGraphedData.length > 0)? <Button icon style={{backgroundColor: "white"}}
+                                                                     onClick={handleModalPopup}
+                                    >
+                                        <Icon name={"warning sign"} size={"large"} style={{color: "red", filter: "drop-shadow(0 0 0.50rem crimson)"}}/>
+                                    </Button>
+                                    :
+                                    null}
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
@@ -186,7 +197,8 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDate, a
 
 const mapStateToProps = (state) => {
     return {
-        graphDate: state.patientData.graphDataStartDate,
+        graphDateStart: state.patientData.graphDataStartDate,
+        graphDateEnd: state.patientData.graphDataEndDate,
         antibiotics: state.patientData.antibiotics,
     };
 };

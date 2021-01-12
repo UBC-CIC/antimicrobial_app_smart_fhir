@@ -1,46 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import ChartJS from "chart.js";
 import {connect} from "react-redux";
-import {Divider, Grid} from "semantic-ui-react";
-import { Input, Button, Icon } from 'semantic-ui-react';
+import {Button, Divider, Grid, Icon, Input} from "semantic-ui-react";
 import "../../GraphView.css";
 
 
 
 
-
-const TemperatureGraph = (props) => {
+const OxygenSaturationGraph = (props) => {
     const [thisChart, setChart] = useState(null);
-    const [upperBound, setUpperBound] = useState(40);
-    const [lowerBound, setLowerBound] = useState(35);
-    const [stepSize, setStepSize] = useState(0.5);
+    const [upperBound, setUpperBound] = useState(100);
+    const [lowerBound, setLowerBound] = useState(0);
+    const [stepSize, setStepSize] = useState(1.0);
     const [stepSizeError, setStepSizeError] = useState(false);
     const [boundsError, setBoundsError] = useState(false);
     const [form, setForm] = useState({
-        upperBound: 40,
-        lowerBound: 35,
-        stepSize: 0.5
+        upperBound: 100,
+        lowerBound: 0,
+        stepSize: 1.0
     });
     const [graphData, setGraphData] = useState([]);
-    const {temperatureData, graphDateStart, graphDateEnd} = props;
-
+    const {oxygenSaturationData, graphDateStart, graphDateEnd} = props;
     useEffect(() => {
-        let tempData = [];
-        if (temperatureData) {
-            temperatureData.forEach(entry => {
+        let data = [];
+        if (oxygenSaturationData) {
+            oxygenSaturationData.forEach(entry => {
                 if (((Date.parse(new Date(entry.timestamp)) - (Date.parse(graphDateStart))) >= 0)
                     &&
                     ((Date.parse(graphDateEnd)) - (Date.parse(new Date(entry.timestamp))) >= 0)
                 ) {
-                    tempData.push({
+                    data.push({
                         x: new Date(entry.timestamp),
                         y: entry.value
                     });
                 }
             })
         }
-        tempData.sort((a,b) => a.x - b.x);
-        setGraphData(tempData);
+        data.sort((a,b) => a.x - b.x);
+        setGraphData(data);
     }, [graphDateStart, graphDateEnd])
 
 
@@ -55,12 +52,12 @@ const TemperatureGraph = (props) => {
     }, [lowerBound, upperBound, stepSize, graphData])
 
     const buildGraph = () => {
-        return new ChartJS("temperatureGraph", {
+        return new ChartJS("oxygenSaturationGraph", {
             type: "line",
             data: {
                 datasets: [
                     {
-                        label: "Temperature",
+                        label: "Oxygen Saturation",
                         data: graphData,
                         borderWidth: 2,
                         borderColor: "rgb(200,0,0)",
@@ -77,7 +74,7 @@ const TemperatureGraph = (props) => {
                             offset: true,
                             scaleLabel: {
                                 display: true,
-                                labelString: "Celsius"
+                                labelString: "% Hemoglobin Saturation"
                             },
                             ticks: {
                                 beginAtZero: true,
@@ -102,7 +99,7 @@ const TemperatureGraph = (props) => {
                     ]
                 },
                 title: {
-                    text: "Temperature",
+                    text: "Oxygen Saturation",
                     display: true,
                     fontSize: 20
                 }
@@ -131,7 +128,7 @@ const TemperatureGraph = (props) => {
         })
     }
 
-    // change temperature graph parameters
+    // change graph parameters
     const onRefreshGraph = (e) => {
         e.preventDefault();
 
@@ -155,13 +152,13 @@ const TemperatureGraph = (props) => {
         <Grid>
             <Grid.Row columns={2}>
                 <Grid.Column width={11}>
-                    {(graphData.length === 0) ?
+                    {(graphData.length === 0)?
                         <div>
                             <h3>Sorry, no data visible within selected date range.</h3>
-                            <div><canvas id="temperatureGraph" width="800" height="500" style={{backgroundColor: "white", padding: "10px", width: "100%"}} /></div>
+                            <div><canvas id="oxygenSaturationGraph" width="800" height="500" style={{backgroundColor: "white", padding: "10px", width: "100%"}} /></div>
                         </div>
                         :
-                        <canvas id="temperatureGraph" width="800" height="500" style={{backgroundColor: "white", padding: "10px", width: "100%"}} />
+                        <canvas id="oxygenSaturationGraph" width="800" height="500" style={{backgroundColor: "white", padding: "10px", width: "100%"}} />
                     }
                 </Grid.Column>
                 <Grid.Column width={1}>
@@ -176,7 +173,7 @@ const TemperatureGraph = (props) => {
                     <Grid style={{paddingLeft: "0px"}}>
                         <Grid.Row>
                             <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
-                                <h3>Temperature Options</h3>
+                                <h3>Oxygen Saturation Options</h3>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -191,7 +188,7 @@ const TemperatureGraph = (props) => {
                                         <Grid.Column>
                                             <Input
                                                 fluid
-                                                label={{ basic: true, content: '°C' }}
+                                                label={{ basic: true, content: '%' }}
                                                 labelPosition='right'
                                                 placeholder='Enter upper bound...'
                                                 defaultValue={upperBound}
@@ -215,7 +212,7 @@ const TemperatureGraph = (props) => {
                                         <Grid.Column>
                                             <Input
                                                 fluid
-                                                label={{ basic: true, content: '°C' }}
+                                                label={{ basic: true, content: '%' }}
                                                 labelPosition='right'
                                                 placeholder='Enter lower bound...'
                                                 defaultValue={lowerBound}
@@ -239,7 +236,7 @@ const TemperatureGraph = (props) => {
                                         <Grid.Column>
                                             <Input
                                                 fluid
-                                                label={{ basic: true, content: '°C' }}
+                                                label={{ basic: true, content: '%' }}
                                                 labelPosition='right'
                                                 placeholder='Enter step size...'
                                                 defaultValue={stepSize}
@@ -275,10 +272,10 @@ const TemperatureGraph = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        temperatureData: state.patientData.graphingData.temperature,
+        oxygenSaturationData: state.patientData.graphingData.oxygenSaturation,
         graphDateStart: state.patientData.graphDataStartDate,
         graphDateEnd: state.patientData.graphDataEndDate,
     };
 };
 
-export default connect(mapStateToProps, null)(TemperatureGraph);
+export default connect(mapStateToProps, null)(OxygenSaturationGraph);

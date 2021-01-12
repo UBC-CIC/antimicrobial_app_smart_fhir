@@ -41,6 +41,14 @@ export const setGraphDataStart = (payload) => {
     }
 }
 
+// Set graph data end date
+export const setGraphDataEnd = (payload) => {
+    return {
+        type: "SET_GRAPH_DATA_END_DATE",
+        payload: payload,
+    }
+}
+
 //=====================================---PROCESS MEDICATION DATA---========================================
 
 // Initiates setting patient medication data

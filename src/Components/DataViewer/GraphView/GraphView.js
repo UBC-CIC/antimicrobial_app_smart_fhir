@@ -6,6 +6,10 @@ import BloodPressureGraph from "./Graphs/BloodPressure/BloodPressureGraph";
 import MedicationGraph from "./Graphs/Medication/MedicationGraph";
 import ModalManager from 'terra-application/lib/modal-manager';
 import "./GraphView.css";
+import HeartRateGraph from "./Graphs/HeartRate/HeartRateGraph";
+import RespiratoryRateGraph from "./Graphs/RespiratoryRate/RespiratoryRateGraph";
+import OxygenSaturationGraph from "./Graphs/OxygenSaturation/OxygenSaturationGraph";
+import CRPGraph from "./Graphs/CRP/CRPGraph";
 
 
 
@@ -25,6 +29,22 @@ const GraphView = (props) => {
         }
         case "bloodPressure": {
             graph = <BloodPressureGraph />;
+            break;
+        }
+        case "heartRate": {
+            graph = <HeartRateGraph />;
+            break;
+        }
+        case "respiratoryRate": {
+            graph = <RespiratoryRateGraph />;
+            break;
+        }
+        case "oxygenSat": {
+            graph = <OxygenSaturationGraph />;
+            break;
+        }
+        case "crp": {
+            graph = <CRPGraph />;
             break;
         }
         default:

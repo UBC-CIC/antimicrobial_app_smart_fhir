@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ChartJS from "chart.js";
 import {connect} from "react-redux";
 import {Button, Divider, Grid, Icon, Input} from "semantic-ui-react";
+import "../../GraphView.css";
 
 
 
@@ -18,7 +19,7 @@ const BloodPressureGraph = (props) => {
         lowerBound: 0,
         stepSize: 20
     });
-    const {bloodPressureData, graphDate} = props;
+    const {bloodPressureData, graphDateStart, graphDateEnd} = props;
 
     useEffect(() => {
         let bpData = {
@@ -27,7 +28,10 @@ const BloodPressureGraph = (props) => {
         };
         if (bloodPressureData) {
             bloodPressureData.forEach(entry => {
-                if ((Date.parse(new Date(entry.timestamp)) - (Date.parse(graphDate))) >= 0) {
+                if (((Date.parse(new Date(entry.timestamp)) - (Date.parse(graphDateStart))) >= 0)
+                    &&
+                    ((Date.parse(graphDateEnd)) - (Date.parse(new Date(entry.timestamp))) >= 0)
+                )  {
                     if (entry.type === "systolic blood pressure") {
                         bpData.systolic.push({
                             x: new Date(entry.timestamp),
@@ -45,14 +49,16 @@ const BloodPressureGraph = (props) => {
         bpData.systolic.sort((a,b) => a.x - b.x);
         bpData.diastolic.sort((a,b) => a.x - b.x);
         setGraphData(bpData);
-    }, [graphDate]);
+    }, [graphDateStart, graphDateEnd]);
 
     useEffect(() => {
         if (thisChart) {
             thisChart.destroy();
         }
-        let chart = buildGraph();
-        setChart(chart);
+        if ((graphData.systolic.length > 0) || (graphData.diastolic.length > 0)) {
+            let chart = buildGraph();
+            setChart(chart);
+        }
     }, [lowerBound, upperBound, stepSize, graphData]);
 
     const buildGraph = () => {
@@ -102,6 +108,10 @@ const BloodPressureGraph = (props) => {
                             scaleLabel: {
                                 display: true,
                                 labelString: "Date"
+                            },
+                            ticks: {
+                                min: new Date(graphDateStart),
+                                max: new Date(graphDateEnd)
                             }
                         }
                     ]
@@ -161,7 +171,14 @@ const BloodPressureGraph = (props) => {
     <Grid>
         <Grid.Row columns={2}>
             <Grid.Column width={11}>
-                <canvas id="bloodPressureGraph" width="500" height="400" style={{backgroundColor: "white", padding: "10px", width: "100%"}} />
+                {((graphData.systolic.length === 0) && (graphData.diastolic.length === 0)) ?
+                    <div>
+                        <h3>Sorry, no data visible within selected date range.</h3>
+                        <div><canvas id="bloodPressureGraph" width="800" height="500" style={{backgroundColor: "white", padding: "10px", width: "100%"}} /></div>
+                    </div>
+                    :
+                    <canvas id="bloodPressureGraph" width="800" height="500" style={{backgroundColor: "white", padding: "10px", width: "100%"}} />
+                }
             </Grid.Column>
             <Grid.Column width={1}>
                 <Grid divided style={{height: "100%", padding: "0px"}}>
@@ -275,7 +292,8 @@ const BloodPressureGraph = (props) => {
 const mapStateToProps = (state) => {
     return {
         bloodPressureData: state.patientData.graphingData.bloodPressure,
-        graphDate: state.patientData.graphDataStartDate,
+        graphDateStart: state.patientData.graphDataStartDate,
+        graphDateEnd: state.patientData.graphDataEndDate,
     };
 };
 

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import ApplicationNavigation from 'terra-application/lib/application-navigation';
 import PatientView from "../Pages/PatientView/PatientView";
 import {Grid, Icon, Menu, Sidebar} from "semantic-ui-react";
+import {Link} from "react-router-dom";
 import "./PageContainer.css";
 
 
@@ -37,7 +38,7 @@ const navigationItems = [
 
 const PageContainer = (props) => {
     const [activeNavItem, setActiveNavItem] = useState('Patient_1');
-    const [activeSidebarItem, setActiveSidebarItem] = useState("home");
+    const [activeSidebarItem, setActiveSidebarItem] = useState("");
     const {patient} = props;
     let age;
     if (patient.birthDate) {
@@ -45,6 +46,7 @@ const PageContainer = (props) => {
         let birthYear = new Date(patient.birthDate).getFullYear()
         age = currentYear - birthYear;
     }
+    
     return (
         <ApplicationNavigation
             titleConfig={titleConfig}
@@ -106,8 +108,9 @@ const PageContainer = (props) => {
                                                 <Menu icon={"labeled"} fluid vertical style={{backgroundColor: "#4e7a99"}}>
                                                     <Menu.Item
                                                         name={"home"}
-                                                        as={"a"}
-                                                        active={activeSidebarItem === "home"}
+                                                        as={Link}
+                                                        to={"/"}
+                                                        active={activeSidebarItem === "home" || activeSidebarItem === ""}
                                                         onClick={() => setActiveSidebarItem("home")}
                                                         style={{color: "white"}}
                                                     >
@@ -117,7 +120,8 @@ const PageContainer = (props) => {
                                                     </Menu.Item >
                                                     <Menu.Item
                                                         name={"static"}
-                                                        as={"a"}
+                                                        as={Link}
+                                                        to={"/static"}
                                                         active={activeSidebarItem === "static"}
                                                         onClick={() => setActiveSidebarItem("static")}
                                                         style={{color: "white"}}

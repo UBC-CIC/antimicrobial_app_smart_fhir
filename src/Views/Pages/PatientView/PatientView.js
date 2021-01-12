@@ -1,7 +1,9 @@
 import React, { useState }  from 'react';
 import {connect} from "react-redux";
 import {Grid} from "semantic-ui-react";
+import { Route, Switch} from 'react-router-dom';
 import DataViewer from "../../../Components/DataViewer/DataViewer";
+import StaticViewer from "../../../Components/StaticViewer/StaticViewer";
 
 
 const PatientView = (props) => {
@@ -11,7 +13,10 @@ const PatientView = (props) => {
             <Grid.Column>
                 <Grid.Row>
                     <Grid.Column>
-                        <DataViewer />
+                        <Switch>
+                            <Route exact path={"/"} component={DataViewer}/>
+                            <Route path={"/static"} component={StaticViewer}/>
+                        </Switch>
                     </Grid.Column>
                 </Grid.Row>
             </Grid.Column>

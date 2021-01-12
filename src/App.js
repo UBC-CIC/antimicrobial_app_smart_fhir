@@ -1,15 +1,13 @@
 import './App.css';
 import React from "react";
 import { connect } from "react-redux";
+import { BrowserRouter } from 'react-router-dom';
 import ApplicationBase from 'terra-application/lib/application-base';
 import ApplicationLoadingOverlay from 'terra-application/lib/application-loading-overlay';
 import PageContainer from "./Views/PageContainer/PageContainer";
 import {setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData} from "./Actions/patientContextActions";
 import {setLoadingFlag, unsetLoadingFlag, setTGT} from "./Actions/appStateActions";
-import medicationIdentifier from "./Services/ComprehendMedical/medicationIdentifier";
-import medicationParser from "./Services/ComprehendMedical/medicationParser";
 import generateTGT from "./Services/UMLS/generateTGT";
-import generateUMLSToken from "./Services/UMLS/generateUMLSToken";
 import 'semantic-ui-css/semantic.min.css';
 const axios = require('axios');
 require('dotenv').config()
@@ -70,10 +68,12 @@ class App extends React.Component {
               if (observation.length > 0) {
                   let observationArray= [];
                   for (let array of observation) {
-                      if (array.entry.length > 0) {
-                          array.entry.forEach(observed => {
-                              observationArray.push(observed);
-                          })
+                      if (array.entry) {
+                          if (array.entry.length > 0) {
+                              array.entry.forEach(observed => {
+                                  observationArray.push(observed);
+                              })
+                          }
                       }
                   }
                   setObservationData(observationArray);
@@ -89,11 +89,13 @@ class App extends React.Component {
               if (allergy.length > 0) {
               let allergyArray = [];
               for (let array of allergy) {
-                if (array.entry.length > 0) {
-                     array.entry.forEach(item => {
+                  if (array.entry) {
+                      if (array.entry.length > 0) {
+                          array.entry.forEach(item => {
                               allergyArray.push(item);
                           })
-                }
+                      }
+                  }
               }
                   setAllergyData({allergies: allergyArray, tgt: tgt});
               }
@@ -109,11 +111,13 @@ class App extends React.Component {
               if (medication.length > 0) {
               let medicationArray = [];
               for (let array of medication) {
-                if (array.entry.length > 0) {
-                    array.entry.forEach(item => {
+                  if (array.entry) {
+                      if (array.entry.length > 0) {
+                          array.entry.forEach(item => {
                               medicationArray.push(item);
                           })
-                }
+                      }
+                  }
               }
                   setMedicationData({medications: medicationArray, tgt: tgt});
               }
@@ -128,10 +132,12 @@ class App extends React.Component {
               if (diagnosticReports.length > 0) {
                   let diagnosticReportArray = [];
                   for (let array of diagnosticReports) {
-                      if (array.entry.length > 0) {
-                          array.entry.forEach(item => {
-                              diagnosticReportArray.push(item);
-                          })
+                      if (array.entry) {
+                          if (array.entry.length > 0) {
+                              array.entry.forEach(item => {
+                                  diagnosticReportArray.push(item);
+                              })
+                          }
                       }
                   }
               }
@@ -163,8 +169,8 @@ class App extends React.Component {
           console.log("observations: ", observation);
           console.log("allergies: ", allergy);
           console.log("medications: ", medication);
-          //console.log("diagnostic reports: ", diagnosticReports);
-          //console.log("conditions: ", conditions);
+          console.log("diagnostic reports: ", diagnosticReports);
+          console.log("conditions: ", conditions);
 
           if (this._isMounted) {
               this.setState({
@@ -198,7 +204,9 @@ class App extends React.Component {
       <ApplicationBase locale={"en"}>
           <div className="App" style={{height: "100vh", width: "100vw", backgroundColor: "#f2f8fc"}}>
               {(isLoadingData)? <ApplicationLoadingOverlay isOpen={isLoadingData} /> :
-                  <PageContainer client={client} name={name} />
+                  <BrowserRouter>
+                      <PageContainer client={client} name={name} />
+                  </BrowserRouter>
               }
           </div>
       </ApplicationBase>
