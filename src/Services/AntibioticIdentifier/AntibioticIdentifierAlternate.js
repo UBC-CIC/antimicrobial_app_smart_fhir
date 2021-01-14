@@ -67,7 +67,6 @@ const hierarchyHelper = async (rxNormCodes) => {
         try {
             let meshResponse = await axios.get(`https://rxnav.nlm.nih.gov/REST/rxclass/class/byRxcui.json?rxcui=${rxNormCode}&relaSource=MESH`);
             if (meshResponse) {
-               console.log("meshResponse: ", meshResponse);
                if (meshResponse.data.rxclassDrugInfoList) {
                     for (let entry of meshResponse.data.rxclassDrugInfoList.rxclassDrugInfo) {
                         if (entry.rxclassMinConceptItem.classId === "D000900") {
@@ -84,7 +83,6 @@ const hierarchyHelper = async (rxNormCodes) => {
         try {
             let atcResponse = await axios.get(`https://rxnav.nlm.nih.gov/REST/rxclass/class/byRxcui.json?rxcui=${rxNormCode}&relaSource=ATC`);
             if (atcResponse) {
-                console.log("atcResponse: ", atcResponse);
                 if (atcResponse.data.rxclassDrugInfoList){
                     for (let entry of atcResponse.data.rxclassDrugInfoList.rxclassDrugInfo) {
                         if (entry.rxclassMinConceptItem.classId.startsWith("J") || entry.rxclassMinConceptItem.classId.startsWith("QJ")) {
@@ -101,7 +99,6 @@ const hierarchyHelper = async (rxNormCodes) => {
         try {
             let fmtsmeResponse = await axios.get(`https://rxnav.nlm.nih.gov/REST/rxclass/class/byRxcui.json?rxcui=${rxNormCode}&relaSource=FMTSME&relas=has_tc`);
             if (fmtsmeResponse) {
-                console.log("fmtsmeResponse: ", fmtsmeResponse);
                 if (fmtsmeResponse.data.rxclassDrugInfoList){
                     for (let entry of fmtsmeResponse.data.rxclassDrugInfoList.rxclassDrugInfo) {
                         if (entry.rxclassMinConceptItem.classId === "N0000178296") {

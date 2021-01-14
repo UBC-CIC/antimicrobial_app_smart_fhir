@@ -1,6 +1,5 @@
 import medicationIdentifier from "../Services/ComprehendMedical/medicationIdentifier";
 import medicationParser from "../Services/ComprehendMedical/medicationParser";
-import generateUMLSToken from "../Services/UMLS/generateUMLSToken";
 import antibioticIdentifier from "../Services/AntibioticIdentifier/AntibioticIdentifier.js";
 import antibioticIdentifierAlternate from "../Services/AntibioticIdentifier/AntibioticIdentifierAlternate";
 const axios = require('axios');
@@ -79,30 +78,6 @@ export const processMedicationData = (meds) => {
                 }
                 if (rxNormCodes.length > 0) {
                     shouldInclude = await antibioticIdentifierAlternate(rxNormCodes, tgt);
-                    console.log("Antibiotic identifier alternate response: ", shouldInclude);
-                    /*let linkSNOWEndpoint = `https://rxnav.nlm.nih.gov/REST/rxcui/${rxNormCodes[0]}/property.json?propName=SNOMEDCT`;
-                    let rxNormResponseSNOW = await axios.get(linkSNOWEndpoint);
-                    console.log("Snowmed: ", rxNormResponseSNOW);
-                    let snowCodes = [];
-                    if (rxNormResponseSNOW) {
-                        if (rxNormResponseSNOW.data.propConceptGroup) {
-                            let properties = rxNormResponseSNOW.data.propConceptGroup.propConcept;
-                            if (properties.length > 0) {
-                                properties.forEach(property => {
-                                    snowCodes.push(property.propValue);
-                                });
-                            }
-                        }
-                    }
-                   if (snowCodes.length !== 0) {
-                        for (let entry of snowCodes) {
-                            let token = await generateUMLSToken(tgt);
-                            let authURL = `https://uts-ws.nlm.nih.gov/rest/content/current/source/SNOMEDCT_US/${entry}/relations?includeAdditionalRelationLabels=plays_role&ticket=${token}`;
-                            let snowResults = await axios.get(authURL);
-                            console.log("snowmed results: ", snowResults);
-                        }
-                    }*/
-
                 }
             } catch (e) {
 
@@ -382,5 +357,86 @@ export const processAllergyData = (payload) => {
 
 
         dispatch({type: "SET_ALLERGY_DATA", payload: allergyArray});
+    }
+}
+
+//============================================---SET DIAGNOSTIC DATA---===============================================
+
+export const setDiagnosticData = (payload) => {
+    return async (dispatch) => {
+        await dispatch(processDiagnosticData(payload.diagnostics, payload.client));
+    }
+}
+
+export const processDiagnosticData = (diagnostics, client) => {
+    return async (dispatch) => {
+        let organismArray = [];
+        //let imagingArray = [];
+
+        for (let entry of diagnostics) {
+            let code = "";
+            if (entry.resource.category) {
+                code = entry.resource.category[0].coding[0].code;
+            }
+
+            switch (code) {
+                case "MB": {
+                    let testResultArray = [];
+                    if (entry.resource.result) {
+                        if (entry.resource.result.length > 0) {
+                            for (let result of entry.resource.result) {
+                                try {
+                                    let observation = await client.request(result.reference);
+                                    if (observation.interpretation) {
+                                         let testEntry = {
+                                             medication: observation.code.coding[0].display,
+                                             testResult: observation.interpretation[0].coding[0].code
+                                         }
+                                         testResultArray.push(testEntry);
+                                    }
+                                } catch (e) {
+                                    console.log("Error fetching diagnostic observation: ", e);
+                                }
+
+                            }
+                        }
+                    }
+                    let timestamp;
+                    let organism;
+                    try {
+                        if (entry.resource.code) {
+                            if (entry.resource.code.coding) {
+                                if (entry.resource.code.coding[0].display) {
+                                    organism = entry.resource.code.coding[0].display;
+                                } else {
+                                    organism = entry.resource.code.text;
+                                }
+                            }
+                        }
+
+                        if (entry.resource.effectiveDateTime) {
+                            timestamp = new Date(entry.resource.effectiveDateTime);
+                        } else if (entry.resource.issued) {
+                            timestamp = new Date(entry.resource.issued);
+                        } else {
+                            timestamp = "N/A"
+                        }
+                    } catch (e) {
+
+                    }
+                    let organismEntry = {
+                        description: organism,
+                        timestamp: timestamp,
+                        testResults: testResultArray,
+                    }
+
+                    organismArray.push(organismEntry);
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+        dispatch({type: "SET_ORGANISM_DATA", payload: organismArray});
     }
 }

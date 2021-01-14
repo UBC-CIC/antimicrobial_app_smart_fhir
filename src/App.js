@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ApplicationBase from 'terra-application/lib/application-base';
 import ApplicationLoadingOverlay from 'terra-application/lib/application-loading-overlay';
 import PageContainer from "./Views/PageContainer/PageContainer";
-import {setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData} from "./Actions/patientContextActions";
+import {setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData, setDiagnosticData} from "./Actions/patientContextActions";
 import {setLoadingFlag, unsetLoadingFlag, setTGT} from "./Actions/appStateActions";
 import generateTGT from "./Services/UMLS/generateTGT";
 import 'semantic-ui-css/semantic.min.css';
@@ -27,7 +27,8 @@ class App extends React.Component {
 
   async componentDidMount() {
       this._isMounted = true;
-      const {client, setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData, setLoadingFlag, unsetLoadingFlag, setTGT} = this.props;
+      const {client, setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData, setDiagnosticData,
+          setLoadingFlag, unsetLoadingFlag, setTGT} = this.props;
       try {
           setLoadingFlag();
           let tgt;
@@ -140,6 +141,27 @@ class App extends React.Component {
                           }
                       }
                   }
+                  setDiagnosticData({diagnostics: diagnosticReportArray, client: client});
+              }
+          }
+          let procedures;
+          try {
+              procedures = await client.patient.request("Procedure", {pageLimit: 0});
+          } catch (e) {
+              console.log("Fetching Procedure Resource failed: ", e);
+          }
+          if (procedures) {
+              if (procedures.length > 0) {
+                  let proceduresArray = [];
+                  for (let array of procedures) {
+                      if (array.entry) {
+                          if (array.entry.length > 0) {
+                              array.entry.forEach(item => {
+                                  proceduresArray.push(item);
+                              })
+                          }
+                      }
+                  }
               }
 
           }
@@ -161,7 +183,6 @@ class App extends React.Component {
                       }
                   setConditionData(conditionArray);
                   }
-
               }
 
 
@@ -171,6 +192,7 @@ class App extends React.Component {
           console.log("medications: ", medication);
           console.log("diagnostic reports: ", diagnosticReports);
           console.log("conditions: ", conditions);
+          console.log("procedures: ", procedures);
 
           if (this._isMounted) {
               this.setState({
@@ -230,6 +252,7 @@ const mapDispatchToProps = {
     setMedicationData,
     setObservationData,
     setConditionData,
+    setDiagnosticData,
     setTGT
 }
 

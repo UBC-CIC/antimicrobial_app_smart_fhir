@@ -7,7 +7,7 @@ import "./CriticalFlags.css";
 
 const CriticalFlags = (props) => {
 
-    const {allergies, antibiotics, diseases} = props;
+    const {allergies, antibiotics, diseases, organisms} = props;
     let allergyList = [];
     if (allergies) {
         allergyList = allergies.map((allergy, index) => {
@@ -28,6 +28,13 @@ const CriticalFlags = (props) => {
         })
     }
 
+    let organismList = [];
+    if (organisms) {
+        organismList = organisms.map((organism, index) => {
+            return <div key={index} style={{padding: "0px"}}><div style={{padding: "0px"}}>{organism.description}</div><Divider style={{padding: "0px"}} /></div>
+        })
+    }
+
 return(
     <Grid.Column  width={12}>
         <Grid className={"criticalFlagsContainer"} >
@@ -42,7 +49,7 @@ return(
                         <Grid.Row columns={4} style={{height: "80px !important"}}>
                             <Grid.Column textAlign={"center"} verticalAlign={"top"}>
                                 <ModalManager>
-                                    <Flag title={"Resistant Organisms:"} content={""} modalData={null} type={"organism"} alert={false} />
+                                    <Flag title={"Resistant Organisms:"} content={organismList} modalData={organisms} type={"organism"} alert={(organisms)?  (organisms.length > 0) : false} />
                                 </ModalManager>
                             </Grid.Column>
                             <Grid.Column textAlign={"center"} verticalAlign={"top"}>
@@ -77,6 +84,7 @@ const mapStateToProps = (state) => {
         allergies: state.patientData.allergies,
         antibiotics: state.patientData.antibiotics,
         diseases: state.patientData.diseases,
+        organisms: state.patientData.resistantOrganisms,
     };
 };
 

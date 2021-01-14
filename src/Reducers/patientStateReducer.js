@@ -197,6 +197,15 @@ const setObservationDataHelper = (observations) => {
                 crpData.push(crpEntry);
                 break;
             }
+            case "wbc": {
+                let wbcEntry = {
+                    timestamp: observation.resource.effectiveDateTime,
+                    unit: observation.resource.valueQuantity.unit,
+                    value: observation.resource.valueQuantity.value
+                }
+                wbcData.push(wbcEntry);
+                break;
+            }
             default:
                 break;
         }
@@ -292,6 +301,12 @@ const patientStateReducer = (patientState = initialPatientState, action) => {
             return {
                 ...newPatientState,
                 graphDataEndDate: action.payload,
+            }
+        }
+        case "SET_ORGANISM_DATA": {
+            return {
+                ...newPatientState,
+                resistantOrganisms: action.payload,
             }
         }
         default:

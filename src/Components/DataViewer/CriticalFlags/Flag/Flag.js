@@ -4,6 +4,7 @@ import { withDisclosureManager, DisclosureManagerHeaderAdapter } from 'terra-app
 import AllergyModal from "../Allergy/AllergyModal/AllergyModal";
 import AntibioticsModal from "../Antibiotics/AntibioticsModal/AntibioticsModal";
 import DiseaseModal from "../Disease/DiseaseModal/DiseaseModal";
+import OrganismModal from "../Organsim/OrganismModal/OrganismModal";
 import "./Flag.css";
 
 
@@ -31,6 +32,7 @@ const Flag = (props) => {
             break;
         }
         case "organism": {
+            modal = <OrganismModal organisms={modalData} />
             break;
         }
         default:

@@ -6,7 +6,7 @@ import { DisclosureManagerHeaderAdapter } from 'terra-application/lib/disclosure
 
 const AllergyModal = (props) => {
     const {allergies} = props;
-    console.log("allergies Data: ", allergies);
+
     let tableData = [];
     let rows = {};
     let rowData = [];

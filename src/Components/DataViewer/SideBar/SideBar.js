@@ -65,7 +65,16 @@ const VerticalSidebar = (props) => {
             procedures: procedures,
         })
 
-    }, [props.availableData.bloodPressure.length, props.availableData.temperature.length])
+    }, [props.availableData.bloodPressure.length,
+        props.availableData.temperature.length,
+        props.availableData.wbc.length,
+        props.availableData.crp,
+        props.availableData.procalcitonin,
+        props.availableData.heartRate,
+        props.availableData.respiratoryRate,
+        props.availableData.oxygenSaturation,
+        props.availableData.oxygenMode
+    ])
 
     useEffect(() => {
         setGraph(props.defaultGraph);
