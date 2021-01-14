@@ -10,6 +10,7 @@ import HeartRateGraph from "./Graphs/HeartRate/HeartRateGraph";
 import RespiratoryRateGraph from "./Graphs/RespiratoryRate/RespiratoryRateGraph";
 import OxygenSaturationGraph from "./Graphs/OxygenSaturation/OxygenSaturationGraph";
 import CRPGraph from "./Graphs/CRP/CRPGraph";
+import WBCGraph from "./Graphs/WBC/WBCGraph";
 
 
 
@@ -45,6 +46,10 @@ const GraphView = (props) => {
         }
         case "crp": {
             graph = <CRPGraph />;
+            break;
+        }
+        case "wbc": {
+            graph = <WBCGraph />;
             break;
         }
         default:

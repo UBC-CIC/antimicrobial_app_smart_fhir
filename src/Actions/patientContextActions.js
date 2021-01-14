@@ -440,3 +440,11 @@ export const processDiagnosticData = (diagnostics, client) => {
         dispatch({type: "SET_ORGANISM_DATA", payload: organismArray});
     }
 }
+
+//==============================================---SET PROCEDURE DATA---============================================
+
+export const setProcedureData = (payload) => {
+    return (dispatch) => {
+
+    }
+}

@@ -10,6 +10,7 @@ const StaticViewer = (props) => {
     const {graphDateStart, graphDateEnd} = props;
     const [startDate, setStartDate] = useState(graphDateStart);
     const [endDate, setEndDate] = useState(graphDateEnd);
+    const [mode, setMode] = useState("Documents");
 
     const filterDate = (date) => {
         const formattedDate = new Date(date).getTime();
@@ -41,7 +42,10 @@ const StaticViewer = (props) => {
                         <Grid.Row style={{paddingBottom: "3px"}}>
                             <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
                                 <Button.Group fluid>
-                                    <Button>
+                                    <Button
+                                    active={(mode === "Documents")}
+                                    onClick={() => setMode("Documents")}
+                                    >
                                         <Grid>
                                             <Grid.Row>
                                                 <Grid.Column textAlign={"left"} verticalAlign={"middle"}>
@@ -50,7 +54,10 @@ const StaticViewer = (props) => {
                                             </Grid.Row>
                                         </Grid>
                                     </Button>
-                                    <Button>
+                                    <Button
+                                    active={(mode === "Results")}
+                                    onClick={() =>  setMode("Results")}
+                                    >
                                         <Grid>
                                             <Grid.Row>
                                                 <Grid.Column textAlign={"left"} verticalAlign={"middle"}>
