@@ -1,0 +1,19 @@
+
+.documentOptionButton {
+    background-color: #728c99 !important;
+}
+
+#documentConsultButton {
+    background-color: #acddfd !important;
+    border: 1px solid blue;
+}
+
+#documentImagingButton {
+    background-color: #acddfd !important;
+    border: 1px solid blue;
+}
+
+#documentProcedureButton {
+    background-color: #acddfd !important;
+    border: 1px solid blue;
+}

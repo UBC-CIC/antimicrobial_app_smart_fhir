@@ -9,7 +9,7 @@ import Radio from 'terra-form-radio';
 
 const VerticalSidebar = (props) => {
     const {setGraphDataStart, setGraphDataEnd, graphDateStart, graphDateEnd} = props;
-    const [graphToDisplay, setGraph] = useState("temperature");
+    const [graphToDisplay, setGraph] = useState("");
     const [dateStartOpen, setStartDateOpen] = useState(false);
     const [dateEndOpen, setEndDateOpen] = useState(false);
     const [selectedStartDate, handleStartDateChange] = useState(new Date("2000-01-01T00:00:00.000Z"));

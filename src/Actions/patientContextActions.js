@@ -2,6 +2,12 @@ import medicationIdentifier from "../Services/ComprehendMedical/medicationIdenti
 import medicationParser from "../Services/ComprehendMedical/medicationParser";
 import antibioticIdentifier from "../Services/AntibioticIdentifier/AntibioticIdentifier.js";
 import antibioticIdentifierAlternate from "../Services/AntibioticIdentifier/AntibioticIdentifierAlternate";
+import conditionProcessing from "../Services/RawDataProcessing/conditionProcessing";
+import diagnosticReportProcessing from "../Services/RawDataProcessing/diagnosticReportProcessing";
+import allergyProcessing from "../Services/RawDataProcessing/allergyProcessing";
+import procedureProcessing from "../Services/RawDataProcessing/procedureProcessing";
+import medicationProcessing from "../Services/RawDataProcessing/medicationProcessing";
+import observationProcessing from "../Services/RawDataProcessing/observationProcessing";
 const axios = require('axios');
 
 
@@ -445,6 +451,85 @@ export const processDiagnosticData = (diagnostics, client) => {
 
 export const setProcedureData = (payload) => {
     return (dispatch) => {
+        dispatch(processProcedureData(payload));
+    }
+}
 
+export const processProcedureData = (payload) => {
+    return (dispatch) => {
+        let procedureArray = [];
+        for (let procedure of payload) {
+
+            let description;
+            let startDate;
+            let endDate;
+            let status = "N/A";
+
+            try {
+
+                let resource = procedure.resource;
+                if (resource.code) {
+                    if (resource.code.coding) {
+                        description = resource.code.coding[0].display;
+                    }
+                }
+                if (resource.performedPeriod) {
+                    if (resource.performedPeriod) {
+                        startDate = new Date(resource.performedPeriod.start);
+                        endDate = new Date(resource.performedPeriod.end);
+                    }
+                } else if (resource.performedDateTime) {
+                    startDate = new Date(resource.performedDateTime);
+                    endDate = new Date(resource.performedDateTime);
+                }
+
+                if (resource.status) {
+                    status = resource.status;
+                }
+
+            } catch (e) {
+
+            }
+
+            let procedureEntry = {
+                description: description,
+                startDate: startDate,
+                endDate: endDate,
+                status: status
+            }
+            procedureArray.push(procedureEntry);
+        }
+        dispatch({type: "SET_PROCEDURE_DATA", payload: procedureArray});
+    }
+}
+
+//===============================================---SET RAW DATA---=================================================
+
+export const setRawData = (payload) => {
+    return (dispatch) => {
+        dispatch(processRawData(payload))
+    }
+}
+
+export const processRawData = (payload) => {
+    return (dispatch) => {
+        const { observations, allergies, medications, conditions, procedures, diagnosticReports} = payload;
+        let allergyResult = allergyProcessing(allergies);
+        let medicationResult = medicationProcessing(medications);
+        let observationResult = observationProcessing(observations);
+        let procedureResult = procedureProcessing(procedures);
+        let conditionResult = conditionProcessing(conditions);
+        let diagnosticReportsResult = diagnosticReportProcessing(diagnosticReports);
+        console.log("raw data: ", payload);
+        let rawDataPayload = {
+            allergies: allergyResult,
+            medications: medicationResult,
+            observations: observationResult,
+            conditions: conditionResult,
+            procedures: procedureResult,
+            diagnosticReports: diagnosticReportsResult
+        }
+        console.log("processed raw data: ", rawDataPayload);
+        dispatch({type: "SET_RAW_DATA", payload: rawDataPayload});
     }
 }

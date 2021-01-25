@@ -5,6 +5,8 @@ const initialPatientState = {
     antibiotics: null,
     diseases: null,
     resistantOrganisms: null,
+    procedures: [],
+    imaging: [],
     graphingData: {
         temperature: [],
         bloodPressure: [],
@@ -19,6 +21,14 @@ const initialPatientState = {
     graphToDisplay: null,
     graphDataStartDate: new Date("2000-01-01T00:00:00.000Z"),
     graphDataEndDate: new Date(),
+    rawData: {
+        allergies: [],
+        medications: [],
+        observations: [],
+        conditions: [],
+        procedures: [],
+        diagnosticReports: []
+    }
 }
 
 
@@ -307,6 +317,25 @@ const patientStateReducer = (patientState = initialPatientState, action) => {
             return {
                 ...newPatientState,
                 resistantOrganisms: action.payload,
+            }
+        }
+        case "SET_RAW_DATA": {
+            return {
+                ...newPatientState,
+                rawData: {
+                    allergies: action.payload.allergies,
+                    medications: action.payload.medications,
+                    observations: action.payload.observations,
+                    conditions: action.payload.conditions,
+                    procedures: action.payload.procedures,
+                    diagnosticReports: action.payload.diagnosticReports
+                }
+            }
+        }
+        case "SET_PROCEDURE_DATA": {
+            return {
+                ...newPatientState,
+                procedures: action.payload,
             }
         }
         default:

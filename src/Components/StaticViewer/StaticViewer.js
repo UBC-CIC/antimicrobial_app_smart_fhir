@@ -1,32 +1,13 @@
 import React, {useState} from 'react';
 import {Grid, Button, Input} from "semantic-ui-react";
-import DatePicker from 'terra-date-picker';
-import {connect} from "react-redux";
+import DocumentView from "./Documents/DocumentView";
+import ResultView from "./Results/ResultView";
 import "./StaticViewer.css";
 
 
 
 const StaticViewer = (props) => {
-    const {graphDateStart, graphDateEnd} = props;
-    const [startDate, setStartDate] = useState(graphDateStart);
-    const [endDate, setEndDate] = useState(graphDateEnd);
     const [mode, setMode] = useState("Documents");
-
-    const filterDate = (date) => {
-        const formattedDate = new Date(date).getTime();
-        const formattedStart = new Date(startDate).getTime();
-        const formattedEnd = new Date(endDate).getTime();
-
-        return (formattedDate >= formattedStart) && (formattedDate <= formattedEnd);
-    }
-
-    const handleEndDate = (event, date) => {
-        setEndDate(date);
-    }
-
-    const handleStartDate = (event, date) => {
-        setStartDate(date);
-    }
 
     return(
         <Grid style={{height: "100%"}}>
@@ -69,63 +50,7 @@ const StaticViewer = (props) => {
                                 </Button.Group>
                             </Grid.Column>
                         </Grid.Row>
-                        <Grid.Row style={{paddingTop: "0px"}}>
-                            <Grid.Column width={3} textAlign={"left"} verticalAlign={"middle"}>
-                                <Input
-                                    icon='search'
-                                    iconPosition='left'
-                                    placeholder='Search...'
-                                    inverted
-                                />
-                            </Grid.Column>
-                            <Grid.Column width={5} verticalAlign={"middle"}>
-                                <Grid>
-                                    <Grid.Row>
-                                        <Grid.Column>
-                                            <span>
-                                            <Button size={"mini"} basic className={"documentOptionButton"}>
-                                            ID Consults
-                                         </Button>
-                                            <Button size={"mini"} basic className={"documentOptionButton"}>
-                                                Imaging
-                                            </Button>
-                                             <Button size={"mini"} basic className={"documentOptionButton"}>
-                                                Procedures
-                                            </Button>
-                                        </span>
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                </Grid>
-                            </Grid.Column>
-                            <Grid.Column width={8} verticalAlign={"middle"}>
-                             <Grid>
-                                 <Grid.Row>
-                                     <Grid.Column width={8} verticalAlign={"middle"}>
-                                         Start:
-                                         {' '}
-                                         <DatePicker
-                                         name={"date-input"}
-                                         id={"startPicker"}
-                                         onChange={handleStartDate}
-                                         selectedDate={graphDateStart.toISOString()}
-                                         filterDate={filterDate}
-                                         />
-                                     </Grid.Column>
-                                     <Grid.Column width={8}>
-                                         End:
-                                         {' '}
-                                         <DatePicker
-                                             name={"date-input"}
-                                             id={"endPicker"}
-                                             onChange={handleEndDate}
-                                             selectedDate={graphDateEnd.toISOString()}
-                                             filterDate={filterDate}
-                                         />
-                                     </Grid.Column>
-                                 </Grid.Row>
-                             </Grid>
-                            </Grid.Column>
-                        </Grid.Row>
+                        {(mode === "Documents")? <DocumentView /> : <ResultView/>}
                     </Grid>
                 </Grid.Column>
                 <Grid.Column width={1} />
@@ -134,11 +59,5 @@ const StaticViewer = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        graphDateStart: state.patientData.graphDataStartDate,
-        graphDateEnd: state.patientData.graphDataEndDate,
-    };
-};
 
-export default connect(mapStateToProps, null)(StaticViewer);
+export default StaticViewer;

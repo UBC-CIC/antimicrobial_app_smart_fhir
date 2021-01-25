@@ -5,7 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 import ApplicationBase from 'terra-application/lib/application-base';
 import ApplicationLoadingOverlay from 'terra-application/lib/application-loading-overlay';
 import PageContainer from "./Views/PageContainer/PageContainer";
-import {setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData, setDiagnosticData} from "./Actions/patientContextActions";
+import {setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData, setRawData,
+    setDiagnosticData} from "./Actions/patientContextActions";
 import {setLoadingFlag, unsetLoadingFlag, setTGT} from "./Actions/appStateActions";
 import generateTGT from "./Services/UMLS/generateTGT";
 import 'semantic-ui-css/semantic.min.css';
@@ -27,8 +28,8 @@ class App extends React.Component {
 
   async componentDidMount() {
       this._isMounted = true;
-      const {client, setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData, setDiagnosticData,
-          setLoadingFlag, unsetLoadingFlag, setTGT} = this.props;
+      const {client, setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData,
+          setDiagnosticData, setRawData, setLoadingFlag, unsetLoadingFlag, setTGT} = this.props;
       try {
           setLoadingFlag();
           let tgt;
@@ -65,9 +66,9 @@ class App extends React.Component {
           } catch (e) {
               console.log("Fetching Observation Resource failed: ", e);
           }
+          let observationArray= [];
           if (observation) {
               if (observation.length > 0) {
-                  let observationArray= [];
                   for (let array of observation) {
                       if (array.entry) {
                           if (array.entry.length > 0) {
@@ -86,9 +87,9 @@ class App extends React.Component {
           } catch (e) {
               console.log("Fetching AllergyIntolerance Resource failed: ", e);
           }
+          let allergyArray = [];
           if (allergy) {
               if (allergy.length > 0) {
-              let allergyArray = [];
               for (let array of allergy) {
                   if (array.entry) {
                       if (array.entry.length > 0) {
@@ -108,9 +109,9 @@ class App extends React.Component {
          } catch (e) {
              console.log("Fetching MedicationRequest Resource failed: ", e);
          }
+          let medicationArray = [];
           if (medication) {
               if (medication.length > 0) {
-              let medicationArray = [];
               for (let array of medication) {
                   if (array.entry) {
                       if (array.entry.length > 0) {
@@ -129,9 +130,9 @@ class App extends React.Component {
          } catch (e) {
              console.log("Fetching DiagnosticReport Resource failed: ", e);
          }
+          let diagnosticReportArray = [];
           if (diagnosticReports) {
               if (diagnosticReports.length > 0) {
-                  let diagnosticReportArray = [];
                   for (let array of diagnosticReports) {
                       if (array.entry) {
                           if (array.entry.length > 0) {
@@ -150,9 +151,9 @@ class App extends React.Component {
           } catch (e) {
               console.log("Fetching Procedure Resource failed: ", e);
           }
+          let proceduresArray = [];
           if (procedures) {
               if (procedures.length > 0) {
-                  let proceduresArray = [];
                   for (let array of procedures) {
                       if (array.entry) {
                           if (array.entry.length > 0) {
@@ -171,9 +172,9 @@ class App extends React.Component {
           } catch (e) {
               console.log("Fetching Condition Resource failed: ", e);
           }
+          let conditionArray = [];
           if (conditions) {
               if (conditions.length > 0) {
-                  let conditionArray = [];
                   for (let array of conditions) {
                       if (array.entry.length > 0) {
                           array.entry.forEach(item => {
@@ -185,7 +186,9 @@ class App extends React.Component {
                   }
               }
 
-
+          setRawData({observations: observationArray, allergies: allergyArray,
+                      medications: medicationArray, conditions: conditionArray, procedures: proceduresArray,
+                      diagnosticReports: diagnosticReportArray});
           console.log("patient: ", patient);
           console.log("observations: ", observation);
           console.log("allergies: ", allergy);
@@ -253,6 +256,7 @@ const mapDispatchToProps = {
     setObservationData,
     setConditionData,
     setDiagnosticData,
+    setRawData,
     setTGT
 }
 
