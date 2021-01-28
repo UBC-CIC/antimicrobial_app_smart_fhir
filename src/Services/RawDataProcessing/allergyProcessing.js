@@ -1,8 +1,7 @@
-import medicationParser from "../ComprehendMedical/medicationParser";
-
+// processes raw allergy data
 const allergyProcessing = (allergies) => {
     let processedData = [];
-    console.log("allergy processing data: ", allergies);
+
     for (let allergy of allergies) {
         if (allergy.resource.code) {
             let reaction;
@@ -33,7 +32,7 @@ const allergyProcessing = (allergies) => {
                 }
 
                 if (allergy.resource.recordedDate) {
-                    date = allergy.resource.recordedDate;
+                    date = new Date(allergy.resource.recordedDate);
                 }
 
 

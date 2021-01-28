@@ -3,3 +3,8 @@
     overflow: auto;
     max-height: 200px;
 }
+
+.dataEntry {
+    border-bottom: 2px dashed gray;
+    width: 98%;
+}

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {connect} from "react-redux";
 import DatePicker from 'terra-date-picker';
 import {Button, Accordion, Divider, Grid, Input} from "semantic-ui-react";
+import { v4 as uuidv4 } from 'uuid';
 import "./ResultView.css";
 
 
@@ -19,7 +20,21 @@ const ResultView = (props) => {
         biologic: [],
         unclassified: [],
     });
+    const [observationData, setObservationData] = useState({
+        vitals: [],
+        laboratory: [],
+        imaging: [],
+        procedure: [],
+        survey: [],
+        social: [],
+        exam: [],
+        therapy: [],
+        activity: [],
+        unclassified: [],
+    })
+    const [medicationRequestData, setMedicationRequestData] = useState([]);
 
+    // Allergy Data Processing
     useEffect(() => {
         let foodArray = [];
         let medicationArray = [];
@@ -28,12 +43,17 @@ const ResultView = (props) => {
         let unclassifiedArray = [];
         if (allergies.length > 0) {
             for (let allergy of allergies) {
-                let entry = <div><pre>{JSON.stringify(allergy, null, 2)}</pre></div>
-                if (allergy.type === "unclassified") unclassifiedArray.push(entry);
-                if (allergy.type === "food") foodArray.push(entry);
-                if (allergy.type === "medication") medicationArray.push(entry);
-                if (allergy.type === "environment") environmentArray.push(entry);
-                if (allergy.type === "biologic") biologicArray.push(entry);
+                if (((Date.parse(new Date(allergy.date)) - (Date.parse(startDate))) >= 0)
+                    &&
+                    ((Date.parse(endDate)) - (Date.parse(new Date(allergy.date))) >= 0)
+                ) {
+                    let entry = <div key={uuidv4()} className={"dataEntry"}><pre>{JSON.stringify(allergy, null, 2)}</pre></div>
+                    if (allergy.type === "unclassified") unclassifiedArray.push(entry);
+                    if (allergy.type === "food") foodArray.push(entry);
+                    if (allergy.type === "medication") medicationArray.push(entry);
+                    if (allergy.type === "environment") environmentArray.push(entry);
+                    if (allergy.type === "biologic") biologicArray.push(entry);
+                }
             }
         }
         setAllergyData({
@@ -48,7 +68,74 @@ const ResultView = (props) => {
         console.log("allergy results medicationArray: ", medicationArray);
         console.log("allergy results biologicArray: ", biologicArray);
         console.log("allergy results environmentArray: ", environmentArray);
-    }, [allergies]);
+    }, [allergies, endDate, startDate]);
+
+    // Observation Data Processing
+    useEffect(() => {
+        let vitals = [];
+        let laboratory = [];
+        let imaging = [];
+        let procedure = [];
+        let survey = [];
+        let social = [];
+        let exam = [];
+        let therapy = [];
+        let activity = [];
+        let unclassified = [];
+
+        if (observations.length > 0) {
+            for (let observation of observations) {
+                if (((Date.parse(new Date(observation.timestamp)) - (Date.parse(startDate))) >= 0)
+                    &&
+                    ((Date.parse(endDate)) - (Date.parse(new Date(observation.timestamp))) >= 0)
+                ) {
+                    let entry = <div key={uuidv4()} className={"dataEntry"}><pre>{JSON.stringify(observation.data, null, 2)}</pre></div>
+                    if (observation.type === "unclassified") unclassified.push(entry);
+                    if (observation.type === "vitals") vitals.push(entry);
+                    if (observation.type === "laboratory") laboratory.push(entry);
+                    if (observation.type === "social") social.push(entry);
+                    if (observation.type === "procedure") procedure.push(entry);
+                    if (observation.type === "imaging") imaging.push(entry);
+                    if (observation.type === "survey") survey.push(entry);
+                    if (observation.type === "exam") exam.push(entry);
+                    if (observation.type === "therapy") therapy.push(entry);
+                    if (observation.type === "activity") activity.push(entry);
+                }
+            }
+        }
+        setObservationData({
+            vitals: vitals,
+            laboratory: laboratory,
+            imaging: imaging,
+            procedure: procedure,
+            survey: survey,
+            social: social,
+            exam: exam,
+            therapy:therapy,
+            activity: activity,
+            unclassified: unclassified,
+        });
+
+    }, [observations, endDate, startDate]);
+
+    // MedicationRequest Data Processing
+    useEffect(() => {
+        let medicationData = [];
+
+        if (medications.length > 0) {
+            for (let medicine of medications) {
+                if (((Date.parse(new Date(medicine.timestamp)) - (Date.parse(startDate))) >= 0)
+                    &&
+                    ((Date.parse(endDate)) - (Date.parse(new Date(medicine.timestamp))) >= 0)
+                ) {
+                    let entry = <div key={uuidv4()} className={"dataEntry"}><pre>{JSON.stringify(medicine.data, null, 2)}</pre></div>;
+                    medicationData.push(entry);
+                }
+            }
+        }
+        setMedicationRequestData(medicationData);
+
+    }, [medications, endDate, startDate]);
 
     useEffect(() => {
 
@@ -73,7 +160,8 @@ const ResultView = (props) => {
         )
         //=============================================--Medication--===================================================
         const MedicationPanels = [
-            { key: 'panel-medication-request', title: 'MedicationRequest', content: 'Level 1A Contents' },
+            { key: 'panel-medication-request', title: `Medication (${medicationRequestData.length})`,
+                content: {content: (<div className={"dataList"}>{medicationRequestData}</div>)} },
         ]
 
         const MedicationContent = (
@@ -112,15 +200,28 @@ const ResultView = (props) => {
             </div>
         )
         //==============================================--Observation--=================================================
-        const table = "";
 
         const observationPanels = [
-            { key: 'panel-observation-vitals', title: 'Vitals', content: {content: (table)}},
-            { key: 'panel-observation-laboratory', title: 'Laboratory', content: {content: (<Button>Test</Button>) }},
-            { key: 'panel-observation-imaging', title: 'Imaging', content: 'Level 2A Contents' },
-            { key: 'panel-observation-procedure', title: 'Procedure', content: 'Level 2A Contents' },
-            { key: 'panel-observation-survey', title: 'Survey', content: 'Level 2A Contents' },
-            { key: 'panel-observation-unclassified', title: 'Unclassified', content: 'Level 2B Contents'},
+            { key: 'panel-observation-vitals', title: `Vitals (${observationData.vitals.length})`,
+                content: {content: (<div className={"dataList"}>{observationData.vitals}</div>)}},
+            { key: 'panel-observation-laboratory', title: `Laboratory (${observationData.laboratory.length})`,
+                content: {content: (<div className={"dataList"}>{observationData.laboratory}</div>)}},
+            { key: 'panel-observation-imaging', title: `Imaging (${observationData.imaging.length})`,
+                content: {content: (<div className={"dataList"}>{observationData.imaging}</div>)} },
+            { key: 'panel-observation-procedure', title: `Procedure (${observationData.procedure.length})`,
+                content: {content: (<div className={"dataList"}>{observationData.procedure}</div>)} },
+            { key: 'panel-observation-survey', title: `Survey (${observationData.survey.length})`,
+                content: {content: (<div className={"dataList"}>{observationData.survey}</div>)} },
+            { key: 'panel-observation-social', title: `Social (${observationData.social.length})`,
+                content: {content: (<div className={"dataList"}>{observationData.social}</div>)} },
+            { key: 'panel-observation-exam', title: `Exam (${observationData.exam.length})`,
+                content: {content: (<div className={"dataList"}>{observationData.exam}</div>)} },
+            { key: 'panel-observation-therapy', title: `Therapy (${observationData.therapy.length})`,
+                content: {content: (<div className={"dataList"}>{observationData.therapy}</div>)} },
+            { key: 'panel-observation-activity', title: `Activity (${observationData.activity.length})`,
+                content: {content: (<div className={"dataList"}>{observationData.activity}</div>)} },
+            { key: 'panel-observation-unclassified', title: `Unclassified (${observationData.unclassified.length})`,
+                content: {content: (<div className={"dataList"}>{observationData.unclassified}</div>)} },
         ]
 
         const ObservationContent = (
@@ -134,8 +235,11 @@ const ResultView = (props) => {
                 allergyData.medication.length + allergyData.environment.length + allergyData.biologic.length +
                 allergyData.unclassified.length})`, 
                 content: { content: AllergyIntoleranceContent } },
-            { key: 'panel-2', title: 'Observation', content: { content: ObservationContent } },
-            { key: 'panel-3', title: 'MedicationRequest', content: { content: MedicationContent } },
+            { key: 'panel-2', title: `Observation (${observationData.vitals.length + observationData.laboratory.length
+             + observationData.imaging.length + observationData.procedure.length + observationData.exam.length 
+            + observationData.survey.length + observationData.therapy.length + observationData.unclassified.length 
+            + observationData.activity.length + observationData.social.length})`, content: { content: ObservationContent } },
+            { key: 'panel-3', title: `MedicationRequest (${medicationRequestData.length})`, content: { content: MedicationContent } },
             { key: 'panel-4', title: 'DiagnosticReport', content: { content: DiagnosticReportContent } },
             { key: 'panel-5', title: 'Procedure', content: { content: ProcedureContent } },
             { key: 'panel-6', title: 'Condition', content: { content: ConditionContent } },
@@ -143,14 +247,21 @@ const ResultView = (props) => {
 
         setRootPanels(rootPanels);
 
-    }, [searchText]);
+    }, [searchText, allergyData]);
 
-    const filterDate = (date) => {
+    const filterEndDate = (date) => {
         const formattedDate = new Date(date).getTime();
         const formattedStart = new Date(startDate).getTime();
         const formattedEnd = new Date(endDate).getTime();
 
         return (formattedDate >= formattedStart) && (formattedDate <= formattedEnd);
+    }
+
+    const filterStartDate = (date) => {
+        const formattedDate = new Date(date).getTime();
+        const formattedEnd = new Date(endDate).getTime();
+
+        return (formattedDate <= formattedEnd);
     }
 
 
@@ -196,7 +307,7 @@ const ResultView = (props) => {
                                         id={"startPicker"}
                                         onChange={handleStartDate}
                                         selectedDate={graphDateStart.toISOString()}
-                                        filterDate={filterDate}
+                                        filterDate={filterStartDate}
                                     />
                                 </Grid.Column>
                                 <Grid.Column width={8}>
@@ -207,7 +318,7 @@ const ResultView = (props) => {
                                         id={"endPicker"}
                                         onChange={handleEndDate}
                                         selectedDate={graphDateEnd.toISOString()}
-                                        filterDate={filterDate}
+                                        filterDate={filterEndDate}
                                     />
                                 </Grid.Column>
                             </Grid.Row>

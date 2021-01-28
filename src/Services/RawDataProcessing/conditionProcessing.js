@@ -2,7 +2,7 @@
 
 const conditionProcessing = (conditions) => {
     let processedData = [];
-
+    
 
     return processedData;
 }
