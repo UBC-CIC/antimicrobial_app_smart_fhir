@@ -13,9 +13,9 @@ const DataViewer = (props) => {
     return(
         <Grid style={{height: "100%"}}>
             <Grid.Row>
-                <Grid.Column width={2}></Grid.Column>
+                <Grid.Column width={3}></Grid.Column>
                 <CriticalFlags />
-                <Grid.Column width={2}></Grid.Column>
+                <Grid.Column width={3}></Grid.Column>
             </Grid.Row>
             <Grid.Row style={{paddingTop: "10px", paddingBottom: "5px", marginLeft: "10px"}}>
                 <Grid.Column verticalAlign={"middle"} textAlign={"left"}>

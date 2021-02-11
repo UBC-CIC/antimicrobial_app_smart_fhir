@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from "react-redux";
 import DatePicker from 'terra-date-picker';
-import {Button, Accordion, Divider, Grid, Input} from "semantic-ui-react";
+import { Accordion, Divider, Grid, Input} from "semantic-ui-react";
 import { v4 as uuidv4 } from 'uuid';
+import allergyTableFormater from "../../../Services/DataTableFormating/allergyTableFormater";
+import observationTableFormater from "../../../Services/DataTableFormating/observationTableFormater";
 import "./ResultView.css";
 
 
@@ -33,6 +35,9 @@ const ResultView = (props) => {
         unclassified: [],
     })
     const [medicationRequestData, setMedicationRequestData] = useState([]);
+    const [conditionData, setConditionData] = useState([]);
+    const [procedureData, setProcedureData] = useState([]);
+    const [diagnosticReportData, setDiagnosticReportData] = useState([]);
 
     // Allergy Data Processing
     useEffect(() => {
@@ -47,12 +52,11 @@ const ResultView = (props) => {
                     &&
                     ((Date.parse(endDate)) - (Date.parse(new Date(allergy.date))) >= 0)
                 ) {
-                    let entry = <div key={uuidv4()} className={"dataEntry"}><pre>{JSON.stringify(allergy, null, 2)}</pre></div>
-                    if (allergy.type === "unclassified") unclassifiedArray.push(entry);
-                    if (allergy.type === "food") foodArray.push(entry);
-                    if (allergy.type === "medication") medicationArray.push(entry);
-                    if (allergy.type === "environment") environmentArray.push(entry);
-                    if (allergy.type === "biologic") biologicArray.push(entry);
+                    if (allergy.type === "unclassified") unclassifiedArray.push(allergy);
+                    if (allergy.type === "food") foodArray.push(allergy);
+                    if (allergy.type === "medication") medicationArray.push(allergy);
+                    if (allergy.type === "environment") environmentArray.push(allergy);
+                    if (allergy.type === "biologic") biologicArray.push(allergy);
                 }
             }
         }
@@ -63,11 +67,6 @@ const ResultView = (props) => {
             biologic: biologicArray,
             unclassified: unclassifiedArray
         });
-        console.log("allergy results unclassifed: ", unclassifiedArray);
-        console.log("allergy results foodArray: ", foodArray);
-        console.log("allergy results medicationArray: ", medicationArray);
-        console.log("allergy results biologicArray: ", biologicArray);
-        console.log("allergy results environmentArray: ", environmentArray);
     }, [allergies, endDate, startDate]);
 
     // Observation Data Processing
@@ -89,17 +88,16 @@ const ResultView = (props) => {
                     &&
                     ((Date.parse(endDate)) - (Date.parse(new Date(observation.timestamp))) >= 0)
                 ) {
-                    let entry = <div key={uuidv4()} className={"dataEntry"}><pre>{JSON.stringify(observation.data, null, 2)}</pre></div>
-                    if (observation.type === "unclassified") unclassified.push(entry);
-                    if (observation.type === "vitals") vitals.push(entry);
-                    if (observation.type === "laboratory") laboratory.push(entry);
-                    if (observation.type === "social") social.push(entry);
-                    if (observation.type === "procedure") procedure.push(entry);
-                    if (observation.type === "imaging") imaging.push(entry);
-                    if (observation.type === "survey") survey.push(entry);
-                    if (observation.type === "exam") exam.push(entry);
-                    if (observation.type === "therapy") therapy.push(entry);
-                    if (observation.type === "activity") activity.push(entry);
+                    if (observation.type === "unclassified") unclassified.push(observation);
+                    if (observation.type === "vitals") vitals.push(observation);
+                    if (observation.type === "laboratory") laboratory.push(observation);
+                    if (observation.type === "social") social.push(observation);
+                    if (observation.type === "procedure") procedure.push(observation);
+                    if (observation.type === "imaging") imaging.push(observation);
+                    if (observation.type === "survey") survey.push(observation);
+                    if (observation.type === "exam") exam.push(observation);
+                    if (observation.type === "therapy") therapy.push(observation);
+                    if (observation.type === "activity") activity.push(observation);
                 }
             }
         }
@@ -137,20 +135,81 @@ const ResultView = (props) => {
 
     }, [medications, endDate, startDate]);
 
+    // Condition Data Processing
+    useEffect(() => {
+        let conditionDataArray = [];
+
+        if (conditions.length > 0) {
+            for (let condition of conditions) {
+                if (((Date.parse(new Date(condition.timestamp)) - (Date.parse(startDate))) >= 0)
+                    &&
+                    ((Date.parse(endDate)) - (Date.parse(new Date(condition.timestamp))) >= 0)
+                ) {
+                    let entry = <div key={uuidv4()} className={"dataEntry"}><pre>{JSON.stringify(condition.data, null, 2)}</pre></div>
+                    conditionDataArray.push(entry);
+                }
+            }
+        }
+
+        setConditionData(conditionDataArray);
+
+    }, [conditions, endDate, startDate]);
+
+    // Procedure Data Processing
+    useEffect(() => {
+        let procedureDataArray = [];
+
+        if (procedures.length > 0) {
+            for (let procedure of procedures) {
+                if (((Date.parse(new Date(procedure.timestamp)) - (Date.parse(startDate))) >= 0)
+                    &&
+                    ((Date.parse(endDate)) - (Date.parse(new Date(procedure.timestamp))) >= 0)
+                ) {
+                    let entry = <div key={uuidv4()} className={"dataEntry"}><pre>{JSON.stringify(procedure.data, null, 2)}</pre></div>
+                    procedureDataArray.push(entry);
+                }
+            }
+        }
+
+        setProcedureData(procedureDataArray);
+    }, [procedures, endDate, startDate]);
+
+    // DiagnosticReport Data Processing
+    useEffect(() => {
+        let diagnosticReportData = [];
+
+        if (diagnosticReports.length > 0) {
+          for (let report of diagnosticReports) {
+              if (((Date.parse(new Date(report.timestamp)) - (Date.parse(startDate))) >= 0)
+                  &&
+                  ((Date.parse(endDate)) - (Date.parse(new Date(report.timestamp))) >= 0)
+              ) {
+                  let entry = <div key={uuidv4()} className={"dataEntry"}><pre>{JSON.stringify(report.data, null, 2)}</pre></div>
+                  diagnosticReportData.push(entry);
+              }
+          }
+        }
+
+        setDiagnosticReportData(diagnosticReportData);
+
+    }, [diagnosticReports, endDate, startDate])
+
+
+    // Accordion menu formatting
     useEffect(() => {
 
         //========================================--Allergy Intolerance--===============================================
         const AllergyIntolerancePanels = [
             { key: 'panel-allergy-food', title: `Food (${allergyData.food.length})`,
-                content: {content: (<div className={"dataList"}>{allergyData.food}</div>)} },
+                content: {content: (<div className={"dataList"}>{allergyTableFormater(allergyData.food)}</div>)} },
             { key: 'panel-allergy-medication', title: `Medication (${allergyData.medication.length})`,
-                content: {content: (<div className={"dataList"}>{allergyData.medication}</div>)} },
+                content: {content: (<div className={"dataList"}>{allergyTableFormater(allergyData.medication)}</div>)} },
             { key: 'panel-allergy-environment', title: `Environment (${allergyData.environment.length})`,
-                content: {content: (<div className={"dataList"}>{allergyData.environment}</div>)} },
+                content: {content: (<div className={"dataList"}>{allergyTableFormater(allergyData.environment)}</div>)} },
             { key: 'panel-allergy-biologic', title: `Biologic (${allergyData.biologic.length})`,
-                content: {content: (<div className={"dataList"}>{allergyData.biologic}</div>)} },
+                content: {content: (<div className={"dataList"}>{allergyTableFormater(allergyData.biologic)}</div>)} },
             { key: 'panel-allergy-unclassified', title: `Unclassified (${allergyData.unclassified.length})`,
-                content: {content: (<div className={"dataList"}>{allergyData.unclassified}</div>)} },
+                content: {content: (<div className={"dataList"}>{allergyTableFormater(allergyData.unclassified)}</div>)} },
         ]
 
         const AllergyIntoleranceContent = (
@@ -171,7 +230,8 @@ const ResultView = (props) => {
         )
         //==============================================--Condition--===================================================
         const ConditionPanels = [
-            { key: 'panel-condition', title: 'Condition', content: 'Level 1A Contents' },
+            { key: 'panel-condition', title: `Conditions (${conditionData.length})`,
+                content: {content: (<div className={"dataList"}>{conditionData}</div>)} },
         ]
 
         const ConditionContent = (
@@ -181,7 +241,8 @@ const ResultView = (props) => {
         )
         //==============================================--Procedure--===================================================
         const ProcedurePanels = [
-            { key: 'panel-procedure', title: 'Procedure', content: 'Level 1A Contents' },
+            { key: 'panel-procedure', title: `Procedures (${procedureData.length})`,
+                content: {content: (<div className={"dataList"}>{procedureData}</div>)} },
         ]
 
         const ProcedureContent = (
@@ -191,7 +252,8 @@ const ResultView = (props) => {
         )
         //=============================================--Diagnostic Report--============================================
         const DiagnosticReportPanels = [
-            { key: 'panel-diagnostic-report', title: 'Diagnostic Report', content: 'Level 1A Contents' },
+            { key: 'panel-diagnostic-report', title: `Unclassified (${diagnosticReportData.length})`,
+                content: {content: (<div className={"dataList"}>{diagnosticReportData}</div>)} },
         ]
 
         const DiagnosticReportContent = (
@@ -203,25 +265,25 @@ const ResultView = (props) => {
 
         const observationPanels = [
             { key: 'panel-observation-vitals', title: `Vitals (${observationData.vitals.length})`,
-                content: {content: (<div className={"dataList"}>{observationData.vitals}</div>)}},
+                content: {content: (<div className={"dataList"}>{observationTableFormater(observationData.vitals)}</div>)}},
             { key: 'panel-observation-laboratory', title: `Laboratory (${observationData.laboratory.length})`,
-                content: {content: (<div className={"dataList"}>{observationData.laboratory}</div>)}},
+                content: {content: (<div className={"dataList"}>{observationTableFormater(observationData.laboratory)}</div>)}},
             { key: 'panel-observation-imaging', title: `Imaging (${observationData.imaging.length})`,
-                content: {content: (<div className={"dataList"}>{observationData.imaging}</div>)} },
+                content: {content: (<div className={"dataList"}>{observationTableFormater(observationData.imaging)}</div>)} },
             { key: 'panel-observation-procedure', title: `Procedure (${observationData.procedure.length})`,
-                content: {content: (<div className={"dataList"}>{observationData.procedure}</div>)} },
+                content: {content: (<div className={"dataList"}>{observationTableFormater(observationData.procedure)}</div>)} },
             { key: 'panel-observation-survey', title: `Survey (${observationData.survey.length})`,
-                content: {content: (<div className={"dataList"}>{observationData.survey}</div>)} },
+                content: {content: (<div className={"dataList"}>{observationTableFormater(observationData.survey)}</div>)} },
             { key: 'panel-observation-social', title: `Social (${observationData.social.length})`,
-                content: {content: (<div className={"dataList"}>{observationData.social}</div>)} },
+                content: {content: (<div className={"dataList"}>{observationTableFormater(observationData.social)}</div>)} },
             { key: 'panel-observation-exam', title: `Exam (${observationData.exam.length})`,
-                content: {content: (<div className={"dataList"}>{observationData.exam}</div>)} },
+                content: {content: (<div className={"dataList"}>{observationTableFormater(observationData.exam)}</div>)} },
             { key: 'panel-observation-therapy', title: `Therapy (${observationData.therapy.length})`,
-                content: {content: (<div className={"dataList"}>{observationData.therapy}</div>)} },
+                content: {content: (<div className={"dataList"}>{observationTableFormater(observationData.therapy)}</div>)} },
             { key: 'panel-observation-activity', title: `Activity (${observationData.activity.length})`,
-                content: {content: (<div className={"dataList"}>{observationData.activity}</div>)} },
+                content: {content: (<div className={"dataList"}>{observationTableFormater(observationData.activity)}</div>)} },
             { key: 'panel-observation-unclassified', title: `Unclassified (${observationData.unclassified.length})`,
-                content: {content: (<div className={"dataList"}>{observationData.unclassified}</div>)} },
+                content: {content: (<div className={"dataList"}>{observationTableFormater(observationData.unclassified)}</div>)} },
         ]
 
         const ObservationContent = (
@@ -240,9 +302,9 @@ const ResultView = (props) => {
             + observationData.survey.length + observationData.therapy.length + observationData.unclassified.length 
             + observationData.activity.length + observationData.social.length})`, content: { content: ObservationContent } },
             { key: 'panel-3', title: `MedicationRequest (${medicationRequestData.length})`, content: { content: MedicationContent } },
-            { key: 'panel-4', title: 'DiagnosticReport', content: { content: DiagnosticReportContent } },
-            { key: 'panel-5', title: 'Procedure', content: { content: ProcedureContent } },
-            { key: 'panel-6', title: 'Condition', content: { content: ConditionContent } },
+            { key: 'panel-4', title: `DiagnosticReport (${diagnosticReportData.length})`, content: { content: DiagnosticReportContent } },
+            { key: 'panel-5', title: `Procedure (${procedureData.length})`, content: { content: ProcedureContent } },
+            { key: 'panel-6', title: `Condition (${conditionData.length})`, content: { content: ConditionContent } },
         ]
 
         setRootPanels(rootPanels);

@@ -4,13 +4,17 @@ const allergyProcessing = (allergies) => {
 
     for (let allergy of allergies) {
         if (allergy.resource.code) {
-            let reaction;
+            let reaction = {
+                reaction: "N/A",
+                severity: "N/A"
+            };
             let date;
             let type;
             let verification;
             let criticality;
             let clinicalStatus;
             let description;
+
             try {
 
                 if (allergy.resource.reaction) {
@@ -63,7 +67,7 @@ const allergyProcessing = (allergies) => {
                 criticality: criticality,
                 reaction: reaction,
                 date: date,
-                verification: verification
+                verification: verification,
             }
 
             // add allergy to array

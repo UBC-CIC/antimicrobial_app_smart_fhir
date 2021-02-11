@@ -21,3 +21,10 @@ export const setTGT = (payload) => {
         payload: payload,
     }
 }
+
+// set error Flag
+export const setErrorFlag = () => {
+    return {
+        type: "SET_ERROR_FLAG",
+    }
+}

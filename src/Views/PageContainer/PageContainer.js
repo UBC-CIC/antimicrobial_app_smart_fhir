@@ -126,6 +126,17 @@ const PageContainer = (props) => {
                                                         Home
                                                     </Menu.Item >
                                                     <Menu.Item
+                                                        name={"cultures"}
+                                                        as={Link}
+                                                        to={"/cultures"}
+                                                        active={activeSidebarItem === "cultures"}
+                                                        onClick={() => setActiveSidebarItem("cultures")}
+                                                        style={{color: "white"}}
+                                                    >
+                                                        <Icon name='flask' />
+                                                        Cultures
+                                                    </Menu.Item>
+                                                    <Menu.Item
                                                         name={"static"}
                                                         as={Link}
                                                         to={"/static"}

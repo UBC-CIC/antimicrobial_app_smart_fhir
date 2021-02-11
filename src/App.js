@@ -7,10 +7,10 @@ import ApplicationLoadingOverlay from 'terra-application/lib/application-loading
 import PageContainer from "./Views/PageContainer/PageContainer";
 import {setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData, setRawData,
     setDiagnosticData} from "./Actions/patientContextActions";
-import {setLoadingFlag, unsetLoadingFlag, setTGT} from "./Actions/appStateActions";
+import {setLoadingFlag, unsetLoadingFlag, setTGT, setErrorFlag} from "./Actions/appStateActions";
+import {Grid} from "semantic-ui-react";
 import generateTGT from "./Services/UMLS/generateTGT";
 import 'semantic-ui-css/semantic.min.css';
-const axios = require('axios');
 require('dotenv').config()
 
 
@@ -29,30 +29,13 @@ class App extends React.Component {
   async componentDidMount() {
       this._isMounted = true;
       const {client, setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData,
-          setDiagnosticData, setRawData, setLoadingFlag, unsetLoadingFlag, setTGT} = this.props;
+          setDiagnosticData, setRawData, setLoadingFlag, unsetLoadingFlag, setTGT, setErrorFlag} = this.props;
       try {
           setLoadingFlag();
           let tgt;
           try {
               tgt = await generateTGT();
               setTGT(tgt);
-
-              /*let linkRXEndpoint = `https://rxnav.nlm.nih.gov/REST/rxcui/309114/allProperties.json?prop=names+codes`;
-              let rxNormResponse = await axios.get(linkRXEndpoint);
-
-              console.log("rxNormResponse Test: ", rxNormResponse);
-
-              let linkATCEndpoint = `https://rxnav.nlm.nih.gov/REST/rxcui/309114/property.json?propName=ATC`;
-              let rxNormResponseATC = await axios.get(linkATCEndpoint);
-
-              console.log("rxNormResponseATC Test: ", rxNormResponseATC);
-
-              let linkMESHEndpoint = `https://rxnav.nlm.nih.gov/REST/rxcui/309114/property.json?propName=MESH`;
-              let rxNormResponseMESH = await axios.get(linkMESHEndpoint);
-
-              console.log("rxNormResponseMESH Test: ", rxNormResponseMESH);*/
-
-
 
           } catch (e) {
               console.error("Error retrieving UMLS token: ", e);
@@ -204,6 +187,8 @@ class App extends React.Component {
           }
           unsetLoadingFlag();
       } catch (err) {
+          setErrorFlag();
+          unsetLoadingFlag();
           console.error("Error requesting FHIR resources: ", err);
       }
   }
@@ -213,7 +198,7 @@ class App extends React.Component {
   }
 
     render() {
-      const {client, isLoadingData} = this.props;
+      const {client, isLoadingData, errorOccurred} = this.props;
       const {patient} = this.state;
       let name = "";
       if (patient) {
@@ -229,9 +214,18 @@ class App extends React.Component {
       <ApplicationBase locale={"en"}>
           <div className="App" style={{height: "100vh", width: "100vw", backgroundColor: "#f2f8fc"}}>
               {(isLoadingData)? <ApplicationLoadingOverlay isOpen={isLoadingData} /> :
-                  <BrowserRouter>
-                      <PageContainer client={client} name={name} />
-                  </BrowserRouter>
+                  (errorOccurred)? <Grid style={{height: "100vh", width: "100vw", backgroundColor: "#f2f8fc"}}>
+                      <Grid.Row style={{height: "100vh", width: "100vw", backgroundColor: "#f2f8fc"}}>
+                          <Grid.Column verticalAlign={"middle"} textAlign={"center"}>
+                              <h1>Sorry, an error occurred while retrieving patient data from the server.</h1>
+                              <h1>Please refresh or relaunch the application.</h1>
+                          </Grid.Column>
+                      </Grid.Row>
+                      </Grid> :
+                      <BrowserRouter>
+                          <PageContainer client={client} name={name}/>
+                      </BrowserRouter>
+
               }
           </div>
       </ApplicationBase>
@@ -243,6 +237,7 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
     return {
         isLoadingData: state.appState.loadingPatientData,
+        errorOccurred: state.appState.error
     };
 };
 
@@ -257,7 +252,8 @@ const mapDispatchToProps = {
     setConditionData,
     setDiagnosticData,
     setRawData,
-    setTGT
+    setTGT,
+    setErrorFlag
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

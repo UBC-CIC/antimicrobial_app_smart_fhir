@@ -1,13 +1,13 @@
-import React, { useState }  from 'react';
+import React  from 'react';
 import {connect} from "react-redux";
 import {Grid} from "semantic-ui-react";
 import { Route, Switch} from 'react-router-dom';
 import DataViewer from "../../../Components/DataViewer/DataViewer";
 import StaticViewer from "../../../Components/StaticViewer/StaticViewer";
+import CultureViewer from "../../../Components/CultureViewer/CultureViewer";
 
 
 const PatientView = (props) => {
-
     return (
         <Grid.Row style={{paddingTop: "40px", width: "100vh", height: "100%"}}>
             <Grid.Column>
@@ -15,6 +15,7 @@ const PatientView = (props) => {
                     <Grid.Column>
                         <Switch>
                             <Route exact path={"/"} component={DataViewer}/>
+                            <Route path={"/cultures"} component={CultureViewer}/>
                             <Route path={"/static"} component={StaticViewer}/>
                         </Switch>
                     </Grid.Column>

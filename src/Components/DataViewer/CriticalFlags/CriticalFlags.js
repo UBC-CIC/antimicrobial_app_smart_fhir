@@ -7,7 +7,7 @@ import "./CriticalFlags.css";
 
 const CriticalFlags = (props) => {
 
-    const {allergies, antibiotics, diseases, organisms} = props;
+    const {allergies, antibiotics, diseases} = props;
     let allergyList = [];
     if (allergies) {
         allergyList = allergies.map((allergy, index) => {
@@ -28,15 +28,9 @@ const CriticalFlags = (props) => {
         })
     }
 
-    let organismList = [];
-    if (organisms) {
-        organismList = organisms.map((organism, index) => {
-            return <div key={index} style={{padding: "0px"}}><div style={{padding: "0px"}}>{organism.description}</div><Divider style={{padding: "0px"}} /></div>
-        })
-    }
 
 return(
-    <Grid.Column  width={12}>
+    <Grid.Column  width={10}>
         <Grid className={"criticalFlagsContainer"} >
             <Grid.Row className={"criticalFlagsHeader"}>
                 <Grid.Column textAlign={"left"} style={{marginLeft: "2.00%"}}>
@@ -46,12 +40,7 @@ return(
             <Grid.Row>
                 <Grid.Column>
                     <Grid>
-                        <Grid.Row columns={4} style={{height: "80px !important"}}>
-                            <Grid.Column textAlign={"center"} verticalAlign={"top"}>
-                                <ModalManager>
-                                    <Flag title={"Resistant Organisms:"} content={organismList} modalData={organisms} type={"organism"} alert={(organisms)?  (organisms.length > 0) : false} />
-                                </ModalManager>
-                            </Grid.Column>
+                        <Grid.Row columns={3} style={{height: "80px !important"}}>
                             <Grid.Column textAlign={"center"} verticalAlign={"top"}>
                                 <ModalManager>
                                     <Flag title={"Diseases:"} content={diseaseList} modalData={diseases} type={"disease"} alert={(diseases)?  (diseases.length > 0) : false} />
@@ -84,7 +73,6 @@ const mapStateToProps = (state) => {
         allergies: state.patientData.allergies,
         antibiotics: state.patientData.antibiotics,
         diseases: state.patientData.diseases,
-        organisms: state.patientData.resistantOrganisms,
     };
 };
 

@@ -25,9 +25,9 @@ const smart_on_fhir_launch = () => {
     FHIR.oauth2
         .init({
             clientId: '3aa58dbb-7bf0-47ab-82e7-8cf132a7fbc9',
-            scope: "launch/patient"
+            scope: "patient/Observation.read patient/Procedure.read patient/Patient.read patient/AllergyIntolerance.read patient/MedicationRequest.read patient/DiagnosticReport.read patient/ServiceRequest.read launch profile openid online_access"
             /*clientId: 'e0d5a347-4214-4b2b-aa3d-398e9da7573b',
-            scope: 'patient/Observation.read patient/Procedure.read patient/Patient.read patient/AllergyIntolerance.read patient/MedicationRequest.read patient/DiagnosticReport.read launch profile openid online_access'*/
+            scope: 'patient/Observation.read patient/Procedure.read patient/Patient.read patient/AllergyIntolerance.read patient/MedicationRequest.read patient/DiagnosticReport.read patient/ServiceRequest.read launch profile openid online_access'*/
         })
         .then(client => {
             ReactDOM.render(

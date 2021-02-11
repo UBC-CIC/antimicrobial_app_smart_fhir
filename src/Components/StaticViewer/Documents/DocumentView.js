@@ -1,20 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from "react-redux";
 import DatePicker from 'terra-date-picker';
-import {Button, Divider, Grid, Input} from "semantic-ui-react";
+import {Accordion, Button, Divider, Grid, Input} from "semantic-ui-react";
 import "./DocumentView.css";
 
 
 const DocumentView = (props) => {
 
-    const {graphDateStart, graphDateEnd} = props;
+    const {graphDateStart, graphDateEnd, procedures} = props;
     const [startDate, setStartDate] = useState(graphDateStart);
     const [endDate, setEndDate] = useState(graphDateEnd);
     const [searchText, setSearchText] = useState("");
     const [showConsults, setShowConsults] = useState(false);
     const [showImaging, setShowImaging] = useState(false);
     const [showProcedures, setShowProcedures] = useState(false);
-
+    const [procedureData, setProcedureData] = useState([]);
+    const [rootPanels, setRootPanels] = useState(null);
 
     const filterDate = (date) => {
         const formattedDate = new Date(date).getTime();
@@ -31,6 +32,31 @@ const DocumentView = (props) => {
     const handleStartDate = (event, date) => {
         setStartDate(date);
     }
+    //=================================================================================================================
+    // Accordion menu formatting
+    useEffect(() => {
+
+
+        //==============================================--Procedure--===================================================
+        const ProcedurePanels = [
+            { key: 'panel-procedure', title: `Procedures (${procedureData.length})`,
+                content: {content: (<div className={"dataList"}>{procedureData}</div>)} },
+        ]
+
+        const ProcedureContent = (
+            <div>
+                <Accordion.Accordion panels={ProcedurePanels} />
+            </div>
+        )
+
+        //==============================================================================================================
+        const rootPanels = [
+            { key: 'panel-1', title: `Procedure (${procedureData.length})`, content: { content: ProcedureContent } },
+        ]
+
+        setRootPanels(rootPanels);
+
+    }, [searchText, procedureData]);
 
     return(<Grid.Row style={{paddingTop: "0px"}}>
         <Grid.Column>
@@ -111,8 +137,8 @@ const DocumentView = (props) => {
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row style={{paddingTop: "0px"}}>
-                    <Grid.Column>
-                        Documents placeholder
+                    <Grid.Column textAlign={"left"} verticalAlign={"middle"}>
+                        <Accordion panels={rootPanels} styled fluid />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -125,6 +151,7 @@ const mapStateToProps = (state) => {
     return {
         graphDateStart: state.patientData.graphDataStartDate,
         graphDateEnd: state.patientData.graphDataEndDate,
+        procedures: state.patientData.rawData.procedures,
     };
 };
 

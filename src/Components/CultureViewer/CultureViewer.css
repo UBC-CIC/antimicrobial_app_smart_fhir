@@ -1,0 +1,25 @@
+.staticDisplayTitle{
+    color: white;
+    font-size: 22px;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 300;
+}
+
+.staticDisplayContainer {
+    background-color: white;
+    border-radius: 8px;
+    filter: drop-shadow(0 1px 0.15rem lightgrey);
+}
+
+.staticDisplayHeader {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    background-color: #4e7a99;
+}
+
+.tableContainer {
+    max-height: 800px;
+    overflow-y: auto;
+}

@@ -2,32 +2,23 @@
 
 const procedureProcessing = (procedures) => {
     let processedData = [];
+
     for (let procedure of procedures) {
-        let description;
-        let startDate;
-        let endDate;
-        let status = "N/A";
+        let data;
+        let timestamp = new Date();
 
         try {
 
             let resource = procedure.resource;
-            if (resource.code) {
-                if (resource.code.coding) {
-                    description = resource.code.coding[0].display;
-                }
-            }
+            data = procedure.resource;
+
             if (resource.performedPeriod) {
                 if (resource.performedPeriod) {
-                    startDate = new Date(resource.performedPeriod.start);
-                    endDate = new Date(resource.performedPeriod.end);
+                    timestamp = new Date(resource.performedPeriod.start);
+
                 }
             } else if (resource.performedDateTime) {
-                startDate = new Date(resource.performedDateTime);
-                endDate = new Date(resource.performedDateTime);
-            }
-
-            if (resource.status) {
-                status = resource.status;
+                timestamp = new Date(resource.performedDateTime);
             }
 
         } catch (e) {
@@ -35,12 +26,18 @@ const procedureProcessing = (procedures) => {
         }
 
         let procedureEntry = {
-            description: description,
-            startDate: startDate,
-            endDate: endDate,
-            status: status
+            timestamp: timestamp,
+            data: data
         }
         processedData.push(procedureEntry);
+    }
+
+    try { // attempt to to sort, handle against invalid timestamp
+        processedData.sort((a, b) => {
+            return Date.parse(b.timestamp) - Date.parse(a.timestamp);
+        });
+    } catch (e) {
+
     }
 
     return processedData;

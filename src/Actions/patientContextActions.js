@@ -54,7 +54,7 @@ export const setGraphDataEnd = (payload) => {
     }
 }
 
-//=====================================---PROCESS MEDICATION DATA---========================================
+//============================================---PROCESS MEDICATION DATA---=============================================
 
 // Initiates setting patient medication data
 export const setMedicationData = (payload) => {
@@ -222,9 +222,13 @@ export const processConditionData = (conditions) => {
             }
             conditionArray.push(disease);
         })
-        conditionArray.sort((a, b) => {
-            return Date.parse(b.onsetDate) - Date.parse(a.onsetDate);
-        });
+        try {
+            conditionArray.sort((a, b) => {
+                return Date.parse(b.onsetDate) - Date.parse(a.onsetDate);
+            });
+        } catch (e) {
+
+        }
         dispatch({type: "SET_DISEASE_DATA", payload: conditionArray});
     }
 
@@ -407,6 +411,32 @@ export const processDiagnosticData = (diagnostics, client) => {
                             }
                         }
                     }
+                    let source = "Unknown";
+                    let type = "Unknown";
+                    if (entry.resource.basedOn) {
+                        for (let basedEntry of entry.resource.basedOn) {
+                            if (basedEntry.reference) {
+                                if (basedEntry.reference.includes("ServiceRequest")) {
+                                    try {
+                                        let serviceRequest = await client.request(basedEntry.reference);
+                                        if (serviceRequest.specimen) {
+                                            if (serviceRequest.specimen.type) {
+                                                type = serviceRequest.specimen.type.coding[0].display;
+                                            }
+
+                                            if (serviceRequest.specimen.bodySite) {
+                                                source = serviceRequest.specimen.bodySite.coding[0].display;
+                                            }
+                                        } else if (serviceRequest.bodySite) {
+                                            source = serviceRequest.bodySite.coding[0].display;
+                                        }
+                                    } catch (e) {
+
+                                    }
+                                }
+                            }
+                        }
+                    }
                     let timestamp;
                     let organism;
                     try {
@@ -424,8 +454,10 @@ export const processDiagnosticData = (diagnostics, client) => {
                             timestamp = new Date(entry.resource.effectiveDateTime);
                         } else if (entry.resource.issued) {
                             timestamp = new Date(entry.resource.issued);
-                        } else {
-                            timestamp = "N/A"
+                        } else if (entry.resource.meta) {
+                            if (entry.resource.meta.lastUpdated) {
+                                timestamp = new Date(entry.resource.meta.lastUpdated);
+                            }
                         }
                     } catch (e) {
 
@@ -434,6 +466,8 @@ export const processDiagnosticData = (diagnostics, client) => {
                         description: organism,
                         timestamp: timestamp,
                         testResults: testResultArray,
+                        source: source,
+                        type: type
                     }
 
                     organismArray.push(organismEntry);
@@ -443,6 +477,15 @@ export const processDiagnosticData = (diagnostics, client) => {
                     break;
             }
         }
+
+        try {
+            organismArray.sort((a, b) => {
+                return Date.parse(b.timestamp) - Date.parse(a.timestamp);
+            });
+        } catch (e) {
+
+        }
+
         dispatch({type: "SET_ORGANISM_DATA", payload: organismArray});
     }
 }
