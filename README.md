@@ -9,7 +9,7 @@ Microbial Insights is a prototype SMART on FHIR clinical decision support applic
 
 ## High level architecture
 
-TBD
+<img src="./docs/images/architecture_diagram.png"  width="500"/>
 
 # Deployment
 To deploy this solution into your AWS Account please follow our [Deployment Guide](./docs/deployment_guide.md)
