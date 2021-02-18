@@ -8,7 +8,6 @@ import allergyProcessing from "../Services/RawDataProcessing/allergyProcessing";
 import procedureProcessing from "../Services/RawDataProcessing/procedureProcessing";
 import medicationProcessing from "../Services/RawDataProcessing/medicationProcessing";
 import observationProcessing from "../Services/RawDataProcessing/observationProcessing";
-const axios = require('axios');
 
 
 
@@ -71,7 +70,6 @@ export const processMedicationData = (meds) => {
         let tgt = meds.tgt;
         for (let medicine of medication) {
             let shouldInclude = false;
-            console.log("input: ", medicine.resource.medicationCodeableConcept.text);
             let hasRxNormCode;
             let rxNormCodes = [];
             try {
@@ -108,7 +106,6 @@ export const processMedicationData = (meds) => {
                     for (let entity of parsedMedication.Entities) {
                         if ((entity.Category === "MEDICATION") && (entity.Score > 0.75)) {
                             result = await medicationIdentifier(entity.Text);
-                            console.log("parserOutput: ", result);
                             medicationIdentities.push(result);
                         } else if ((entity.Category === "MEDICATION") && (entity.Score <= 0.75)) {
                             shouldInclude = true;
@@ -178,7 +175,6 @@ export const processMedicationData = (meds) => {
                 antibioticsArray.push(formattedAntibiotic);
             }
         }
-            console.log("processed Medication Data: ", antibioticsArray);
         dispatch({type: "SET_MEDICATION_DATA", payload: antibioticsArray});
     }
 
@@ -283,8 +279,6 @@ export const processAllergyData = (payload) => {
                             let parsedMedication;
                             try {
                                 parsedMedication = await medicationParser(allergy.resource.code.text);
-                                console.log("allergy text: ", description);
-                                console.log("parsed allergy: ", parsedMedication);
                             } catch (error) {
                                 console.error(error);
                                 // error fail safe
@@ -563,7 +557,6 @@ export const processRawData = (payload) => {
         let procedureResult = procedureProcessing(procedures);
         let conditionResult = conditionProcessing(conditions);
         let diagnosticReportsResult = diagnosticReportProcessing(diagnosticReports);
-        console.log("raw data: ", payload);
         let rawDataPayload = {
             allergies: allergyResult,
             medications: medicationResult,
@@ -572,7 +565,6 @@ export const processRawData = (payload) => {
             procedures: procedureResult,
             diagnosticReports: diagnosticReportsResult
         }
-        console.log("processed raw data: ", rawDataPayload);
         dispatch({type: "SET_RAW_DATA", payload: rawDataPayload});
     }
 }

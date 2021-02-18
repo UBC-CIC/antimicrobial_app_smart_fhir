@@ -39,7 +39,7 @@ const WBCGraph = (props) => {
         }
         data.sort((a,b) => a.x - b.x);
         setGraphData(data);
-    }, [graphDateStart, graphDateEnd])
+    }, [graphDateStart, graphDateEnd, wbcData])
 
 
     useEffect(() => {

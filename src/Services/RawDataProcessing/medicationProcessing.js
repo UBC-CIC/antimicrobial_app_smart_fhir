@@ -3,8 +3,21 @@
 const medicationProcessing = (medications) => {
     let processedData = [];
     for (let medicine of medications) {
-        let timestamp = new Date();
+        let timestamp;
+        let details;
+
         try {
+
+            if (medicine.resource.medicationCodeableConcept) {
+                if (medicine.resource.medicationCodeableConcept.text) {
+                    details = medicine.resource.medicationCodeableConcept.text;
+                } else if (medicine.resource.medicationCodeableConcept.coding) {
+                    if (medicine.resource.medicationCodeableConcept.coding[0].display) {
+                        details = medicine.resource.medicationCodeableConcept.coding[0].display
+                    }
+                }
+            }
+
             if (medicine.resource.authoredOn) {
                 timestamp = new Date(medicine.resource.authoredOn);
             } else if (medicine.resource.dosageInstruction) {
@@ -19,12 +32,24 @@ const medicationProcessing = (medications) => {
                 }
             }
 
+            if (!timestamp) {
+                if (medicine.resource.meta) {
+                    if (medicine.resource.meta.lastUpdated) {
+                        timestamp = new Date(medicine.resource.meta.lastUpdated);
+                    }
+                }
+
+                if (!timestamp) {
+                    timestamp = new Date();
+                }
+            }
+
         } catch (e) {
 
         }
         let formattedMedication = {
             timestamp: timestamp,
-            data: medicine.resource,
+            details: details,
         }
         processedData.push(formattedMedication);
     }

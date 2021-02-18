@@ -4,25 +4,18 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 
-const observationTableFormater = (observations) => {
+const medicationTableFormater = (medications) => {
 
 
-    let rows = observations.map(observation => {
+    let rows = medications.map(medication => {
 
-        if (observation.component) {
-            observation.value = observation.component;
-        } else if (observation.interpretation) {
-            observation.value = observation.interpretation;
-        }
+
         return (<Table.Row key={uuidv4()}>
             <Table.Cell>
-                {observation.code}
+                {medication.details}
             </Table.Cell>
             <Table.Cell>
-                {observation.value}
-            </Table.Cell>
-            <Table.Cell>
-                {observation.timestamp.toLocaleString()}
+                {medication.timestamp.toLocaleString()}
             </Table.Cell>
         </Table.Row>)
     })
@@ -32,7 +25,6 @@ const observationTableFormater = (observations) => {
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Description</Table.HeaderCell>
-                    <Table.HeaderCell>Value</Table.HeaderCell>
                     <Table.HeaderCell>Date</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
@@ -45,4 +37,4 @@ const observationTableFormater = (observations) => {
 
 }
 
-export default observationTableFormater;
+export default medicationTableFormater;

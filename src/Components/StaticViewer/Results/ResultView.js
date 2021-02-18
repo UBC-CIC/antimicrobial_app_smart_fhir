@@ -2,9 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {connect} from "react-redux";
 import DatePicker from 'terra-date-picker';
 import { Accordion, Divider, Grid, Input} from "semantic-ui-react";
-import { v4 as uuidv4 } from 'uuid';
 import allergyTableFormater from "../../../Services/DataTableFormating/allergyTableFormater";
 import observationTableFormater from "../../../Services/DataTableFormating/observationTableFormater";
+import medicationTableFormater from "../../../Services/DataTableFormating/medicationTableFornater";
+import diagnosticReportTableFormater from "../../../Services/DataTableFormating/diagnosticReportTableFormater";
+import conditionTableFormater from "../../../Services/DataTableFormating/conditionTableFormater";
+import procedureTableFormater from "../../../Services/DataTableFormating/procedureTableFormater";
 import "./ResultView.css";
 
 
@@ -126,8 +129,7 @@ const ResultView = (props) => {
                     &&
                     ((Date.parse(endDate)) - (Date.parse(new Date(medicine.timestamp))) >= 0)
                 ) {
-                    let entry = <div key={uuidv4()} className={"dataEntry"}><pre>{JSON.stringify(medicine.data, null, 2)}</pre></div>;
-                    medicationData.push(entry);
+                    medicationData.push(medicine);
                 }
             }
         }
@@ -145,8 +147,7 @@ const ResultView = (props) => {
                     &&
                     ((Date.parse(endDate)) - (Date.parse(new Date(condition.timestamp))) >= 0)
                 ) {
-                    let entry = <div key={uuidv4()} className={"dataEntry"}><pre>{JSON.stringify(condition.data, null, 2)}</pre></div>
-                    conditionDataArray.push(entry);
+                    conditionDataArray.push(condition);
                 }
             }
         }
@@ -165,8 +166,7 @@ const ResultView = (props) => {
                     &&
                     ((Date.parse(endDate)) - (Date.parse(new Date(procedure.timestamp))) >= 0)
                 ) {
-                    let entry = <div key={uuidv4()} className={"dataEntry"}><pre>{JSON.stringify(procedure.data, null, 2)}</pre></div>
-                    procedureDataArray.push(entry);
+                    procedureDataArray.push(procedure);
                 }
             }
         }
@@ -184,8 +184,7 @@ const ResultView = (props) => {
                   &&
                   ((Date.parse(endDate)) - (Date.parse(new Date(report.timestamp))) >= 0)
               ) {
-                  let entry = <div key={uuidv4()} className={"dataEntry"}><pre>{JSON.stringify(report.data, null, 2)}</pre></div>
-                  diagnosticReportData.push(entry);
+                  diagnosticReportData.push(report);
               }
           }
         }
@@ -220,7 +219,7 @@ const ResultView = (props) => {
         //=============================================--Medication--===================================================
         const MedicationPanels = [
             { key: 'panel-medication-request', title: `Medication (${medicationRequestData.length})`,
-                content: {content: (<div className={"dataList"}>{medicationRequestData}</div>)} },
+                content: {content: (<div className={"dataList"}>{medicationTableFormater(medicationRequestData)}</div>)} },
         ]
 
         const MedicationContent = (
@@ -231,7 +230,7 @@ const ResultView = (props) => {
         //==============================================--Condition--===================================================
         const ConditionPanels = [
             { key: 'panel-condition', title: `Conditions (${conditionData.length})`,
-                content: {content: (<div className={"dataList"}>{conditionData}</div>)} },
+                content: {content: (<div className={"dataList"}>{conditionTableFormater(conditionData)}</div>)} },
         ]
 
         const ConditionContent = (
@@ -242,7 +241,7 @@ const ResultView = (props) => {
         //==============================================--Procedure--===================================================
         const ProcedurePanels = [
             { key: 'panel-procedure', title: `Procedures (${procedureData.length})`,
-                content: {content: (<div className={"dataList"}>{procedureData}</div>)} },
+                content: {content: (<div className={"dataList"}>{procedureTableFormater(procedureData)}</div>)} },
         ]
 
         const ProcedureContent = (
@@ -252,8 +251,8 @@ const ResultView = (props) => {
         )
         //=============================================--Diagnostic Report--============================================
         const DiagnosticReportPanels = [
-            { key: 'panel-diagnostic-report', title: `Unclassified (${diagnosticReportData.length})`,
-                content: {content: (<div className={"dataList"}>{diagnosticReportData}</div>)} },
+            { key: 'panel-diagnostic-report', title: `Reports (${diagnosticReportData.length})`,
+                content: {content: (<div className={"dataList"}>{diagnosticReportTableFormater(diagnosticReportData)}</div>)} },
         ]
 
         const DiagnosticReportContent = (
@@ -309,7 +308,7 @@ const ResultView = (props) => {
 
         setRootPanels(rootPanels);
 
-    }, [searchText, allergyData]);
+    }, [searchText, allergyData, observationData, medicationRequestData, diagnosticReportData, procedureData, conditionData]);
 
     const filterEndDate = (date) => {
         const formattedDate = new Date(date).getTime();

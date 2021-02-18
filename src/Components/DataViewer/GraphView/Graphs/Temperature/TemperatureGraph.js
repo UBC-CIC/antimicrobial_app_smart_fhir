@@ -41,7 +41,7 @@ const TemperatureGraph = (props) => {
         }
         tempData.sort((a,b) => a.x - b.x);
         setGraphData(tempData);
-    }, [graphDateStart, graphDateEnd])
+    }, [graphDateStart, graphDateEnd, temperatureData])
 
 
     useEffect(() => {

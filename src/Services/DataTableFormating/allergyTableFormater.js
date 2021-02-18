@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import { Table, Grid } from 'semantic-ui-react';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -16,7 +16,18 @@ const allergyTableFormater = (allergies) => {
                 {allergy.criticality}
             </Table.Cell>
             <Table.Cell>
-                <pre>{JSON.stringify(allergy.reaction, null, 2)}</pre>
+                <Grid>
+                    <Grid.Row style={{padding: "0px"}}>
+                        <Grid.Column>
+                            reaction: {allergy.reaction.reaction}
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row style={{padding: "0px"}}>
+                        <Grid.Column>
+                            severity: {allergy.reaction.severity}
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </Table.Cell>
             <Table.Cell>
                 {allergy.date.toLocaleDateString()}

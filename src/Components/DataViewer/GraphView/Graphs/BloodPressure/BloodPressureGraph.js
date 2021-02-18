@@ -49,7 +49,7 @@ const BloodPressureGraph = (props) => {
         bpData.systolic.sort((a,b) => a.x - b.x);
         bpData.diastolic.sort((a,b) => a.x - b.x);
         setGraphData(bpData);
-    }, [graphDateStart, graphDateEnd]);
+    }, [graphDateStart, graphDateEnd, bloodPressureData]);
 
     useEffect(() => {
         if (thisChart) {
