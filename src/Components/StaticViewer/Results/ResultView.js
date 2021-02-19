@@ -252,50 +252,7 @@ const ResultView = (props) => {
                 <Accordion.Accordion panels={AllergyIntolerancePanels} />
             </div>
         )
-        //=============================================--Medication--===================================================
-        const MedicationPanels = [
-            { key: 'panel-medication-request', title: `Medication (${medicationRequestData.length})`,
-                content: {content: (<div className={"dataList"}>{medicationTableFormater(medicationRequestData)}</div>)} },
-        ]
 
-        const MedicationContent = (
-            <div>
-                <Accordion.Accordion panels={MedicationPanels} />
-            </div>
-        )
-        //==============================================--Condition--===================================================
-        const ConditionPanels = [
-            { key: 'panel-condition', title: `Conditions (${conditionData.length})`,
-                content: {content: (<div className={"dataList"}>{conditionTableFormater(conditionData)}</div>)} },
-        ]
-
-        const ConditionContent = (
-            <div>
-                <Accordion.Accordion panels={ConditionPanels} />
-            </div>
-        )
-        //==============================================--Procedure--===================================================
-        const ProcedurePanels = [
-            { key: 'panel-procedure', title: `Procedures (${procedureData.length})`,
-                content: {content: (<div className={"dataList"}>{procedureTableFormater(procedureData)}</div>)} },
-        ]
-
-        const ProcedureContent = (
-            <div>
-                <Accordion.Accordion panels={ProcedurePanels} />
-            </div>
-        )
-        //=============================================--Diagnostic Report--============================================
-        const DiagnosticReportPanels = [
-            { key: 'panel-diagnostic-report', title: `Reports (${diagnosticReportData.length})`,
-                content: {content: (<div className={"dataList"}>{diagnosticReportTableFormater(diagnosticReportData)}</div>)} },
-        ]
-
-        const DiagnosticReportContent = (
-            <div>
-                <Accordion.Accordion panels={DiagnosticReportPanels} />
-            </div>
-        )
         //==============================================--Observation--=================================================
 
         const observationPanels = [
@@ -328,18 +285,18 @@ const ResultView = (props) => {
         )
         //==============================================================================================================
         const rootPanels = [
-            { key: 'panel-1', title: `AllergyIntolerance (${allergyData.food.length + 
+            { key: 'panel-1', title: `AllergyIntolerances (${allergyData.food.length + 
                 allergyData.medication.length + allergyData.environment.length + allergyData.biologic.length +
                 allergyData.unclassified.length})`, 
                 content: { content: AllergyIntoleranceContent } },
-            { key: 'panel-2', title: `Observation (${observationData.vitals.length + observationData.laboratory.length
+            { key: 'panel-2', title: `Observations (${observationData.vitals.length + observationData.laboratory.length
              + observationData.imaging.length + observationData.procedure.length + observationData.exam.length 
             + observationData.survey.length + observationData.therapy.length + observationData.unclassified.length 
             + observationData.activity.length + observationData.social.length})`, content: { content: ObservationContent } },
-            { key: 'panel-3', title: `MedicationRequest (${medicationRequestData.length})`, content: { content: MedicationContent } },
-            { key: 'panel-4', title: `DiagnosticReport (${diagnosticReportData.length})`, content: { content: DiagnosticReportContent } },
-            { key: 'panel-5', title: `Procedure (${procedureData.length})`, content: { content: ProcedureContent } },
-            { key: 'panel-6', title: `Condition (${conditionData.length})`, content: { content: ConditionContent } },
+            { key: 'panel-3', title: `MedicationRequests (${medicationRequestData.length})`, content: {content: (<div className={"dataList"}>{medicationTableFormater(medicationRequestData)}</div>)} },
+            { key: 'panel-4', title: `DiagnosticReports (${diagnosticReportData.length})`, content: {content: (<div className={"dataList"}>{diagnosticReportTableFormater(diagnosticReportData)}</div>)} },
+            { key: 'panel-5', title: `Procedures (${procedureData.length})`, content: {content: (<div className={"dataList"}>{procedureTableFormater(procedureData)}</div>)} },
+            { key: 'panel-6', title: `Conditions (${conditionData.length})`, content: {content: (<div className={"dataList"}>{conditionTableFormater(conditionData)}</div>)} },
         ]
 
         setRootPanels(rootPanels);

@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {connect} from "react-redux";
 import DatePicker from 'terra-date-picker';
 import {Accordion, Button, Divider, Grid, Input} from "semantic-ui-react";
+import procedureTableFormater from "../../../Services/DataTableFormating/procedureTableFormater";
+import procedureSearchFilter from "../../../Services/SearchFiltering/procedureSearchFilter";
+
 import "./DocumentView.css";
 
 
@@ -15,7 +18,7 @@ const DocumentView = (props) => {
     const [showImaging, setShowImaging] = useState(false);
     const [showProcedures, setShowProcedures] = useState(false);
     const [procedureData, setProcedureData] = useState([]);
-    const [rootPanels, setRootPanels] = useState(null);
+    const [procedurePanels, setProcedurePanels] = useState(null);
 
     const filterDate = (date) => {
         const formattedDate = new Date(date).getTime();
@@ -32,29 +35,40 @@ const DocumentView = (props) => {
     const handleStartDate = (event, date) => {
         setStartDate(date);
     }
+
+    // Procedure Data Processing
+    useEffect(() => {
+        let procedureDataArray = [];
+
+        if (procedures.length > 0) {
+            for (let procedure of procedures) {
+                if (
+                    (!procedure.timestamp)
+                    ||
+                    (((Date.parse(new Date(procedure.timestamp)) - (Date.parse(startDate))) >= 0)
+                        &&
+                        ((Date.parse(endDate)) - (Date.parse(new Date(procedure.timestamp))) >= 0)
+                        &&
+                        ((searchText === "")? true : procedureSearchFilter(procedure, searchText)))
+                ) {
+                    procedureDataArray.push(procedure);
+                }
+            }
+        }
+
+        setProcedureData(procedureDataArray);
+    }, [procedures, endDate, startDate, searchText]);
+
     //=================================================================================================================
     // Accordion menu formatting
     useEffect(() => {
 
-
-        //==============================================--Procedure--===================================================
-        const ProcedurePanels = [
-            { key: 'panel-procedure', title: `Procedures (${procedureData.length})`,
-                content: {content: (<div className={"dataList"}>{procedureData}</div>)} },
-        ]
-
-        const ProcedureContent = (
-            <div>
-                <Accordion.Accordion panels={ProcedurePanels} />
-            </div>
-        )
-
         //==============================================================================================================
-        const rootPanels = [
-            { key: 'panel-1', title: `Procedure (${procedureData.length})`, content: { content: ProcedureContent } },
+        const procedurePanels = [
+             { key: 'panel-1', title: `Procedures (${procedureData.length})`, content: {content: (<div className={"dataList"}>{procedureTableFormater(procedureData)}</div>)} },
         ]
 
-        setRootPanels(rootPanels);
+        setProcedurePanels(procedurePanels);
 
     }, [searchText, procedureData]);
 
@@ -138,7 +152,7 @@ const DocumentView = (props) => {
                 </Grid.Row>
                 <Grid.Row style={{paddingTop: "0px"}}>
                     <Grid.Column textAlign={"left"} verticalAlign={"middle"}>
-                        <Accordion panels={rootPanels} styled fluid />
+                        {(showProcedures)? <Accordion panels={procedurePanels} styled fluid /> : null}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
