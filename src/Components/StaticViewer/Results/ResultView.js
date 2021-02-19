@@ -8,6 +8,12 @@ import medicationTableFormater from "../../../Services/DataTableFormating/medica
 import diagnosticReportTableFormater from "../../../Services/DataTableFormating/diagnosticReportTableFormater";
 import conditionTableFormater from "../../../Services/DataTableFormating/conditionTableFormater";
 import procedureTableFormater from "../../../Services/DataTableFormating/procedureTableFormater";
+import allergySearchFilter from "../../../Services/SearchFiltering/allergySearchFilter";
+import observationSearchFilter from "../../../Services/SearchFiltering/observationSearchFilter";
+import conditionSearchFilter from "../../../Services/SearchFiltering/conditionSearchFilter";
+import medicationSearchFilter from "../../../Services/SearchFiltering/medicationSearchFilter";
+import procedureSearchFilter from "../../../Services/SearchFiltering/procedureSearchFilter";
+import diagnosticSearchFilter from "../../../Services/SearchFiltering/diagnosticReportSearchFilter";
 import "./ResultView.css";
 
 
@@ -51,9 +57,14 @@ const ResultView = (props) => {
         let unclassifiedArray = [];
         if (allergies.length > 0) {
             for (let allergy of allergies) {
-                if (((Date.parse(new Date(allergy.date)) - (Date.parse(startDate))) >= 0)
+                if (
+                    (!allergy.date)
+                    ||
+                    (((Date.parse(new Date(allergy.date)) - (Date.parse(startDate))) >= 0)
                     &&
                     ((Date.parse(endDate)) - (Date.parse(new Date(allergy.date))) >= 0)
+                    &&
+                    ((searchText === "")? true : allergySearchFilter(allergy, searchText)))
                 ) {
                     if (allergy.type === "unclassified") unclassifiedArray.push(allergy);
                     if (allergy.type === "food") foodArray.push(allergy);
@@ -70,7 +81,7 @@ const ResultView = (props) => {
             biologic: biologicArray,
             unclassified: unclassifiedArray
         });
-    }, [allergies, endDate, startDate]);
+    }, [allergies, endDate, startDate, searchText]);
 
     // Observation Data Processing
     useEffect(() => {
@@ -87,9 +98,14 @@ const ResultView = (props) => {
 
         if (observations.length > 0) {
             for (let observation of observations) {
-                if (((Date.parse(new Date(observation.timestamp)) - (Date.parse(startDate))) >= 0)
+                if (
+                    (!observation.timestamp)
+                        ||
+                    (((Date.parse(new Date(observation.timestamp)) - (Date.parse(startDate))) >= 0)
                     &&
                     ((Date.parse(endDate)) - (Date.parse(new Date(observation.timestamp))) >= 0)
+                    &&
+                        ((searchText === "")? true : observationSearchFilter(observation, searchText)))
                 ) {
                     if (observation.type === "unclassified") unclassified.push(observation);
                     if (observation.type === "vitals") vitals.push(observation);
@@ -117,7 +133,7 @@ const ResultView = (props) => {
             unclassified: unclassified,
         });
 
-    }, [observations, endDate, startDate]);
+    }, [observations, endDate, startDate, searchText]);
 
     // MedicationRequest Data Processing
     useEffect(() => {
@@ -125,9 +141,14 @@ const ResultView = (props) => {
 
         if (medications.length > 0) {
             for (let medicine of medications) {
-                if (((Date.parse(new Date(medicine.timestamp)) - (Date.parse(startDate))) >= 0)
+                if (
+                    (!medicine.timestamp)
+                        ||
+                    (((Date.parse(new Date(medicine.timestamp)) - (Date.parse(startDate))) >= 0)
                     &&
                     ((Date.parse(endDate)) - (Date.parse(new Date(medicine.timestamp))) >= 0)
+                    &&
+                    ((searchText === "")? true : medicationSearchFilter(medicine, searchText)))
                 ) {
                     medicationData.push(medicine);
                 }
@@ -135,7 +156,7 @@ const ResultView = (props) => {
         }
         setMedicationRequestData(medicationData);
 
-    }, [medications, endDate, startDate]);
+    }, [medications, endDate, startDate, searchText]);
 
     // Condition Data Processing
     useEffect(() => {
@@ -143,9 +164,14 @@ const ResultView = (props) => {
 
         if (conditions.length > 0) {
             for (let condition of conditions) {
-                if (((Date.parse(new Date(condition.timestamp)) - (Date.parse(startDate))) >= 0)
+                if (
+                    (!condition.timestamp)
+                        ||
+                    (((Date.parse(new Date(condition.timestamp)) - (Date.parse(startDate))) >= 0)
                     &&
                     ((Date.parse(endDate)) - (Date.parse(new Date(condition.timestamp))) >= 0)
+                    &&
+                    ((searchText === "")? true : conditionSearchFilter(condition, searchText)))
                 ) {
                     conditionDataArray.push(condition);
                 }
@@ -154,7 +180,7 @@ const ResultView = (props) => {
 
         setConditionData(conditionDataArray);
 
-    }, [conditions, endDate, startDate]);
+    }, [conditions, endDate, startDate, searchText]);
 
     // Procedure Data Processing
     useEffect(() => {
@@ -162,9 +188,14 @@ const ResultView = (props) => {
 
         if (procedures.length > 0) {
             for (let procedure of procedures) {
-                if (((Date.parse(new Date(procedure.timestamp)) - (Date.parse(startDate))) >= 0)
+                if (
+                    (!procedure.timestamp)
+                        ||
+                    (((Date.parse(new Date(procedure.timestamp)) - (Date.parse(startDate))) >= 0)
                     &&
                     ((Date.parse(endDate)) - (Date.parse(new Date(procedure.timestamp))) >= 0)
+                    &&
+                    ((searchText === "")? true : procedureSearchFilter(procedure, searchText)))
                 ) {
                     procedureDataArray.push(procedure);
                 }
@@ -172,7 +203,7 @@ const ResultView = (props) => {
         }
 
         setProcedureData(procedureDataArray);
-    }, [procedures, endDate, startDate]);
+    }, [procedures, endDate, startDate, searchText]);
 
     // DiagnosticReport Data Processing
     useEffect(() => {
@@ -180,9 +211,14 @@ const ResultView = (props) => {
 
         if (diagnosticReports.length > 0) {
           for (let report of diagnosticReports) {
-              if (((Date.parse(new Date(report.timestamp)) - (Date.parse(startDate))) >= 0)
+              if (
+                  (!report.timestamp)
+                      ||
+                  (((Date.parse(new Date(report.timestamp)) - (Date.parse(startDate))) >= 0)
                   &&
                   ((Date.parse(endDate)) - (Date.parse(new Date(report.timestamp))) >= 0)
+                  &&
+                  ((searchText === "")? true : diagnosticSearchFilter(report, searchText)))
               ) {
                   diagnosticReportData.push(report);
               }
@@ -191,7 +227,7 @@ const ResultView = (props) => {
 
         setDiagnosticReportData(diagnosticReportData);
 
-    }, [diagnosticReports, endDate, startDate])
+    }, [diagnosticReports, endDate, startDate, searchText])
 
 
     // Accordion menu formatting

@@ -15,7 +15,7 @@ const medicationTableFormater = (medications) => {
                 {medication.details}
             </Table.Cell>
             <Table.Cell>
-                {medication.timestamp.toLocaleString()}
+                {(medication.timestamp)? medication.timestamp.toLocaleString() : "Not Available"}
             </Table.Cell>
         </Table.Row>)
     })

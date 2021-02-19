@@ -31,7 +31,7 @@ const diagnosticReportTableFormater = (diagnostics) => {
                 </Grid>
             </Table.Cell>
             <Table.Cell>
-                {diagnostic.timestamp.toLocaleString()}
+                {(diagnostic.timestamp)? diagnostic.timestamp.toLocaleString() : "Not Available"}
             </Table.Cell>
         </Table.Row>)
     })

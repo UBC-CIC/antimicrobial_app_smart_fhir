@@ -7,7 +7,7 @@ import "./StaticViewer.css";
 
 
 const StaticViewer = (props) => {
-    const [mode, setMode] = useState("Documents");
+    const [mode, setMode] = useState("Results");
 
     return(
         <Grid style={{height: "100%"}}>

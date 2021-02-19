@@ -22,7 +22,7 @@ const observationTableFormater = (observations) => {
                 {observation.value}
             </Table.Cell>
             <Table.Cell>
-                {observation.timestamp.toLocaleString()}
+                {(observation.timestamp)? observation.timestamp.toLocaleString() : "Not Available"}
             </Table.Cell>
         </Table.Row>)
     })

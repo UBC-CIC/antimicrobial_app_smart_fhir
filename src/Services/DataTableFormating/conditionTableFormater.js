@@ -21,7 +21,7 @@ const conditionTableFormater = (conditions) => {
                 {condition.verification}
             </Table.Cell>
             <Table.Cell>
-                {condition.timestamp.toLocaleString()}
+                {(condition.timestamp)? condition.timestamp.toLocaleString() : "Not Available"}
             </Table.Cell>
         </Table.Row>)
     })

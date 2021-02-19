@@ -8,7 +8,7 @@ const medicationIdentifier = async (payload) => {
         let params = {
             Text: payload,
         }
-        aws.config.region = "ca-central-1";
+        aws.config.region = process.env.REACT_APP_AWS_REGION;
 
         /*const credentials = await Auth.currentCredentials();
         console.log("current Credentials", credentials);

@@ -218,14 +218,13 @@ class App extends React.Component {
                       <Grid.Row style={{height: "100vh", width: "100vw", backgroundColor: "#f2f8fc"}}>
                           <Grid.Column verticalAlign={"middle"} textAlign={"center"}>
                               <h1>Sorry, an error occurred while retrieving patient data from the server.</h1>
-                              <h1>Please refresh or relaunch the application.</h1>
+                              <h1>Please refresh or re-launch the application.</h1>
                           </Grid.Column>
                       </Grid.Row>
                       </Grid> :
                       <BrowserRouter>
                           <PageContainer client={client} name={name}/>
                       </BrowserRouter>
-
               }
           </div>
       </ApplicationBase>

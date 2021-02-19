@@ -5,25 +5,25 @@ import {Button, Divider, Grid, Icon, Input} from "semantic-ui-react";
 import "../../GraphView.css";
 
 
-const WBCGraph = (props) => {
+const ProcalcitoninGraph = (props) => {
     const [thisChart, setChart] = useState(null);
-    const [upperBound, setUpperBound] = useState(11);
+    const [upperBound, setUpperBound] = useState(3);
     const [lowerBound, setLowerBound] = useState(0);
-    const [stepSize, setStepSize] = useState(0.5);
+    const [stepSize, setStepSize] = useState(0.25);
     const [stepSizeError, setStepSizeError] = useState(false);
     const [boundsError, setBoundsError] = useState(false);
     const [form, setForm] = useState({
-        upperBound: 11,
+        upperBound: 3,
         lowerBound: 0,
-        stepSize: 0.5
+        stepSize: 0.25
     });
     const [graphData, setGraphData] = useState([]);
-    const {wbcData, graphDateStart, graphDateEnd} = props;
+    const {procalcitoninData, graphDateStart, graphDateEnd} = props;
 
     useEffect(() => {
         let data = [];
-        if (wbcData) {
-            wbcData.forEach(entry => {
+        if (procalcitoninData) {
+            procalcitoninData.forEach(entry => {
                 if (((Date.parse(new Date(entry.timestamp)) - (Date.parse(graphDateStart))) >= 0)
                     &&
                     ((Date.parse(graphDateEnd)) - (Date.parse(new Date(entry.timestamp))) >= 0)
@@ -37,7 +37,7 @@ const WBCGraph = (props) => {
         }
         data.sort((a,b) => a.x - b.x);
         setGraphData(data);
-    }, [graphDateStart, graphDateEnd, wbcData])
+    }, [graphDateStart, graphDateEnd, procalcitoninData])
 
 
     useEffect(() => {
@@ -51,12 +51,12 @@ const WBCGraph = (props) => {
     }, [lowerBound, upperBound, stepSize, graphData])
 
     const buildGraph = () => {
-        return new ChartJS("wbcGraph", {
+        return new ChartJS("procalcitoninGraph", {
             type: "line",
             data: {
                 datasets: [
                     {
-                        label: "WBC",
+                        label: "Procalcitonin",
                         data: graphData,
                         borderWidth: 2,
                         borderColor: "rgb(200,0,0)",
@@ -73,7 +73,7 @@ const WBCGraph = (props) => {
                             offset: true,
                             scaleLabel: {
                                 display: true,
-                                labelString: "Count 10^9/L"
+                                labelString: "ug/L"
                             },
                             ticks: {
                                 beginAtZero: true,
@@ -98,7 +98,7 @@ const WBCGraph = (props) => {
                     ]
                 },
                 title: {
-                    text: "WBC",
+                    text: "Procalcitonin",
                     display: true,
                     fontSize: 20
                 }
@@ -154,10 +154,10 @@ const WBCGraph = (props) => {
                     {(graphData.length === 0) ?
                         <div>
                             <h3>Sorry, no data visible within selected date range.</h3>
-                            <div><canvas id="wbcGraph" width="800" height="500" style={{backgroundColor: "white", padding: "10px", width: "100%"}} /></div>
+                            <div><canvas id="procalcitoninGraph" width="800" height="500" style={{backgroundColor: "white", padding: "10px", width: "100%"}} /></div>
                         </div>
                         :
-                        <canvas id="wbcGraph" width="800" height="500" style={{backgroundColor: "white", padding: "10px", width: "100%"}} />
+                        <canvas id="procalcitoninGraph" width="800" height="500" style={{backgroundColor: "white", padding: "10px", width: "100%"}} />
                     }
                 </Grid.Column>
                 <Grid.Column width={1}>
@@ -172,7 +172,7 @@ const WBCGraph = (props) => {
                     <Grid style={{paddingLeft: "0px"}}>
                         <Grid.Row>
                             <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
-                                <h3>WBC Options</h3>
+                                <h3>Procalcitonin Options</h3>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -187,7 +187,7 @@ const WBCGraph = (props) => {
                                         <Grid.Column>
                                             <Input
                                                 fluid
-                                                label={{ basic: true, content: 'Count 10^9/L' }}
+                                                label={{ basic: true, content: 'ug/L' }}
                                                 labelPosition='right'
                                                 placeholder='Enter upper bound...'
                                                 defaultValue={upperBound}
@@ -211,7 +211,7 @@ const WBCGraph = (props) => {
                                         <Grid.Column>
                                             <Input
                                                 fluid
-                                                label={{ basic: true, content: 'Count 10^9/L' }}
+                                                label={{ basic: true, content: 'ug/L' }}
                                                 labelPosition='right'
                                                 placeholder='Enter lower bound...'
                                                 defaultValue={lowerBound}
@@ -235,7 +235,7 @@ const WBCGraph = (props) => {
                                         <Grid.Column>
                                             <Input
                                                 fluid
-                                                label={{ basic: true, content: 'Count 10^9/L' }}
+                                                label={{ basic: true, content: 'ug/L' }}
                                                 labelPosition='right'
                                                 placeholder='Enter step size...'
                                                 defaultValue={stepSize}
@@ -271,10 +271,10 @@ const WBCGraph = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        wbcData: state.patientData.graphingData.wbc,
+        procalcitoninData: state.patientData.graphingData.procalcitonin,
         graphDateStart: state.patientData.graphDataStartDate,
         graphDateEnd: state.patientData.graphDataEndDate,
     };
 };
 
-export default connect(mapStateToProps, null)(WBCGraph);
+export default connect(mapStateToProps, null)(ProcalcitoninGraph);

@@ -30,7 +30,7 @@ const allergyTableFormater = (allergies) => {
                 </Grid>
             </Table.Cell>
             <Table.Cell>
-                {allergy.date.toLocaleDateString()}
+                {(allergy.date)? allergy.date.toLocaleDateString() : "Not Available"}
             </Table.Cell>
             <Table.Cell>
                {allergy.verification}
