@@ -12,7 +12,7 @@ Antimicrobial Insights is a prototype SMART on FHIR clinical decision support ap
 
 ## Stack
 
-* **Front-end** - ReactJS on NodeJS as the core framework. Utilizes the SMART on FHIR framework (FHIR version R4) for EHR launches.
+* **Front-end** - ReactJS on NodeJS as the core framework. It utilizes the SMART on FHIR framework (FHIR version R4) for EHR launches.
 * **Hosting** - AWS Amplify.
 * **Backend** - In the backend, we are using AWS Comprehend Medical to aid in patient data classification and filtering. 
 
