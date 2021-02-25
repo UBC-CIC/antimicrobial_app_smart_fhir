@@ -17,7 +17,7 @@ Antimicrobial Insights is a prototype SMART on FHIR clinical decision support ap
 * **Backend** - In the backend, we are using AWS Comprehend Medical to aid in patient data classification and filtering. 
 
 # Demo
-Try launching the application yourself using the [online dashboard](). You will need to launch the application from a SMART on FHIR compliant EMR emulator. There are a number of of different ones available but we recommend using the [Smart App Launcher Sandbox](https://launch.smarthealthit.org/) as it does not require any code modifications to run. 
+Try launching the application yourself using the [live demo application](). You will need to launch the application from a SMART on FHIR compliant EMR emulator. There are a number of of different ones available but we recommend using the [Smart App Launcher Sandbox](https://launch.smarthealthit.org/) as it does not require any code modifications to run. 
 
 You can use the following settings shown below to launch the demo:
 
