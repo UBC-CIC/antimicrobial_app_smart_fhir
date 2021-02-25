@@ -7,7 +7,6 @@ Antimicrobial Insights is a prototype SMART on FHIR clinical decision support ap
 | [Demo](#demo)         |     Interact with Antimicrobial Insights application.    | 
 | [Overview](#overview)         |     See the motivation behind this project.    | 
 | [Deployment](#deployment)         |    Learn how to deploy this project yourself. |
-| [Authors](#authors)      |     Meet the team behind this.     |
 | [License](#license)      |     License details.     |
 
 
