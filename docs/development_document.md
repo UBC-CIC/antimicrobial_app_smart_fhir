@@ -8,6 +8,6 @@ This application utilizes the [SMART on FHIR framework](https://docs.smarthealth
 
 ## Querying Patient Data
 
-
+After the application is launched, we are using the SMART Client Library to query multiple different FHIR resources from the EMR server within the context of a single patient. Some of the FHIR resources we are querying include: Observation, Procedure, AllergyIntollerance, MedicationRequest, DiagnosticRequest, and ServiceRequest.  
 
 
