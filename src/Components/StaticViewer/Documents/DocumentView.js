@@ -10,7 +10,7 @@ import "./DocumentView.css";
 
 const DocumentView = (props) => {
 
-    const {graphDateStart, graphDateEnd, procedures} = props;
+    const {graphDateStart, graphDateEnd, procedures, imaging, consults} = props;
     const [startDate, setStartDate] = useState(graphDateStart);
     const [endDate, setEndDate] = useState(graphDateEnd);
     const [searchText, setSearchText] = useState("");
@@ -18,7 +18,12 @@ const DocumentView = (props) => {
     const [showImaging, setShowImaging] = useState(false);
     const [showProcedures, setShowProcedures] = useState(false);
     const [procedureData, setProcedureData] = useState([]);
+    const [imagingData, setImagingData] = useState([]);
+    const [consultsData, setConsultsData] = useState([]);
     const [procedurePanels, setProcedurePanels] = useState(null);
+    const [imagingPanels, setImagingPanels] = useState(null);
+    const [consultPanels, setConsultPanels] = useState(null);
+
 
     const filterDate = (date) => {
         const formattedDate = new Date(date).getTime();
@@ -59,6 +64,50 @@ const DocumentView = (props) => {
         setProcedureData(procedureDataArray);
     }, [procedures, endDate, startDate, searchText]);
 
+    // Imaging Data Processing
+    useEffect(() => {
+        let imagingDataArray = [];
+
+        if (imaging.length > 0) {
+            for (let image of imaging) {
+                if (
+                    (!image.timestamp)
+                    ||
+                    (((Date.parse(new Date(image.timestamp)) - (Date.parse(startDate))) >= 0)
+                        &&
+                        ((Date.parse(endDate)) - (Date.parse(new Date(image.timestamp))) >= 0)
+                    )
+                ) {
+                   imagingDataArray.push(image);
+                }
+            }
+        }
+
+        setImagingData(imagingDataArray);
+    }, [imaging, endDate, startDate, searchText]);
+
+    // Consults Data Processing
+    useEffect(() => {
+        let consultDataArray = [];
+
+        if (consults.length > 0) {
+            for (let consult of consults) {
+                if (
+                    (!consult.timestamp)
+                    ||
+                    (((Date.parse(new Date(consult.timestamp)) - (Date.parse(startDate))) >= 0)
+                        &&
+                        ((Date.parse(endDate)) - (Date.parse(new Date(consult.timestamp))) >= 0)
+                    )
+                ) {
+                    consultDataArray.push(consult);
+                }
+            }
+        }
+
+        setConsultsData(consultDataArray);
+    }, [consults, endDate, startDate, searchText]);
+
     //=================================================================================================================
     // Accordion menu formatting
     useEffect(() => {
@@ -71,6 +120,33 @@ const DocumentView = (props) => {
         setProcedurePanels(procedurePanels);
 
     }, [searchText, procedureData]);
+
+    //=================================================================================================================
+    // Accordion menu formatting
+    useEffect(() => {
+
+        //==============================================================================================================
+        const consultPanels = [
+            { key: 'panel-1', title: `Consults (${consultsData.length})`, content: {content: (<div className={"dataList"}>{procedureTableFormater(consultsData)}</div>)} },
+        ]
+
+        setConsultPanels(consultPanels);
+
+    }, [searchText, consultsData]);
+
+    //=================================================================================================================
+    // Accordion menu formatting
+    useEffect(() => {
+
+        //==============================================================================================================
+        const imagingPanels = [
+            { key: 'panel-1', title: `Imaging (${imagingData.length})`, content: {content: (<div className={"dataList"}>{procedureTableFormater(imagingData)}</div>)} },
+        ]
+
+        setImagingPanels(imagingPanels);
+
+    }, [searchText, imagingData]);
+
 
     return(<Grid.Row style={{paddingTop: "0px"}}>
         <Grid.Column>
@@ -153,6 +229,10 @@ const DocumentView = (props) => {
                 <Grid.Row style={{paddingTop: "0px"}}>
                     <Grid.Column textAlign={"left"} verticalAlign={"middle"}>
                         {(showProcedures)? <Accordion panels={procedurePanels} styled fluid /> : null}
+                        {(showProcedures)? <br/> : null}
+                        {(showImaging)? <Accordion panels={imagingPanels} styled fluid /> : null}
+                        {(showImaging)? <br/> : null}
+                        {(showConsults)? <Accordion panels={consultPanels} styled fluid /> : null}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -166,6 +246,8 @@ const mapStateToProps = (state) => {
         graphDateStart: state.patientData.graphDataStartDate,
         graphDateEnd: state.patientData.graphDataEndDate,
         procedures: state.patientData.rawData.procedures,
+        imaging: state.patientData.imaging,
+        consults: state.patientData.consults
     };
 };
 

@@ -1,14 +1,16 @@
 import React, { useState }  from 'react';
 import { connect } from "react-redux";
+import {Auth} from "aws-amplify";
 import ApplicationNavigation from 'terra-application/lib/application-navigation';
 import PatientView from "../Pages/PatientView/PatientView";
-import {Grid, Icon, Menu, TextArea} from "semantic-ui-react";
+import {Grid, Icon, Menu, TextArea, Button} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import "./PageContainer.css";
+import {updateLoginState} from "../../Actions/loginActions";
 
 
 const titleConfig = {
-    title: 'Microbial-Insights',
+    title: 'Antimicrobial-Insights',
 };
 
 const navigationItems = [
@@ -37,14 +39,20 @@ const navigationItems = [
 
 
 const PageContainer = (props) => {
+    const {updateLoginState, patient} = props;
     const [activeNavItem, setActiveNavItem] = useState('Patient_1');
     const [activeSidebarItem, setActiveSidebarItem] = useState("");
-    const {patient} = props;
+
     let age;
     if (patient.birthDate) {
         let currentYear = new Date().getFullYear();
         let birthYear = new Date(patient.birthDate).getFullYear()
         age = currentYear - birthYear;
+    }
+
+    async function onSignOut() {
+        updateLoginState("signIn");
+        await Auth.signOut();
     }
 
     return (
@@ -60,9 +68,25 @@ const PageContainer = (props) => {
                         <Grid style={{backgroundColor: "#f2f8fc"}}>
                             <Grid.Row>
                                 <Grid.Column textAlign={"center"} verticalAlign={"middle"} className={"patientHeader"} >
-                                    <div style={{marginTop: "8px"}}>
-                                        <span className={"patientHeaderText"}><strong>Viewing Patient: {props.name}</strong></span>
-                                    </div>
+                                    <Grid>
+                                        <Grid.Row>
+                                            <Grid.Column width={3} />
+                                            <Grid.Column width={10} textAlign={"center"} verticalAlign={"middle"}>
+                                                <div style={{marginTop: "8px"}}>
+                                                    <span className={"patientHeaderText"}><strong>Viewing Patient: {props.name}</strong></span>
+                                                </div>
+                                            </Grid.Column>
+                                            <Grid.Column width={3} textAlign={"right"} verticalAlign={"middle"}>
+                                                <Button icon size={"mini"} labelPosition='right'
+                                                        style={{paddingTop: "12px", color: "white", backgroundColor: "transparent"}}
+                                                        onClick={onSignOut}
+                                                >
+                                                    Logout
+                                                    <Icon name='sign-out' />
+                                                </Button>
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                    </Grid>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
@@ -198,8 +222,13 @@ const PageContainer = (props) => {
 const mapStateToProps = (state) => {
     return {
         patient: state.patientData.currentPatient,
+        loginState: state.loginState.currentState,
     };
 };
 
+const mapDispatchToProps = {
+    updateLoginState,
+}
 
-export default connect(mapStateToProps, null)(PageContainer);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageContainer);

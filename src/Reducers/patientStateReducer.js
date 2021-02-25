@@ -7,6 +7,7 @@ const initialPatientState = {
     resistantOrganisms: null,
     procedures: [],
     imaging: [],
+    consults: [],
     graphingData: {
         temperature: [],
         bloodPressure: [],

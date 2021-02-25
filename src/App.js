@@ -1,6 +1,7 @@
 import './App.css';
 import React from "react";
 import { connect } from "react-redux";
+import {Hub} from "aws-amplify";
 import { BrowserRouter } from 'react-router-dom';
 import ApplicationBase from 'terra-application/lib/application-base';
 import ApplicationLoadingOverlay from 'terra-application/lib/application-loading-overlay';
@@ -8,7 +9,9 @@ import PageContainer from "./Views/PageContainer/PageContainer";
 import {setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData, setRawData,
     setDiagnosticData} from "./Actions/patientContextActions";
 import {setLoadingFlag, unsetLoadingFlag, setTGT, setErrorFlag} from "./Actions/appStateActions";
+import {updateLoginState} from "./Actions/loginActions";
 import {Grid} from "semantic-ui-react";
+import Login from "./Components/Authentication/Login";
 import generateTGT from "./Services/UMLS/generateTGT";
 import 'semantic-ui-css/semantic.min.css';
 require('dotenv').config()
@@ -23,11 +26,13 @@ class App extends React.Component {
     super(props);
     this.state = {
         patient: null,
+        currentLoginState: "signedOut"
     }
   }
 
   async componentDidMount() {
       this._isMounted = true;
+      this.setAuthListener();
       const {client, setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData,
           setDiagnosticData, setRawData, setLoadingFlag, unsetLoadingFlag, setTGT, setErrorFlag} = this.props;
       try {
@@ -193,8 +198,29 @@ class App extends React.Component {
       }
   }
 
+   setAuthListener = async () => {
+      const {updateLoginState} = this.props;
+        Hub.listen('auth', (data)=> {
+            switch(data.payload.event) {
+                case "signOut":
+                    updateLoginState("signIn");
+                    break;
+                default:
+                    break;
+            }
+        })
+    }
+
   componentWillUnmount() {
       this._isMounted = false;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+      if (this.props.loginState !== prevProps.loginState) {
+          this.setState({
+              currentLoginState: this.props.loginState,
+          })
+      }
   }
 
     render() {
@@ -211,22 +237,34 @@ class App extends React.Component {
 
 
   return (
-      <ApplicationBase locale={"en"}>
-          <div className="App" style={{height: "100vh", width: "100vw", backgroundColor: "#f2f8fc"}}>
-              {(isLoadingData)? <ApplicationLoadingOverlay isOpen={isLoadingData} /> :
-                  (errorOccurred)? <Grid style={{height: "100vh", width: "100vw", backgroundColor: "#f2f8fc"}}>
-                      <Grid.Row style={{height: "100vh", width: "100vw", backgroundColor: "#f2f8fc"}}>
-                          <Grid.Column verticalAlign={"middle"} textAlign={"center"}>
-                              <h1>Sorry, an error occurred while retrieving patient data from the server.</h1>
-                              <h1>Please refresh or re-launch the application.</h1>
-                          </Grid.Column>
-                      </Grid.Row>
-                      </Grid> :
-                      <BrowserRouter>
-                          <PageContainer client={client} name={name}/>
-                      </BrowserRouter>
-              }
-          </div>
+      <ApplicationBase locale={"en"} style={{height: "100vh", width: "100vw"}}>
+          {
+              this.props.loginState !== "signedIn" && (
+                  <div  className="App" style={{height: "100vh", width: "100vw"}}>
+                      <Login animateTitle={false} type={"image"} title={"Antimicrobial Insights"} darkMode={false} />
+                  </div>
+              )
+          }
+          {
+              this.props.loginState === "signedIn" && (
+                  <div className="App" style={{height: "100vh", width: "100vw", backgroundColor: "#f2f8fc"}}>
+                      {
+                          (isLoadingData)? <ApplicationLoadingOverlay isOpen={isLoadingData} /> :
+                              (errorOccurred)? <Grid style={{height: "100vh", width: "100vw", backgroundColor: "#f2f8fc"}}>
+                                      <Grid.Row style={{height: "100vh", width: "100vw", backgroundColor: "#f2f8fc"}}>
+                                          <Grid.Column verticalAlign={"middle"} textAlign={"center"}>
+                                              <h1>Sorry, an error occurred while retrieving patient data from the server.</h1>
+                                              <h1>Please refresh or re-launch the application.</h1>
+                                          </Grid.Column>
+                                      </Grid.Row>
+                                  </Grid> :
+                                  <BrowserRouter>
+                                      <PageContainer client={client} name={name}/>
+                                  </BrowserRouter>
+                      }
+                  </div>
+              )
+          }
       </ApplicationBase>
   );
 }
@@ -236,7 +274,8 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
     return {
         isLoadingData: state.appState.loadingPatientData,
-        errorOccurred: state.appState.error
+        errorOccurred: state.appState.error,
+        loginState: state.loginState.currentState,
     };
 };
 
@@ -252,7 +291,8 @@ const mapDispatchToProps = {
     setDiagnosticData,
     setRawData,
     setTGT,
-    setErrorFlag
+    setErrorFlag,
+    updateLoginState,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
