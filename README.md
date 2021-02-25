@@ -20,6 +20,7 @@ Antimicrobial Insights is a prototype SMART on FHIR clinical decision support ap
 Try launching the application yourself using the [live demo application](). You will need to launch the application from a SMART on FHIR compliant EMR emulator. There are a number of of different ones available but we recommend using the [Smart App Launcher Sandbox](https://launch.smarthealthit.org/) as it does not require any code modifications to run. 
 
 You can use the following settings shown below to launch the demo:
+**For the "App Launch URL", you can use either "http://localhost:3000/" if you're running this project locally, or if you're using the live demo application, use the URL for the app.**
 
 <img src="./docs/images/smartSandbox.png"  width="500"/>
 
