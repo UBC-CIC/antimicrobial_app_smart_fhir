@@ -4,7 +4,9 @@ Antimicrobial Insights is a prototype SMART on FHIR clinical decision support ap
 |Index| Description|
 |:----------------|:-----------|
 | [Stack](#stack)         |     The application stack.    | 
-| [Demo](#demo)         |     Interact with Antimicrobial Insights application.    | 
+| [Demo](#demo)         |     Interact with Antimicrobial Insights application.    |
+| [High Level Architecture](#architecture)         |    Learn about the application architecture. |
+| [Development](#development)         |    Learn how we developed this application. |
 | [Deployment](#deployment)         |    Learn how to deploy this project yourself. |
 | [License](#license)      |     License details.     |
 
@@ -28,6 +30,9 @@ You can use the following settings shown below to launch the demo:
 # High Level Architecture
 
 <img src="./docs/images/architecture_diagram.png"  width="500"/>
+
+# Development
+To learn more details about this application, please read our [Development Document](./docs/development_document.md) 
 
 # Deployment
 To deploy this solution into your AWS Account please follow our [Deployment Guide](./docs/deployment_guide.md)
