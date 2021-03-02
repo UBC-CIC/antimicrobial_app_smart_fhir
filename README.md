@@ -4,29 +4,35 @@ Antimicrobial Insights is a prototype SMART on FHIR clinical decision support ap
 |Index| Description|
 |:----------------|:-----------|
 | [Stack](#stack)         |     The application stack.    | 
-| [Demo](#demo)         |     Interact with Antimicrobial Insights application.    | 
-| [Overview](#overview)         |     See the motivation behind this project.    | 
+| [Demo](#demo)         |     Interact with Antimicrobial Insights application.    |
+| [High Level Architecture](#architecture)         |    Learn about the application architecture. |
+| [Development](#development)         |    Learn how we developed this application. |
 | [Deployment](#deployment)         |    Learn how to deploy this project yourself. |
 | [License](#license)      |     License details.     |
 
 
-## Stack
+# Stack
 
-* **Front-end** - ReactJS on NodeJS as the core framework. Utilizes the SMART on FHIR framework (FHIR version R4) for EHR launches.
+* **Front-end** - ReactJS on NodeJS as the core framework. It utilizes the SMART on FHIR framework (FHIR version R4) for EHR launches.
 * **Hosting** - AWS Amplify.
 * **Backend** - In the backend, we are using AWS Comprehend Medical to aid in patient data classification and filtering. 
 
 # Demo
-Try launching the application yourself using the [online dashboard](). You will need to launch the application from a SMART on FHIR compliant EMR emulator. There are a number of of different ones available but we recommend using the [Smart App Launcher Sandbox](https://launch.smarthealthit.org/) as it does not require any code modifications to run. 
+Try launching the application yourself using the [live demo application](). You will need to launch the application from a SMART on FHIR compliant EMR emulator. There are a number of of different ones available but we recommend using the [Smart App Launcher Sandbox](https://launch.smarthealthit.org/) as it does not require any code modifications to run. 
 
 You can use the following settings shown below to launch the demo:
+
+*For the "App Launch URL", you can use either "http://localhost:3000/" if you're running this project locally, or if you're using the live demo application, use the URL for the app.*
 
 <img src="./docs/images/smartSandbox.png"  width="500"/>
 
 
-## High level architecture
+# High Level Architecture
 
 <img src="./docs/images/architecture_diagram.png"  width="500"/>
+
+# Development
+To learn more details about this application, please read our [Development Document](./docs/development_document.md) 
 
 # Deployment
 To deploy this solution into your AWS Account please follow our [Deployment Guide](./docs/deployment_guide.md)
