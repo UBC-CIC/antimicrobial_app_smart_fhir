@@ -1,20 +1,27 @@
+import {Auth} from "aws-amplify";
 import awsmobile from '../../aws-exports';
 const aws = require('aws-sdk');
 
 
 const medicationParser = async (payload) => {
+    const credentials = await Auth.currentCredentials();
     return new Promise(function(resolve, reject) {
         let params = {
             Text: payload,
         }
         aws.config.region = process.env.REACT_APP_AWS_REGION;
 
+        aws.config.credentials = new aws.Credentials({
+            accessKeyId: credentials.accessKeyId,
+            secretAccessKey: credentials.secretAccessKey,
+            sessionToken: credentials.sessionToken
+        });
 
-
-        aws.config.credentials = new aws.CognitoIdentityCredentials({
+        // Unauthorized authentication (for application use without a login)
+       /* aws.config.credentials = new aws.CognitoIdentityCredentials({
             IdentityPoolId: awsmobile.aws_cognito_identity_pool_id,
             RoleArn: process.env.REACT_APP_RoleArn,
-        });
+        });*/
 
 
         let comprehendMedical = new aws.ComprehendMedical();

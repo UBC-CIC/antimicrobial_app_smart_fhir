@@ -86,7 +86,7 @@ export const processMedicationData = (meds) => {
             } catch (e) {
 
             }
-
+            
             let medicationIdentities = [];
             if (!hasRxNormCode) {
                 // try to parse description to extract medication name

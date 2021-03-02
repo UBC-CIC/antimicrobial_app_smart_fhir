@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import {Auth} from "aws-amplify";
 import ApplicationNavigation from 'terra-application/lib/application-navigation';
 import PatientView from "../Pages/PatientView/PatientView";
-import {Grid, Icon, Menu, TextArea, Button} from "semantic-ui-react";
+import {Grid, Icon, Menu, TextArea} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import "./PageContainer.css";
 import {updateLoginState} from "../../Actions/loginActions";
@@ -26,13 +26,6 @@ const navigationItems = [
         text: 'Patient 2',
         metaData: {
             display: 'Patient 2',
-        },
-    },
-    {
-        key: 'Patient_3',
-        text: 'Patient 3',
-        metaData: {
-            display: 'Patient 3',
         },
     },
 ];
@@ -61,6 +54,9 @@ const PageContainer = (props) => {
             navigationItems={navigationItems}
             activeNavigationItemKey={activeNavItem}
             onSelectNavigationItem={key => setActiveNavItem(key)}
+            onSelectLogout={() => {
+                onSignOut();
+            }}
         >
             <Grid style={{backgroundColor: "#f2f8fc"}}>
                 <Grid.Row>
@@ -70,20 +66,10 @@ const PageContainer = (props) => {
                                 <Grid.Column textAlign={"center"} verticalAlign={"middle"} className={"patientHeader"} >
                                     <Grid>
                                         <Grid.Row>
-                                            <Grid.Column width={3} />
-                                            <Grid.Column width={10} textAlign={"center"} verticalAlign={"middle"}>
+                                            <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
                                                 <div style={{marginTop: "8px"}}>
                                                     <span className={"patientHeaderText"}><strong>Viewing Patient: {props.name}</strong></span>
                                                 </div>
-                                            </Grid.Column>
-                                            <Grid.Column width={3} textAlign={"right"} verticalAlign={"middle"}>
-                                                <Button icon size={"mini"} labelPosition='right'
-                                                        style={{paddingTop: "12px", color: "white", backgroundColor: "transparent"}}
-                                                        onClick={onSignOut}
-                                                >
-                                                    Logout
-                                                    <Icon name='sign-out' />
-                                                </Button>
                                             </Grid.Column>
                                         </Grid.Row>
                                     </Grid>
