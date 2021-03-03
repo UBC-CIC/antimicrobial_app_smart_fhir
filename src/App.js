@@ -40,19 +40,13 @@ class App extends React.Component {
           try {
               tgt = await generateTGT();
               setTGT(tgt);
-
           } catch (e) {
               console.error("Error retrieving UMLS token: ", e);
           }
 
-          let patient = await client.patient.read();
+          let patient;
           setPatientData(patient);
           let observation;
-          try {
-              observation = await client.patient.request("Observation", {pageLimit: 0});
-          } catch (e) {
-              console.log("Fetching Observation Resource failed: ", e);
-          }
           let observationArray= [];
           if (observation) {
               if (observation.length > 0) {
@@ -69,11 +63,6 @@ class App extends React.Component {
               }
           }
           let allergy;
-          try {
-              allergy = await client.patient.request("AllergyIntolerance", {pageLimit: 0});
-          } catch (e) {
-              console.log("Fetching AllergyIntolerance Resource failed: ", e);
-          }
           let allergyArray = [];
           if (allergy) {
               if (allergy.length > 0) {
@@ -91,11 +80,6 @@ class App extends React.Component {
           }
 
          let medication;
-         try {
-             medication = await client.patient.request("MedicationRequest", {pageLimit: 0});
-         } catch (e) {
-             console.log("Fetching MedicationRequest Resource failed: ", e);
-         }
           let medicationArray = [];
           if (medication) {
               if (medication.length > 0) {
@@ -112,11 +96,6 @@ class App extends React.Component {
               }
           }
          let diagnosticReports;
-         try {
-             diagnosticReports = await client.patient.request("DiagnosticReport", {pageLimit: 0});
-         } catch (e) {
-             console.log("Fetching DiagnosticReport Resource failed: ", e);
-         }
           let diagnosticReportArray = [];
           if (diagnosticReports) {
               if (diagnosticReports.length > 0) {
@@ -129,15 +108,10 @@ class App extends React.Component {
                           }
                       }
                   }
-                  setDiagnosticData({diagnostics: diagnosticReportArray, client: client});
+                  setDiagnosticData({diagnostics: diagnosticReportArray});
               }
           }
           let procedures;
-          try {
-              procedures = await client.patient.request("Procedure", {pageLimit: 0});
-          } catch (e) {
-              console.log("Fetching Procedure Resource failed: ", e);
-          }
           let proceduresArray = [];
           if (procedures) {
               if (procedures.length > 0) {
@@ -155,11 +129,6 @@ class App extends React.Component {
 
           }
           let conditions;
-          try {
-              conditions =  await client.patient.request("Condition", {pageLimit: 0});
-          } catch (e) {
-              console.log("Fetching Condition Resource failed: ", e);
-          }
           let conditionArray = [];
           if (conditions) {
               if (conditions.length > 0) {

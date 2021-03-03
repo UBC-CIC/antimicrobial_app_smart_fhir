@@ -35,24 +35,27 @@ const initialPatientState = {
 
 const setPatientDataHelper = (patient) => {
     let prefix = null;
-    if (patient.name[0].prefix) {
-        prefix = patient.name[0].prefix[0];
+    if (patient) {
+        if (patient.name[0].prefix) {
+            prefix = patient.name[0].prefix[0];
+        }
+        let language = null;
+        if (patient.communication) {
+            language = patient.communication[0].language.text
+        }
+        return {
+            id: patient.id,
+            name: {
+                prefix: prefix,
+                first: patient.name[0].given[0],
+                last: patient.name[0].family,
+            },
+            birthDate: patient.birthDate,
+            gender: patient.gender,
+            language: language,
+        };
     }
-    let language = null;
-    if (patient.communication) {
-        language = patient.communication[0].language.text
-    }
-    return {
-        id: patient.id,
-        name: {
-            prefix: prefix,
-            first: patient.name[0].given[0],
-            last: patient.name[0].family,
-        },
-        birthDate: patient.birthDate,
-        gender: patient.gender,
-        language: language,
-    };
+    return patient;
 }
 
 // determines observation type based on given codes

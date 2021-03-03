@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import FHIR from "fhirclient";
 import { applyMiddleware, createStore } from "redux";
 import Amplify from 'aws-amplify';
 import thunk from "redux-thunk";
@@ -13,30 +12,20 @@ import reducers from "./Reducers";
 Amplify.configure(awsconfig);
 
 
-
-
 const store = createStore(
     reducers, applyMiddleware(thunk)
 );
 
 
 const smart_on_fhir_launch = () => {
-    // Initialize and authorize application
-    FHIR.oauth2
-        .init({
-            clientId: '3aa58dbb-7bf0-47ab-82e7-8cf132a7fbc9',
-            scope: "patient/Observation.read patient/Procedure.read patient/Patient.read patient/AllergyIntolerance.read patient/MedicationRequest.read patient/DiagnosticReport.read patient/ServiceRequest.read launch profile openid online_access"
-            /*clientId: 'e0d5a347-4214-4b2b-aa3d-398e9da7573b',
-            scope: 'patient/Observation.read patient/Procedure.read patient/Patient.read patient/AllergyIntolerance.read patient/MedicationRequest.read patient/DiagnosticReport.read patient/ServiceRequest.read launch profile openid online_access'*/
-        })
-        .then(client => {
+
             ReactDOM.render(
                 <Provider store={store}>
-                    <App client={client} />
+                    <App  />
                 </Provider>,
                 document.getElementById('root')
-            );
-        });
+            )
+
 };
 
 smart_on_fhir_launch();

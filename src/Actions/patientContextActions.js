@@ -368,11 +368,11 @@ export const processAllergyData = (payload) => {
 
 export const setDiagnosticData = (payload) => {
     return async (dispatch) => {
-        await dispatch(processDiagnosticData(payload.diagnostics, payload.client));
+        await dispatch(processDiagnosticData(payload.diagnostics));
     }
 }
 
-export const processDiagnosticData = (diagnostics, client) => {
+export const processDiagnosticData = (diagnostics) => {
     return async (dispatch) => {
         let organismArray = [];
         //let imagingArray = [];
@@ -390,7 +390,7 @@ export const processDiagnosticData = (diagnostics, client) => {
                         if (entry.resource.result.length > 0) {
                             for (let result of entry.resource.result) {
                                 try {
-                                    let observation = await client.request(result.reference);
+                                    let observation;
                                     if (observation.interpretation) {
                                          let testEntry = {
                                              medication: observation.code.coding[0].display,
@@ -412,7 +412,7 @@ export const processDiagnosticData = (diagnostics, client) => {
                             if (basedEntry.reference) {
                                 if (basedEntry.reference.includes("ServiceRequest")) {
                                     try {
-                                        let serviceRequest = await client.request(basedEntry.reference);
+                                        let serviceRequest;
                                         if (serviceRequest.specimen) {
                                             if (serviceRequest.specimen.type) {
                                                 type = serviceRequest.specimen.type.coding[0].display;

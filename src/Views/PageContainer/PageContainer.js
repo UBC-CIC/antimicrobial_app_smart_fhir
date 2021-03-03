@@ -13,34 +13,46 @@ const titleConfig = {
     title: 'Antimicrobial-Insights',
 };
 
-/*const navigationItems = [
+const navigationItems = [
     {
         key: 'Patient_1',
-        text: 'Patient 1',
+        text: 'Demo Patient 1',
         metaData: {
             display: 'Patient 1',
         },
     },
     {
         key: 'Patient_2',
-        text: 'Patient 2',
+        text: 'Demo Patient 2',
         metaData: {
             display: 'Patient 2',
         },
     },
-];*/
+];
 
 
 const PageContainer = (props) => {
     const {updateLoginState, patient} = props;
-    /*const [activeNavItem, setActiveNavItem] = useState('Patient_1');*/
+    const [activeNavItem, setActiveNavItem] = useState('Patient_1');
     const [activeSidebarItem, setActiveSidebarItem] = useState("");
 
     let age;
-    if (patient.birthDate) {
-        let currentYear = new Date().getFullYear();
-        let birthYear = new Date(patient.birthDate).getFullYear()
-        age = currentYear - birthYear;
+    let gender;
+    let language;
+    if (patient) {
+        if (patient.birthDate) {
+            let currentYear = new Date().getFullYear();
+            let birthYear = new Date(patient.birthDate).getFullYear()
+            age = currentYear - birthYear;
+        }
+
+        if (patient.gender) {
+            gender = patient.gender;
+        }
+
+        if (patient.language) {
+            language = patient.language;
+        }
     }
 
     async function onSignOut() {
@@ -51,9 +63,9 @@ const PageContainer = (props) => {
     return (
         <ApplicationNavigation
             titleConfig={titleConfig}
-            /*navigationItems={navigationItems}*/
-            /*activeNavigationItemKey={activeNavItem}*/
-            /*onSelectNavigationItem={key => setActiveNavItem(key)}*/
+            navigationItems={navigationItems}
+            activeNavigationItemKey={activeNavItem}
+            onSelectNavigationItem={key => setActiveNavItem(key)}
             onSelectLogout={() => {
                 onSignOut();
             }}
@@ -105,12 +117,12 @@ const PageContainer = (props) => {
                                                                 </Grid.Row>
                                                                 <Grid.Row style={{paddingBottom: "0px", paddingTop: "0px"}}>
                                                                     <Grid.Column textAlign={"left"}>
-                                                                        <span style={{color: "white", fontSize: "10px"}}><strong>Gender: </strong> {(patient.gender)? patient.gender : "N/A"}</span>
+                                                                        <span style={{color: "white", fontSize: "10px"}}><strong>Gender: </strong> {(gender)? gender : "N/A"}</span>
                                                                     </Grid.Column>
                                                                 </Grid.Row>
                                                                 <Grid.Row style={{paddingTop: "0px"}}>
                                                                     <Grid.Column textAlign={"left"}>
-                                                                        <span style={{color: "white", fontSize: "10px"}}><strong>Language: </strong> {(patient.language)? patient.language : "N/A"}</span>
+                                                                        <span style={{color: "white", fontSize: "10px"}}><strong>Language: </strong> {(language)? language : "N/A"}</span>
                                                                     </Grid.Column>
                                                                 </Grid.Row>
                                                             </Grid>
