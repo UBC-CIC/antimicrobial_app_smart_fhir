@@ -7,7 +7,7 @@ import ApplicationBase from 'terra-application/lib/application-base';
 import ApplicationLoadingOverlay from 'terra-application/lib/application-loading-overlay';
 import PageContainer from "./Views/PageContainer/PageContainer";
 import {setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData, setRawData,
-    setDiagnosticData} from "./Actions/patientContextActions";
+    setDiagnosticData, setProcedureData} from "./Actions/patientContextActions";
 import {setLoadingFlag, unsetLoadingFlag, setTGT, setErrorFlag} from "./Actions/appStateActions";
 import {updateLoginState} from "./Actions/loginActions";
 import {Grid} from "semantic-ui-react";
@@ -33,7 +33,7 @@ class App extends React.Component {
       this._isMounted = true;
       this.setAuthListener();
       const {client, setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData,
-          setDiagnosticData, setRawData, setLoadingFlag, unsetLoadingFlag, setTGT, setErrorFlag} = this.props;
+          setDiagnosticData, setProcedureData, setRawData, setLoadingFlag, unsetLoadingFlag, setTGT, setErrorFlag} = this.props;
       try {
           setLoadingFlag();
           let tgt;
@@ -150,6 +150,7 @@ class App extends React.Component {
                           }
                       }
                   }
+                  setProcedureData(proceduresArray);
               }
 
           }
@@ -176,13 +177,13 @@ class App extends React.Component {
           setRawData({observations: observationArray, allergies: allergyArray,
                       medications: medicationArray, conditions: conditionArray, procedures: proceduresArray,
                       diagnosticReports: diagnosticReportArray});
-          console.log("patient: ", patient);
+         /* console.log("patient: ", patient);
           console.log("observations: ", observation);
           console.log("allergies: ", allergy);
           console.log("medications: ", medication);
           console.log("diagnostic reports: ", diagnosticReports);
           console.log("conditions: ", conditions);
-          console.log("procedures: ", procedures);
+          console.log("procedures: ", procedures);*/
 
           if (this._isMounted) {
               this.setState({
@@ -288,6 +289,7 @@ const mapDispatchToProps = {
     setObservationData,
     setConditionData,
     setDiagnosticData,
+    setProcedureData,
     setRawData,
     setTGT,
     setErrorFlag,

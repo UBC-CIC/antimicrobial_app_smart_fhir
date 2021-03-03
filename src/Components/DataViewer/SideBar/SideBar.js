@@ -47,8 +47,7 @@ const VerticalSidebar = (props) => {
         let oxygenSat = !(props.availableData.oxygenSaturation.length > 0);
         let oxygenMode = !(props.availableData.oxygenMode.length > 0);
         let imaging = true;
-        let procedures = true;
-
+        let procedures = !(props.procedureData.length > 0);
 
 
         setDisabled({
@@ -65,15 +64,16 @@ const VerticalSidebar = (props) => {
             procedures: procedures,
         })
 
-    }, [props.availableData.bloodPressure.length,
-        props.availableData.temperature.length,
-        props.availableData.wbc.length,
+    }, [props.availableData.bloodPressure,
+        props.availableData.temperature,
+        props.availableData.wbc,
         props.availableData.crp,
         props.availableData.procalcitonin,
         props.availableData.heartRate,
         props.availableData.respiratoryRate,
         props.availableData.oxygenSaturation,
-        props.availableData.oxygenMode
+        props.availableData.oxygenMode,
+        props.procedureData
     ])
 
     useEffect(() => {
@@ -320,6 +320,7 @@ const mapStateToProps = (state) => {
     return {
         isLoadingData: state.appState.loadingPatientData,
         availableData: state.patientData.graphingData,
+        procedureData: state.patientData.procedures,
         defaultGraph: state.patientData.graphToDisplay,
         patient: state.patientData.currentPatient,
         graphDateStart: state.patientData.graphDataStartDate,

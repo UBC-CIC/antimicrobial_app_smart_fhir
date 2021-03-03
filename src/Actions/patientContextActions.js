@@ -536,6 +536,7 @@ export const processProcedureData = (payload) => {
             }
             procedureArray.push(procedureEntry);
         }
+
         dispatch({type: "SET_PROCEDURE_DATA", payload: procedureArray});
     }
 }

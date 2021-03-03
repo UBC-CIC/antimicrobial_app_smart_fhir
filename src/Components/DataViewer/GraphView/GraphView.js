@@ -11,6 +11,7 @@ import RespiratoryRateGraph from "./Graphs/RespiratoryRate/RespiratoryRateGraph"
 import OxygenSaturationGraph from "./Graphs/OxygenSaturation/OxygenSaturationGraph";
 import CRPGraph from "./Graphs/CRP/CRPGraph";
 import WBCGraph from "./Graphs/WBC/WBCGraph";
+import ProcedureGraph from "./Graphs/Procedure/ProcedureGraph";
 
 
 
@@ -50,6 +51,10 @@ const GraphView = (props) => {
         }
         case "wbc": {
             graph = <WBCGraph />;
+            break;
+        }
+        case "procedures": {
+            graph = <ProcedureGraph />;
             break;
         }
         default:

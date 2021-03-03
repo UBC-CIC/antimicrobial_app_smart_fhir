@@ -13,7 +13,7 @@ const titleConfig = {
     title: 'Antimicrobial-Insights',
 };
 
-const navigationItems = [
+/*const navigationItems = [
     {
         key: 'Patient_1',
         text: 'Patient 1',
@@ -28,12 +28,12 @@ const navigationItems = [
             display: 'Patient 2',
         },
     },
-];
+];*/
 
 
 const PageContainer = (props) => {
     const {updateLoginState, patient} = props;
-    const [activeNavItem, setActiveNavItem] = useState('Patient_1');
+    /*const [activeNavItem, setActiveNavItem] = useState('Patient_1');*/
     const [activeSidebarItem, setActiveSidebarItem] = useState("");
 
     let age;
@@ -51,9 +51,9 @@ const PageContainer = (props) => {
     return (
         <ApplicationNavigation
             titleConfig={titleConfig}
-            navigationItems={navigationItems}
-            activeNavigationItemKey={activeNavItem}
-            onSelectNavigationItem={key => setActiveNavItem(key)}
+            /*navigationItems={navigationItems}*/
+            /*activeNavigationItemKey={activeNavItem}*/
+            /*onSelectNavigationItem={key => setActiveNavItem(key)}*/
             onSelectLogout={() => {
                 onSignOut();
             }}

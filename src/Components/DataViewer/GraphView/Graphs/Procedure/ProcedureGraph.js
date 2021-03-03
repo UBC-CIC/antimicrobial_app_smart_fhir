@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import {connect} from "react-redux";
 import Chart from 'react-apexcharts';
 import { withDisclosureManager } from 'terra-application/lib/disclosure-manager';
-import MedicationWarningModal from "./MedicationWarningModal/MedicationWarningModal";
 import {Button, Grid, Icon} from "semantic-ui-react";
-import formatDistance from 'date-fns/formatDistance'
+import formatDistance from 'date-fns/formatDistance';
+import ProcedureWarningModal from "./ProcedureWarningModal/ProcedureWarningModal";
 
-const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateStart, graphDateEnd, antibiotics }) => {
+const ProcedureGraph = withDisclosureManager(({ disclosureManager, graphDateStart, graphDateEnd, procedures }) => {
     const [options, setOptions] = useState({
         chart: {
+            height: 800,
             type: 'rangeBar'
         },
         plotOptions: {
@@ -54,11 +55,13 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateSta
     useEffect(() => {
         setOptions({
             chart: {
+                height: 800,
                 type: 'rangeBar'
             },
             plotOptions: {
                 bar: {
-                    horizontal: true
+                    horizontal: true,
+                    barHeight: "80%"
                 }
             },
             dataLabels: {
@@ -85,6 +88,9 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateSta
                 min: new Date(graphDateStart).getTime(),
                 max: new Date(graphDateEnd).getTime()
             },
+            stroke: {
+                width: 1
+            },
             legend: {
                 position: 'bottom'
             }
@@ -92,22 +98,22 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateSta
     }, [graphDateStart, graphDateEnd])
 
     useEffect(() => {
-        let medData = [];
+        let procData = [];
         let unGraphed = [];
-        if (antibiotics) {
-            antibiotics.forEach(antibiotic => {
+        if (procedures) {
+            procedures.forEach(procedure => {
                 let startDate;
                 let endDate;
-                startDate = antibiotic.startDate;
-                endDate = antibiotic.endDate;
+                startDate = procedure.startDate;
+                endDate = procedure.endDate;
                 // if no end date is specified, we need to warn the user
                 if (!endDate) {
-                    unGraphed.push(antibiotic);
+                    unGraphed.push(procedure);
                     endDate = startDate;
                 }
 
                 if (!startDate) {
-                    unGraphed.push(antibiotic);
+                    unGraphed.push(procedure);
                 } else {
                     let start = new Date(startDate).getTime();
                     let end = new Date(endDate).getTime();
@@ -115,7 +121,7 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateSta
                         end += 86400000
                     }
                     let entry = {};
-                    entry.name = antibiotic.description;
+                    entry.name = procedure.description;
                     entry.data = [
                         {
                             x: 'Period',
@@ -129,16 +135,16 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateSta
                     let observedStart = new Date(startDate).getTime();
                     let observedEnd = new Date(endDate).getTime();
                     if (observedStart >= startTimeFrame || observedEnd >= startTimeFrame) {
-                        medData.push(entry);
+                        procData.push(entry);
                     }
                 }
             })
         }
-        if (medData.length > 0) {
-            setSeries(medData);
+        if (procData.length > 0) {
+            setSeries(procData);
         }
         setUnGraphedData(unGraphed);
-    }, [graphDateStart, antibiotics]);
+    }, [graphDateStart, procedures]);
 
     const handleModalPopup = () => {
         disclosureManager.disclose({
@@ -146,7 +152,7 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateSta
             size: 'medium',
             content: {
                 key: 'modal-component-instance',
-                component: <MedicationWarningModal antibiotics={unGraphedData} />
+                component: <ProcedureWarningModal procedures={unGraphedData} />
             }
         });
     }
@@ -158,10 +164,7 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateSta
                     {(series.length > 0)?
                         <Chart options={options} series={series} type="rangeBar" width={"100%"} height={"100%"} />
                         :
-                        (unGraphedData.length > 0)?
-                        <div><span><h3>Medication Data N/A</h3></span></div>
-                            :
-                            null
+                        <div><span><h3>Sorry, no procedure data visible within selected range.</h3></span></div>
                     }
                 </Grid.Column>
                 <Grid.Column width={1}>
@@ -176,11 +179,7 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateSta
                     <Grid>
                         <Grid.Row style={{paddingBottom: "0px"}}>
                             <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
-                                {((unGraphedData.length > 0) || (series.length > 0))?
-                                    <h3>Medication Regimen</h3>
-                                    :
-                                    null
-                                }
+                                <h3>Procedures</h3>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row style={{paddingTop: "0px"}}>
@@ -206,8 +205,8 @@ const mapStateToProps = (state) => {
     return {
         graphDateStart: state.patientData.graphDataStartDate,
         graphDateEnd: state.patientData.graphDataEndDate,
-        antibiotics: state.patientData.antibiotics,
+        procedures: state.patientData.procedures,
     };
 };
 
-export default connect(mapStateToProps, null) (MedicationGraph);
+export default connect(mapStateToProps, null) (ProcedureGraph);

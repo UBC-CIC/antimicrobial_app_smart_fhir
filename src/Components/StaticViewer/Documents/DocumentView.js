@@ -170,6 +170,7 @@ const DocumentView = (props) => {
                                     id={(showConsults === true)? "documentConsultButton" : ""}
                                     active={(showConsults === true)}
                                     onClick={() => setShowConsults(!showConsults)}
+                                    disabled
                             >
                                 ID Consults
                             </Button>
@@ -177,6 +178,7 @@ const DocumentView = (props) => {
                                     id={(showImaging === true)? "documentImagingButton" : ""}
                                     active={(showImaging === true)}
                                     onClick={() => setShowImaging(!showImaging)}
+                                    disabled
                             >
                                 Imaging
                             </Button>
