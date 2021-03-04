@@ -43,7 +43,7 @@ Scope definitions below are referenced from [Cerner's SMART on FHIR tutorial](ht
 
 ## General Design
 
-- The solution was designed as a web application using the ReactJS framework on NodeJS.
-- The web application is integrated with AWS Amplify, and it provides the application with user authentication capabilities via AWS Cognito.
+- The solution was designed as a web application using the [ReactJS](https://reactjs.org/) framework on NodeJS.
+- The web application is integrated with [AWS Amplify](https://aws.amazon.com/amplify/), and it provides the application with user authentication capabilities via [AWS Cognito](https://aws.amazon.com/cognito/).
 - User authentication/login can be removed from the application if desired for production usage. 
 
