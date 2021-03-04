@@ -23,6 +23,8 @@ Antimicrobial Insights is a **prototype** SMART on FHIR clinical decision suppor
 
 ### *By using this application, you are agreeing to the [disclaimer](#disclaimer)*.
 
+<img src="./docs/images/screenshot.png"  width="500"/>
+
 Try launching the application yourself using the [live demo application](). You will need to launch the application from a SMART on FHIR compliant EMR emulator. There are a number of of different ones available but we recommend using the [Smart App Launcher Sandbox](https://launch.smarthealthit.org/) as it does not require any code modifications to run. 
 
 You can use the following settings shown below to launch the demo:
