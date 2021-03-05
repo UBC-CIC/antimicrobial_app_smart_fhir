@@ -1,5 +1,5 @@
 import {Grid, Button, Input, Image, Divider, Icon} from "semantic-ui-react";
-import {Auth} from "aws-amplify";
+import {Auth, API} from "aws-amplify";
 import React, {useState, useEffect} from "react";
 import { connect } from "react-redux";
 import {updateLoginState} from "../../Actions/loginActions";
@@ -54,6 +54,7 @@ function Login(props) {
         try {
             const {email, password} = formState;
             setLoading(true);
+            //window.LOG_LEVEL = 'DEBUG';
             await Auth.signUp({username: email, password: password, attributes: {email}});
             setLoading(false);
             updateLoginState("confirmSignUp");
@@ -63,6 +64,7 @@ function Login(props) {
             console.log('error signing up:', e);
         }
     }
+
 
     async function confirmSignUp() {
         try {
@@ -82,8 +84,8 @@ function Login(props) {
         try {
             const {email} = formState;
             setVerificationError(false);
-            await Auth.resendSignUp(email);
             setNewVerification(true);
+            await Auth.resendSignUp(email);
         } catch (err) {
             setNewVerification(false);
             console.log('error resending code: ', err);
