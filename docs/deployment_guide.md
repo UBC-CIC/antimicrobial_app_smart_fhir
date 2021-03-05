@@ -29,3 +29,16 @@ In this step we will use the Amplify console to deploy and build the front-end a
 8. Click **Save**.
 
 ---
+
+## Step 2: Add Permissions
+In this step we will attach a policy to an Amplify created Cognito Role.
+
+1. In the AWS Console, go to the AWS IAM service page.
+2. In the left-hand menu, click on **Roles**.
+3. Click on the role named "amplify-smartonfhir-dev-{Some number}-authRole".
+
+<img src="./images/deployment1.png"  width="500"/>
+
+4. Next, click the **Attach policies** button.
+5. In the search box, type "ComprehendMedical", then select the checkbox for "ComprehendMedicalFullAccess".
+6. Click **Attach policy**.
