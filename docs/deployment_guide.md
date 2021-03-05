@@ -35,7 +35,7 @@ In this step we will attach a policy to an Amplify created Cognito Role.
 
 1. In the AWS Console, go to the AWS IAM service page.
 2. In the left-hand menu, click on **Roles**.
-3. Click on the role named "amplify-smartonfhir-{Some number}-authRole".
+3. Click on the role named "amplify-smartonfhir-dev-{Some number}-authRole".
 
 <img src="./images/deployment1.png"  width="500"/>
 
