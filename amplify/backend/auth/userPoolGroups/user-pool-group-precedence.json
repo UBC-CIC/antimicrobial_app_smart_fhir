@@ -1,0 +1,21 @@
+[
+  {
+    "groupName": "Users",
+    "precedence": 1,
+    "customPolicies": [{
+      "PolicyName": "user-group-policy",
+      "PolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Action": [
+              "comprehendmedical:*"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+          }
+        ]
+      }
+    }]
+  }
+]
