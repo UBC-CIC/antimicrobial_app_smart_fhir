@@ -13,6 +13,10 @@ import {updateLoginState} from "./Actions/loginActions";
 import {Grid} from "semantic-ui-react";
 import Login from "./Components/Authentication/Login";
 import generateTGT from "./Services/UMLS/generateTGT";
+import Patient1 from "./Assets/Data/PatientOne/Patient";
+import AllergyIntolerance1 from "./Assets/Data/PatientOne/AllergyIntolerance";
+import MedicationRequest1 from "./Assets/Data/PatientOne/MedicationRequest";
+import Observation1 from "./Assets/Data/PatientOne/Observation";
 import 'semantic-ui-css/semantic.min.css';
 require('dotenv').config()
 
@@ -44,56 +48,45 @@ class App extends React.Component {
               console.error("Error retrieving UMLS token: ", e);
           }
 
-          let patient;
+          let patient = Patient1;
           setPatientData(patient);
-          let observation;
+          let observation = Observation1;
           let observationArray= [];
           if (observation) {
-              if (observation.length > 0) {
-                  for (let array of observation) {
-                      if (array.entry) {
-                          if (array.entry.length > 0) {
-                              array.entry.forEach(observed => {
-                                  observationArray.push(observed);
-                              })
-                          }
-                      }
-                  }
-                  setObservationData(observationArray);
-              }
+             if (observation.entry) {
+                 if (observation.entry[0].length > 0) {
+                     observation.entry[0].forEach(item => {
+                         observationArray.push(item);
+                     })
+                     setObservationData(observationArray);
+                 }
+             }
           }
-          let allergy;
+          let allergy = AllergyIntolerance1;
           let allergyArray = [];
           if (allergy) {
-              if (allergy.length > 0) {
-              for (let array of allergy) {
-                  if (array.entry) {
-                      if (array.entry.length > 0) {
-                          array.entry.forEach(item => {
-                              allergyArray.push(item);
-                          })
-                      }
+              if (allergy.entry) {
+                  if (allergy.entry[0].length > 0) {
+                      allergy.entry[0].forEach(item => {
+                          allergyArray.push(item);
+                      })
+                      setAllergyData(allergyArray);
                   }
               }
-                  setAllergyData({allergies: allergyArray, tgt: tgt});
-              }
+              setAllergyData({allergies: allergyArray, tgt: tgt});
           }
 
-         let medication;
+         let medication = MedicationRequest1;
           let medicationArray = [];
           if (medication) {
-              if (medication.length > 0) {
-              for (let array of medication) {
-                  if (array.entry) {
-                      if (array.entry.length > 0) {
-                          array.entry.forEach(item => {
-                              medicationArray.push(item);
-                          })
-                      }
+              if (medication.entry) {
+                  if (medication.entry[0].length > 0) {
+                      medication.entry[0].forEach(item => {
+                          medicationArray.push(item);
+                      })
                   }
               }
-                  setMedicationData({medications: medicationArray, tgt: tgt});
-              }
+              setMedicationData({medications: medicationArray, tgt: tgt});
           }
          let diagnosticReports;
           let diagnosticReportArray = [];
