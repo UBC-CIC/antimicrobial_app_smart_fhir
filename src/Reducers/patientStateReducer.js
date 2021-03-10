@@ -20,8 +20,8 @@ const initialPatientState = {
         procalcitonin: []
     },
     graphToDisplay: null,
-    graphDataStartDate: new Date("2000-01-01T00:00:00.000Z"),
-    graphDataEndDate: new Date(),
+    graphDataStartDate: new Date("2020-12-31T00:00:00.000Z"),
+    graphDataEndDate: new Date("2021-01-17T00:00:00.000Z"),
     rawData: {
         allergies: [],
         medications: [],

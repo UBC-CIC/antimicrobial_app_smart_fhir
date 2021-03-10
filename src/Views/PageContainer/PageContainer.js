@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import {Auth} from "aws-amplify";
 import ApplicationNavigation from 'terra-application/lib/application-navigation';
@@ -7,6 +7,7 @@ import {Grid, Icon, Menu, TextArea} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import "./PageContainer.css";
 import {updateLoginState} from "../../Actions/loginActions";
+import {setSelectedPatient} from "../../Actions/appStateActions";
 
 
 const titleConfig = {
@@ -32,7 +33,7 @@ const navigationItems = [
 
 
 const PageContainer = (props) => {
-    const {updateLoginState, patient} = props;
+    const {updateLoginState, patient, setSelectedPatient} = props;
     const [activeNavItem, setActiveNavItem] = useState('Patient_1');
     const [activeSidebarItem, setActiveSidebarItem] = useState("");
 
@@ -54,6 +55,10 @@ const PageContainer = (props) => {
             language = patient.language;
         }
     }
+
+    useEffect(() => {
+        setSelectedPatient(activeNavItem);
+    }, [activeNavItem])
 
     async function onSignOut() {
         updateLoginState("signIn");
@@ -226,6 +231,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     updateLoginState,
+    setSelectedPatient
 }
 
 

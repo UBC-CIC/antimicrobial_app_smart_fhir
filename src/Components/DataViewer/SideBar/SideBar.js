@@ -12,8 +12,8 @@ const VerticalSidebar = (props) => {
     const [graphToDisplay, setGraph] = useState("");
     const [dateStartOpen, setStartDateOpen] = useState(false);
     const [dateEndOpen, setEndDateOpen] = useState(false);
-    const [selectedStartDate, handleStartDateChange] = useState(new Date("2000-01-01T00:00:00.000Z"));
-    const [selectedEndDate, handleEndDateChange] = useState(new Date());
+    const [selectedStartDate, handleStartDateChange] = useState(new Date(graphDateStart));
+    const [selectedEndDate, handleEndDateChange] = useState(new Date(graphDateEnd));
     const [disabledGraphs, setDisabled] = useState({
         wbc: true,
         crp: true,

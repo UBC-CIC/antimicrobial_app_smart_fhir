@@ -2,6 +2,7 @@ const initialAppState = {
     loadingPatientData: false,
     error: false,
     tgt: null,
+    selectedPatient: "Patient_1"
 }
 
 
@@ -32,6 +33,12 @@ const appStateReducer = (appState = initialAppState, action) => {
             return {
                 ...newAppState,
                 error: true,
+            }
+        }
+        case "SET_SELECTED_PATIENT": {
+            return {
+                ...newAppState,
+                selectedPatient: action.payload,
             }
         }
         default:

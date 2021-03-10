@@ -28,3 +28,11 @@ export const setErrorFlag = () => {
         type: "SET_ERROR_FLAG",
     }
 }
+
+// set selectedPatient
+export const setSelectedPatient = (payload) => {
+    return {
+        type: "SET_SELECTED_PATIENT",
+        payload: payload,
+    }
+}

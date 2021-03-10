@@ -4,576 +4,245 @@ const MedicationRequest1 = {
     "entry": [
         [
             {
-                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/smart-MedicationRequest-210",
+                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/14791",
                 "resource": {
                     "resourceType": "MedicationRequest",
-                    "id": "smart-MedicationRequest-210",
+                    "id": "14791",
                     "meta": {
                         "versionId": "1",
-                        "lastUpdated": "2020-07-15T02:58:19.000+00:00",
-                        "source": "#LKfj5fusAw02I92q"
-                    },
-                    "text": {
-                        "status": "generated",
-                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">irbesartan 150 MG Oral Tablet [Avapro] (rxnorm: 153666)</div>"
+                        "lastUpdated": "2021-03-10T21:59:14.000+00:00",
+                        "source": "#Odb2y9mj5B8sKwDf"
                     },
                     "status": "active",
-                    "intent": "order",
                     "medicationCodeableConcept": {
                         "coding": [
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                                "code": "153666",
-                                "display": "irbesartan 150 MG Oral Tablet [Avapro]"
+                                "code": "1665046",
+                                "display": "Ceftriaxone"
                             }
                         ],
-                        "text": "irbesartan 150 MG Oral Tablet [Avapro]"
+                        "text": "Ceftriaxone"
                     },
                     "subject": {
-                        "reference": "Patient/smart-1869612"
+                        "reference": "Patient/14702"
                     },
+                    "authoredOn": "2021-01-09T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "1 daily",
-                            "timing": {
-                                "repeat": {
-                                    "boundsPeriod": {
-                                        "start": "2003-10-27"
-                                    },
-                                    "frequency": 1,
-                                    "period": 1,
-                                    "periodUnit": "d"
-                                }
-                            }
+                            "text": "2g IV Q24H"
                         }
-                    ],
-                    "dispenseRequest": {
-                        "numberOfRepeatsAllowed": 1,
-                        "quantity": {
-                            "value": 30,
-                            "unit": "{tablet}",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "{tablet}"
-                        },
-                        "expectedSupplyDuration": {
-                            "value": 30,
-                            "unit": "days",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "d"
-                        }
-                    }
+                    ]
                 },
                 "search": {
                     "mode": "match"
                 }
             },
             {
-                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/smart-MedicationRequest-211",
+                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/14792",
                 "resource": {
                     "resourceType": "MedicationRequest",
-                    "id": "smart-MedicationRequest-211",
+                    "id": "14792",
                     "meta": {
                         "versionId": "1",
-                        "lastUpdated": "2020-07-15T02:58:19.000+00:00",
-                        "source": "#LKfj5fusAw02I92q"
-                    },
-                    "text": {
-                        "status": "generated",
-                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">glimepiride 1 MG Oral Tablet [Amaryl] (rxnorm: 153843)</div>"
+                        "lastUpdated": "2021-03-10T22:05:23.000+00:00",
+                        "source": "#k02q4HsStwPHuShB"
                     },
                     "status": "active",
-                    "intent": "order",
                     "medicationCodeableConcept": {
                         "coding": [
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                                "code": "153843",
-                                "display": "glimepiride 1 MG Oral Tablet [Amaryl]"
+                                "code": "1665046",
+                                "display": "Ceftriaxone"
                             }
                         ],
-                        "text": "glimepiride 1 MG Oral Tablet [Amaryl]"
+                        "text": "Ceftriaxone"
                     },
                     "subject": {
-                        "reference": "Patient/smart-1869612"
+                        "reference": "Patient/14702"
                     },
+                    "authoredOn": "2021-01-10T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "1 daily",
-                            "timing": {
-                                "repeat": {
-                                    "boundsPeriod": {
-                                        "start": "2003-12-10"
-                                    },
-                                    "frequency": 1,
-                                    "period": 1,
-                                    "periodUnit": "d"
-                                }
-                            }
+                            "text": "2g IV Q24H"
                         }
-                    ],
-                    "dispenseRequest": {
-                        "numberOfRepeatsAllowed": 1,
-                        "quantity": {
-                            "value": 30,
-                            "unit": "{tablet}",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "{tablet}"
-                        },
-                        "expectedSupplyDuration": {
-                            "value": 30,
-                            "unit": "days",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "d"
-                        }
-                    }
+                    ]
                 },
                 "search": {
                     "mode": "match"
                 }
             },
             {
-                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/smart-MedicationRequest-216",
+                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/14793",
                 "resource": {
                     "resourceType": "MedicationRequest",
-                    "id": "smart-MedicationRequest-216",
+                    "id": "14793",
                     "meta": {
                         "versionId": "1",
-                        "lastUpdated": "2020-07-15T02:58:19.000+00:00",
-                        "source": "#LKfj5fusAw02I92q"
-                    },
-                    "text": {
-                        "status": "generated",
-                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Hydrochlorothiazide 12.5 MG / Lisinopril 20 MG Oral Tablet (rxnorm: 197886)</div>"
+                        "lastUpdated": "2021-03-10T22:05:33.000+00:00",
+                        "source": "#C8Eyb6nNcv7emJxv"
                     },
                     "status": "active",
-                    "intent": "order",
                     "medicationCodeableConcept": {
                         "coding": [
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                                "code": "197886",
-                                "display": "Hydrochlorothiazide 12.5 MG / Lisinopril 20 MG Oral Tablet"
+                                "code": "1665046",
+                                "display": "Ceftriaxone"
                             }
                         ],
-                        "text": "Hydrochlorothiazide 12.5 MG / Lisinopril 20 MG Oral Tablet"
+                        "text": "Ceftriaxone"
                     },
                     "subject": {
-                        "reference": "Patient/smart-1869612"
+                        "reference": "Patient/14702"
                     },
+                    "authoredOn": "2021-01-11T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "1 daily",
-                            "timing": {
-                                "repeat": {
-                                    "boundsPeriod": {
-                                        "start": "2008-10-12"
-                                    },
-                                    "frequency": 1,
-                                    "period": 1,
-                                    "periodUnit": "d"
-                                }
-                            }
+                            "text": "2g IV Q24H"
                         }
-                    ],
-                    "dispenseRequest": {
-                        "numberOfRepeatsAllowed": 1,
-                        "quantity": {
-                            "value": 30,
-                            "unit": "{tablet}",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "{tablet}"
-                        },
-                        "expectedSupplyDuration": {
-                            "value": 30,
-                            "unit": "days",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "d"
-                        }
-                    }
+                    ]
                 },
                 "search": {
                     "mode": "match"
                 }
             },
             {
-                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/smart-MedicationRequest-217",
+                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/14794",
                 "resource": {
                     "resourceType": "MedicationRequest",
-                    "id": "smart-MedicationRequest-217",
+                    "id": "14794",
                     "meta": {
                         "versionId": "1",
-                        "lastUpdated": "2020-07-15T02:58:19.000+00:00",
-                        "source": "#LKfj5fusAw02I92q"
-                    },
-                    "text": {
-                        "status": "generated",
-                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Lisinopril 20 MG Oral Tablet (rxnorm: 314077)</div>"
+                        "lastUpdated": "2021-03-10T22:07:22.000+00:00",
+                        "source": "#p1Wu2mzepW9LXTKd"
                     },
                     "status": "active",
-                    "intent": "order",
                     "medicationCodeableConcept": {
                         "coding": [
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                                "code": "314077",
-                                "display": "Lisinopril 20 MG Oral Tablet"
+                                "code": "1722934",
+                                "display": "Meropenem"
                             }
                         ],
-                        "text": "Lisinopril 20 MG Oral Tablet"
+                        "text": "Meropenem"
                     },
                     "subject": {
-                        "reference": "Patient/smart-1869612"
+                        "reference": "Patient/14702"
                     },
+                    "authoredOn": "2021-01-12T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "1 daily",
-                            "timing": {
-                                "repeat": {
-                                    "boundsPeriod": {
-                                        "start": "2008-10-12"
-                                    },
-                                    "frequency": 1,
-                                    "period": 1,
-                                    "periodUnit": "d"
-                                }
-                            }
+                            "text": "500mg IV Q6H"
                         }
-                    ],
-                    "dispenseRequest": {
-                        "numberOfRepeatsAllowed": 1,
-                        "quantity": {
-                            "value": 30,
-                            "unit": "{tablet}",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "{tablet}"
-                        },
-                        "expectedSupplyDuration": {
-                            "value": 30,
-                            "unit": "days",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "d"
-                        }
-                    }
+                    ]
                 },
                 "search": {
                     "mode": "match"
                 }
             },
             {
-                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/smart-MedicationRequest-218",
+                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/14795",
                 "resource": {
                     "resourceType": "MedicationRequest",
-                    "id": "smart-MedicationRequest-218",
+                    "id": "14795",
                     "meta": {
                         "versionId": "1",
-                        "lastUpdated": "2020-07-15T02:58:19.000+00:00",
-                        "source": "#LKfj5fusAw02I92q"
-                    },
-                    "text": {
-                        "status": "generated",
-                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Cephalexin 500 MG Oral Capsule (rxnorm: 309114)</div>"
+                        "lastUpdated": "2021-03-10T22:07:32.000+00:00",
+                        "source": "#4yEfYKVupMDV74Jc"
                     },
                     "status": "active",
-                    "intent": "order",
                     "medicationCodeableConcept": {
                         "coding": [
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                                "code": "309114",
-                                "display": "Cephalexin 500 MG Oral Capsule"
+                                "code": "1722934",
+                                "display": "Meropenem"
                             }
                         ],
-                        "text": "Cephalexin 500 MG Oral Capsule"
+                        "text": "Meropenem"
                     },
                     "subject": {
-                        "reference": "Patient/smart-1869612"
+                        "reference": "Patient/14702"
                     },
+                    "authoredOn": "2021-01-13T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "1 qid",
-                            "timing": {
-                                "repeat": {
-                                    "boundsPeriod": {
-                                        "start": "2008-11-12"
-                                    },
-                                    "frequency": 4,
-                                    "period": 1,
-                                    "periodUnit": "d"
-                                }
-                            }
+                            "text": "500mg IV Q6H"
                         }
-                    ],
-                    "dispenseRequest": {
-                        "numberOfRepeatsAllowed": 1,
-                        "quantity": {
-                            "value": 28,
-                            "unit": "{tablet}",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "{tablet}"
-                        },
-                        "expectedSupplyDuration": {
-                            "value": 9,
-                            "unit": "days",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "d"
-                        }
-                    }
+                    ]
                 },
                 "search": {
                     "mode": "match"
                 }
             },
             {
-                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/smart-MedicationRequest-212",
+                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/14796",
                 "resource": {
                     "resourceType": "MedicationRequest",
-                    "id": "smart-MedicationRequest-212",
+                    "id": "14796",
                     "meta": {
                         "versionId": "1",
-                        "lastUpdated": "2020-07-15T02:58:19.000+00:00",
-                        "source": "#LKfj5fusAw02I92q"
-                    },
-                    "text": {
-                        "status": "generated",
-                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Lisinopril 10 MG Oral Tablet (rxnorm: 314076)</div>"
+                        "lastUpdated": "2021-03-10T22:07:43.000+00:00",
+                        "source": "#4RMeHMis3cuBsTsX"
                     },
                     "status": "active",
-                    "intent": "order",
                     "medicationCodeableConcept": {
                         "coding": [
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                                "code": "314076",
-                                "display": "Lisinopril 10 MG Oral Tablet"
+                                "code": "1722934",
+                                "display": "Meropenem"
                             }
                         ],
-                        "text": "Lisinopril 10 MG Oral Tablet"
+                        "text": "Meropenem"
                     },
                     "subject": {
-                        "reference": "Patient/smart-1869612"
+                        "reference": "Patient/14702"
                     },
+                    "authoredOn": "2021-01-14T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "1 daily",
-                            "timing": {
-                                "repeat": {
-                                    "boundsPeriod": {
-                                        "start": "2004-04-16"
-                                    },
-                                    "frequency": 1,
-                                    "period": 1,
-                                    "periodUnit": "d"
-                                }
-                            }
+                            "text": "500mg IV Q6H"
                         }
-                    ],
-                    "dispenseRequest": {
-                        "numberOfRepeatsAllowed": 1,
-                        "quantity": {
-                            "value": 30,
-                            "unit": "{tablet}",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "{tablet}"
-                        },
-                        "expectedSupplyDuration": {
-                            "value": 30,
-                            "unit": "days",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "d"
-                        }
-                    }
+                    ]
                 },
                 "search": {
                     "mode": "match"
                 }
             },
             {
-                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/smart-MedicationRequest-213",
+                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/14797",
                 "resource": {
                     "resourceType": "MedicationRequest",
-                    "id": "smart-MedicationRequest-213",
+                    "id": "14797",
                     "meta": {
                         "versionId": "1",
-                        "lastUpdated": "2020-07-15T02:58:19.000+00:00",
-                        "source": "#LKfj5fusAw02I92q"
-                    },
-                    "text": {
-                        "status": "generated",
-                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">glimepiride 2 MG Oral Tablet [Amaryl] (rxnorm: 153591)</div>"
+                        "lastUpdated": "2021-03-10T22:07:57.000+00:00",
+                        "source": "#Hv5wXG4LrQtDKIX1"
                     },
                     "status": "active",
-                    "intent": "order",
                     "medicationCodeableConcept": {
                         "coding": [
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                                "code": "153591",
-                                "display": "glimepiride 2 MG Oral Tablet [Amaryl]"
+                                "code": "1722934",
+                                "display": "Meropenem"
                             }
                         ],
-                        "text": "glimepiride 2 MG Oral Tablet [Amaryl]"
+                        "text": "Meropenem"
                     },
                     "subject": {
-                        "reference": "Patient/smart-1869612"
+                        "reference": "Patient/14702"
                     },
+                    "authoredOn": "2021-01-15T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "1 daily",
-                            "timing": {
-                                "repeat": {
-                                    "boundsPeriod": {
-                                        "start": "2004-04-30"
-                                    },
-                                    "frequency": 1,
-                                    "period": 1,
-                                    "periodUnit": "d"
-                                }
-                            }
+                            "text": "500mg IV Q6H"
                         }
-                    ],
-                    "dispenseRequest": {
-                        "numberOfRepeatsAllowed": 1,
-                        "quantity": {
-                            "value": 30,
-                            "unit": "{tablet}",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "{tablet}"
-                        },
-                        "expectedSupplyDuration": {
-                            "value": 30,
-                            "unit": "days",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "d"
-                        }
-                    }
-                },
-                "search": {
-                    "mode": "match"
-                }
-            },
-            {
-                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/smart-MedicationRequest-214",
-                "resource": {
-                    "resourceType": "MedicationRequest",
-                    "id": "smart-MedicationRequest-214",
-                    "meta": {
-                        "versionId": "1",
-                        "lastUpdated": "2020-07-15T02:58:19.000+00:00",
-                        "source": "#LKfj5fusAw02I92q"
-                    },
-                    "text": {
-                        "status": "generated",
-                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Cefaclor 500 MG Oral Capsule (rxnorm: 197449)</div>"
-                    },
-                    "status": "active",
-                    "intent": "order",
-                    "medicationCodeableConcept": {
-                        "coding": [
-                            {
-                                "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                                "code": "197449",
-                                "display": "Cefaclor 500 MG Oral Capsule"
-                            }
-                        ],
-                        "text": "Cefaclor 500 MG Oral Capsule"
-                    },
-                    "subject": {
-                        "reference": "Patient/smart-1869612"
-                    },
-                    "dosageInstruction": [
-                        {
-                            "text": "1 bid",
-                            "timing": {
-                                "repeat": {
-                                    "boundsPeriod": {
-                                        "start": "2004-04-30"
-                                    },
-                                    "frequency": 2,
-                                    "period": 1,
-                                    "periodUnit": "d"
-                                }
-                            }
-                        }
-                    ],
-                    "dispenseRequest": {
-                        "numberOfRepeatsAllowed": 1,
-                        "quantity": {
-                            "value": 60,
-                            "unit": "{tablet}",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "{tablet}"
-                        },
-                        "expectedSupplyDuration": {
-                            "value": 30,
-                            "unit": "days",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "d"
-                        }
-                    }
-                },
-                "search": {
-                    "mode": "match"
-                }
-            },
-            {
-                "fullUrl": "https://api.logicahealth.org/ubcsmartonfhir/data/MedicationRequest/smart-MedicationRequest-215",
-                "resource": {
-                    "resourceType": "MedicationRequest",
-                    "id": "smart-MedicationRequest-215",
-                    "meta": {
-                        "versionId": "1",
-                        "lastUpdated": "2020-07-15T02:58:19.000+00:00",
-                        "source": "#LKfj5fusAw02I92q"
-                    },
-                    "text": {
-                        "status": "generated",
-                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">glimepiride 2 MG Oral Tablet (rxnorm: 199246)</div>"
-                    },
-                    "status": "active",
-                    "intent": "order",
-                    "medicationCodeableConcept": {
-                        "coding": [
-                            {
-                                "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                                "code": "199246",
-                                "display": "glimepiride 2 MG Oral Tablet"
-                            }
-                        ],
-                        "text": "glimepiride 2 MG Oral Tablet"
-                    },
-                    "subject": {
-                        "reference": "Patient/smart-1869612"
-                    },
-                    "dosageInstruction": [
-                        {
-                            "text": "1 daily",
-                            "timing": {
-                                "repeat": {
-                                    "boundsPeriod": {
-                                        "start": "2005-08-01"
-                                    },
-                                    "frequency": 1,
-                                    "period": 1,
-                                    "periodUnit": "d"
-                                }
-                            }
-                        }
-                    ],
-                    "dispenseRequest": {
-                        "numberOfRepeatsAllowed": 1,
-                        "quantity": {
-                            "value": 30,
-                            "unit": "{tablet}",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "{tablet}"
-                        },
-                        "expectedSupplyDuration": {
-                            "value": 30,
-                            "unit": "days",
-                            "system": "http://unitsofmeasure.org",
-                            "code": "d"
-                        }
-                    }
+                    ]
                 },
                 "search": {
                     "mode": "match"
@@ -581,6 +250,6 @@ const MedicationRequest1 = {
             }
         ]
     ]
-}
+};
 
 export default  MedicationRequest1;

@@ -9,7 +9,7 @@ import DatePicker from 'terra-date-picker';
 
 
 const CultureViewer = (props) => {
-    const { organisms, graphDateStart, graphDateEnd } = props;
+    const { organisms, graphDateStart, graphDateEnd, selectedPatient } = props;
 
     const [startDate, setStartDate] = useState(graphDateStart);
     const [endDate, setEndDate] = useState(graphDateEnd);
@@ -31,7 +31,6 @@ const CultureViewer = (props) => {
     }
 
 
-
     const handleEndDate = (event, date) => {
         setEndDate(date);
     }
@@ -49,7 +48,6 @@ const CultureViewer = (props) => {
             let timestamp = new Date();
             let source = "Unknown";
             let type = "Unknown";
-
 
             if (organism.description) {
                 description = organism.description;
@@ -73,6 +71,22 @@ const CultureViewer = (props) => {
             }
             if (organism.type) {
                 type = organism.type;
+            }
+
+            if (selectedPatient === "Patient_1") {
+                organism.testResults = [
+                    {medication: "β-lactam", testResult: "R"},
+                ];
+                type = "Sample";
+                source = "Urine";
+            } else if (selectedPatient === "Patient_2") {
+                organism.testResults = [
+                    {medication: "Ampicillin", testResult: "R"},
+                    {medication: "Cefazolin", testResult: "R"},
+                    {medication: "Doxycycline", testResult: "S"},
+                ];
+                type = "Wound";
+                source = "Abscess LEG RIGHT";
             }
 
             let entry = {
@@ -174,6 +188,7 @@ const mapStateToProps = (state) => {
         organisms: state.patientData.resistantOrganisms,
         graphDateStart: state.patientData.graphDataStartDate,
         graphDateEnd: state.patientData.graphDataEndDate,
+        selectedPatient: state.appState.selectedPatient,
     };
 };
 
