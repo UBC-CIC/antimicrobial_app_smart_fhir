@@ -217,6 +217,15 @@ const setObservationDataHelper = (observations) => {
                 wbcData.push(wbcEntry);
                 break;
             }
+            case "procalcitonin": {
+                let procEntry = {
+                    timestamp: observation.resource.effectiveDateTime,
+                    unit: observation.resource.valueQuantity.unit,
+                    value: observation.resource.valueQuantity.value
+                }
+                procalcitoninData.push(procEntry);
+                break;
+            }
             default:
                 break;
         }
