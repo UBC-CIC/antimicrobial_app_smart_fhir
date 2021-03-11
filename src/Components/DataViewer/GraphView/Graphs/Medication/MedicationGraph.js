@@ -95,44 +95,64 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateSta
         let medData = [];
         let unGraphed = [];
         if (antibiotics) {
+            let bin = {};
             antibiotics.forEach(antibiotic => {
-                let startDate;
-                let endDate;
-                startDate = antibiotic.startDate;
-                endDate = antibiotic.endDate;
-                // if no end date is specified, we need to warn the user
-                if (!endDate) {
-                    unGraphed.push(antibiotic);
-                    endDate = startDate;
-                }
-
-                if (!startDate) {
-                    unGraphed.push(antibiotic);
+                if (!bin[antibiotic.description]) {
+                    bin[antibiotic.description] = [antibiotic];
                 } else {
-                    let start = new Date(startDate).getTime();
-                    let end = new Date(endDate).getTime();
-                    if (end === start) {
-                        end += 86400000
-                    }
-                    let entry = {};
-                    entry.name = antibiotic.description;
-                    entry.data = [
-                        {
-                            x: 'Period',
-                            y: [
-                                start,
-                                end
-                            ]
-                        }
-                    ];
-                    let startTimeFrame = new Date(graphDateStart).getTime();
-                    let observedStart = new Date(startDate).getTime();
-                    let observedEnd = new Date(endDate).getTime();
-                    if (observedStart >= startTimeFrame || observedEnd >= startTimeFrame) {
-                        medData.push(entry);
-                    }
+                    bin[antibiotic.description].push(antibiotic);
                 }
             })
+            const medEntries = Object.entries(bin);
+
+            medEntries.forEach(antibioticGroup => {
+                let antibiotics = antibioticGroup[1];
+                let antibioticName = antibioticGroup[0];
+
+                let entry = {};
+                let dataEntries = [];
+                entry.name = antibioticName;
+                antibiotics.forEach(antibiotic => {
+
+                    let startDate;
+                    let endDate;
+                    startDate = antibiotic.startDate;
+                    endDate = antibiotic.endDate;
+                    // if no end date is specified, we need to warn the user
+                    if (!endDate) {
+                        unGraphed.push(antibiotic);
+                        endDate = startDate;
+                    }
+                    if (!startDate) {
+                        unGraphed.push(antibiotic);
+                    } else {
+                        let start = new Date(startDate).getTime();
+                        let end = new Date(endDate).getTime();
+                        if (end === start) {
+                            end += 86400000
+                        }
+                        let startTimeFrame = new Date(graphDateStart).getTime();
+                        let observedStart = new Date(startDate).getTime();
+                        let observedEnd = new Date(endDate).getTime();
+                        if (observedStart >= startTimeFrame || observedEnd >= startTimeFrame) {
+                            dataEntries.push(
+                                {
+                                    x: 'Period',
+                                    y: [
+                                        start,
+                                        end
+                                    ]
+                                }
+                            );
+                        }
+                    }
+
+                })
+                entry.data = dataEntries;
+                medData.push(entry);
+
+            })
+
         }
         if (medData.length > 0) {
             setSeries(medData);
