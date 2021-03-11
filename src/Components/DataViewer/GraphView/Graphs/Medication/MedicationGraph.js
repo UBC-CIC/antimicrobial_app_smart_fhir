@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
 import Chart from 'react-apexcharts';
-import { withDisclosureManager } from 'terra-application/lib/disclosure-manager';
+import {withDisclosureManager} from 'terra-application/lib/disclosure-manager';
 import MedicationWarningModal from "./MedicationWarningModal/MedicationWarningModal";
 import {Button, Grid, Icon} from "semantic-ui-react";
 import formatDistance from 'date-fns/formatDistance'
@@ -95,44 +95,65 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateSta
         let medData = [];
         let unGraphed = [];
         if (antibiotics) {
+            let bin = {};
             antibiotics.forEach(antibiotic => {
-                let startDate;
-                let endDate;
-                startDate = antibiotic.startDate;
-                endDate = antibiotic.endDate;
-                // if no end date is specified, we need to warn the user
-                if (!endDate) {
-                    unGraphed.push(antibiotic);
-                    endDate = startDate;
-                }
-
-                if (!startDate) {
-                    unGraphed.push(antibiotic);
+                if (!bin[antibiotic.description]) {
+                    bin[antibiotic.description] = [antibiotic];
                 } else {
-                    let start = new Date(startDate).getTime();
-                    let end = new Date(endDate).getTime();
-                    if (end === start) {
-                        end += 86400000
-                    }
-                    let entry = {};
-                    entry.name = antibiotic.description;
-                    entry.data = [
-                        {
-                            x: 'Period',
-                            y: [
-                                start,
-                                end
-                            ]
-                        }
-                    ];
-                    let startTimeFrame = new Date(graphDateStart).getTime();
-                    let observedStart = new Date(startDate).getTime();
-                    let observedEnd = new Date(endDate).getTime();
-                    if (observedStart >= startTimeFrame || observedEnd >= startTimeFrame) {
-                        medData.push(entry);
-                    }
+                    bin[antibiotic.description].push(antibiotic);
                 }
             })
+            const medEntries = Object.entries(bin);
+            console.log("medEntries", medEntries);
+
+            medEntries.forEach(antibioticGroup => {
+                let antibiotics = antibioticGroup[1];
+                let antibioticName = antibioticGroup[0];
+
+                let entry = {};
+                let dataEntries = [];
+                entry.name = antibioticName;
+                antibiotics.forEach(antibiotic => {
+
+                    let startDate;
+                    let endDate;
+                    startDate = antibiotic.startDate;
+                    endDate = antibiotic.endDate;
+                    // if no end date is specified, we need to warn the user
+                    if (!endDate) {
+                        unGraphed.push(antibiotic);
+                        endDate = startDate;
+                    }
+                    if (!startDate) {
+                        unGraphed.push(antibiotic);
+                    } else {
+                        let start = new Date(startDate).getTime();
+                        let end = new Date(endDate).getTime();
+                        if (end === start) {
+                            end += 86400000
+                        }
+                        let startTimeFrame = new Date(graphDateStart).getTime();
+                        let observedStart = new Date(startDate).getTime();
+                        let observedEnd = new Date(endDate).getTime();
+                        if (observedStart >= startTimeFrame || observedEnd >= startTimeFrame) {
+                            dataEntries.push(
+                                {
+                                    x: 'Period',
+                                    y: [
+                                        start,
+                                        end
+                                    ]
+                                }
+                            );
+                        }
+                    }
+
+                })
+                entry.data = dataEntries;
+                medData.push(entry);
+
+            })
+
         }
         if (medData.length > 0) {
             setSeries(medData);
@@ -156,7 +177,7 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateSta
             <Grid.Row style={{paddingTop: "0px"}}>
                 <Grid.Column width={11}>
                     {(series.length > 0)?
-                        <Chart options={options} series={series} type="rangeBar" width={"100%"} height={"100%"} />
+                        <Chart options={options} series={series} type="rangeBar" width={"100%"} height={"100%"} style={{minHeight: "300px"}} />
                         :
                         (unGraphedData.length > 0)?
                         <div><span><h3>Medication Data N/A</h3></span></div>

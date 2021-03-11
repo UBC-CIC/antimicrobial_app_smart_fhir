@@ -386,25 +386,6 @@ export const processDiagnosticData = (diagnostics) => {
             switch (code) {
                 case "MB": {
                     let testResultArray = [];
-                    if (entry.resource.result) {
-                        if (entry.resource.result.length > 0) {
-                            for (let result of entry.resource.result) {
-                                try {
-                                    let observation;
-                                    if (observation.interpretation) {
-                                         let testEntry = {
-                                             medication: observation.code.coding[0].display,
-                                             testResult: observation.interpretation[0].coding[0].code
-                                         }
-                                         testResultArray.push(testEntry);
-                                    }
-                                } catch (e) {
-                                    console.log("Error fetching diagnostic observation: ", e);
-                                }
-
-                            }
-                        }
-                    }
                     let source = "Unknown";
                     let type = "Unknown";
                     if (entry.resource.basedOn) {

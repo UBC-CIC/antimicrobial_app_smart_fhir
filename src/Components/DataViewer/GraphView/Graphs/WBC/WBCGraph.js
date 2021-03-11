@@ -7,15 +7,15 @@ import "../../GraphView.css";
 
 const WBCGraph = (props) => {
     const [thisChart, setChart] = useState(null);
-    const [upperBound, setUpperBound] = useState(11);
+    const [upperBound, setUpperBound] = useState(25);
     const [lowerBound, setLowerBound] = useState(0);
-    const [stepSize, setStepSize] = useState(0.5);
+    const [stepSize, setStepSize] = useState(1.0);
     const [stepSizeError, setStepSizeError] = useState(false);
     const [boundsError, setBoundsError] = useState(false);
     const [form, setForm] = useState({
-        upperBound: 11,
+        upperBound: 25,
         lowerBound: 0,
-        stepSize: 0.5
+        stepSize: 1.0
     });
     const [graphData, setGraphData] = useState([]);
     const {wbcData, graphDateStart, graphDateEnd} = props;

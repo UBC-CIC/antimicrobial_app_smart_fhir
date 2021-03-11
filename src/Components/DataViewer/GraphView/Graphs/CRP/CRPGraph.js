@@ -9,15 +9,15 @@ import "../../GraphView.css";
 
 const CRPGraph = (props) => {
     const [thisChart, setChart] = useState(null);
-    const [upperBound, setUpperBound] = useState(20);
+    const [upperBound, setUpperBound] = useState(400);
     const [lowerBound, setLowerBound] = useState(0);
-    const [stepSize, setStepSize] = useState(0.5);
+    const [stepSize, setStepSize] = useState(5.0);
     const [stepSizeError, setStepSizeError] = useState(false);
     const [boundsError, setBoundsError] = useState(false);
     const [form, setForm] = useState({
-        upperBound: 20,
+        upperBound: 400,
         lowerBound: 0,
-        stepSize: 0.5
+        stepSize: 5.0
     });
     const [graphData, setGraphData] = useState([]);
     const {crpData, graphDateStart, graphDateEnd} = props;

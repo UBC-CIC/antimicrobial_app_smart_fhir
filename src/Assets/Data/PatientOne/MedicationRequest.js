@@ -19,10 +19,10 @@ const MedicationRequest1 = {
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
                                 "code": "1665046",
-                                "display": "Ceftriaxone"
+                                "display": "Ceftriaxone 2g IV"
                             }
                         ],
-                        "text": "Ceftriaxone"
+                        "text": "Ceftriaxone 2g IV"
                     },
                     "subject": {
                         "reference": "Patient/14702"
@@ -30,7 +30,15 @@ const MedicationRequest1 = {
                     "authoredOn": "2021-01-09T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "2g IV Q24H"
+                            "text": "2g IV Q24H",
+                            "timing": {
+                                "repeat": {
+                                    "boundsPeriod": {
+                                        "start": "2021-01-09T12:59:59+06:00",
+                                        "end": "2021-01-10T12:59:59+06:00"
+                                    }
+                                }
+                            }
                         }
                     ]
                 },
@@ -54,10 +62,10 @@ const MedicationRequest1 = {
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
                                 "code": "1665046",
-                                "display": "Ceftriaxone"
+                                "display": "Ceftriaxone 2g IV"
                             }
                         ],
-                        "text": "Ceftriaxone"
+                        "text": "Ceftriaxone 2g IV"
                     },
                     "subject": {
                         "reference": "Patient/14702"
@@ -65,7 +73,15 @@ const MedicationRequest1 = {
                     "authoredOn": "2021-01-10T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "2g IV Q24H"
+                            "text": "2g IV Q24H",
+                            "timing": {
+                                "repeat": {
+                                    "boundsPeriod": {
+                                        "start": "2021-01-10T12:59:59+06:00",
+                                        "end": "2021-01-11T12:59:59+06:00"
+                                    }
+                                }
+                            }
                         }
                     ]
                 },
@@ -89,10 +105,10 @@ const MedicationRequest1 = {
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
                                 "code": "1665046",
-                                "display": "Ceftriaxone"
+                                "display": "Ceftriaxone 2g IV"
                             }
                         ],
-                        "text": "Ceftriaxone"
+                        "text": "Ceftriaxone 2g IV"
                     },
                     "subject": {
                         "reference": "Patient/14702"
@@ -100,7 +116,15 @@ const MedicationRequest1 = {
                     "authoredOn": "2021-01-11T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "2g IV Q24H"
+                            "text": "2g IV Q24H",
+                            "timing": {
+                                "repeat": {
+                                    "boundsPeriod": {
+                                        "start": "2021-01-11T12:59:59+06:00",
+                                        "end": "2021-01-12T12:59:59+06:00"
+                                    }
+                                }
+                            }
                         }
                     ]
                 },
@@ -124,10 +148,10 @@ const MedicationRequest1 = {
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
                                 "code": "1722934",
-                                "display": "Meropenem"
+                                "display": "Meropenem 500mg IV"
                             }
                         ],
-                        "text": "Meropenem"
+                        "text": "Meropenem 500mg IV"
                     },
                     "subject": {
                         "reference": "Patient/14702"
@@ -135,7 +159,15 @@ const MedicationRequest1 = {
                     "authoredOn": "2021-01-12T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "500mg IV Q6H"
+                            "text": "500mg IV Q6H",
+                            "timing": {
+                                "repeat": {
+                                    "boundsPeriod": {
+                                        "start": "2021-01-12T12:59:59+06:00",
+                                        "end": "2021-01-12T18:59:59+06:00"
+                                    }
+                                }
+                            }
                         }
                     ]
                 },
@@ -159,10 +191,10 @@ const MedicationRequest1 = {
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
                                 "code": "1722934",
-                                "display": "Meropenem"
+                                "display": "Meropenem 500mg IV"
                             }
                         ],
-                        "text": "Meropenem"
+                        "text": "Meropenem 500mg IV"
                     },
                     "subject": {
                         "reference": "Patient/14702"
@@ -170,7 +202,15 @@ const MedicationRequest1 = {
                     "authoredOn": "2021-01-13T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "500mg IV Q6H"
+                            "text": "500mg IV Q6H",
+                            "timing": {
+                                "repeat": {
+                                    "boundsPeriod": {
+                                        "start": "2021-01-13T12:59:59+06:00",
+                                        "end": "2021-01-13T18:59:59+06:00"
+                                    }
+                                }
+                            }
                         }
                     ]
                 },
@@ -194,10 +234,10 @@ const MedicationRequest1 = {
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
                                 "code": "1722934",
-                                "display": "Meropenem"
+                                "display": "Meropenem 500mg IV"
                             }
                         ],
-                        "text": "Meropenem"
+                        "text": "Meropenem 500mg IV"
                     },
                     "subject": {
                         "reference": "Patient/14702"
@@ -205,7 +245,15 @@ const MedicationRequest1 = {
                     "authoredOn": "2021-01-14T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "500mg IV Q6H"
+                            "text": "500mg IV Q6H",
+                            "timing": {
+                                "repeat": {
+                                    "boundsPeriod": {
+                                        "start": "2021-01-14T12:59:59+06:00",
+                                        "end": "2021-01-14T18:59:59+06:00"
+                                    }
+                                }
+                            }
                         }
                     ]
                 },
@@ -229,10 +277,10 @@ const MedicationRequest1 = {
                             {
                                 "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
                                 "code": "1722934",
-                                "display": "Meropenem"
+                                "display": "Meropenem 500mg IV"
                             }
                         ],
-                        "text": "Meropenem"
+                        "text": "Meropenem 500mg IV"
                     },
                     "subject": {
                         "reference": "Patient/14702"
@@ -240,7 +288,15 @@ const MedicationRequest1 = {
                     "authoredOn": "2021-01-15T12:59:59+06:00",
                     "dosageInstruction": [
                         {
-                            "text": "500mg IV Q6H"
+                            "text": "500mg IV Q6H",
+                            "timing": {
+                                "repeat": {
+                                    "boundsPeriod": {
+                                        "start": "2021-01-15T12:59:59+06:00",
+                                        "end": "2021-01-15T18:59:59+06:00"
+                                    }
+                                }
+                            }
                         }
                     ]
                 },
