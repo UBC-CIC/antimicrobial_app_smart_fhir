@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "smartonfhir650cc344_identitypool_650cc344",
-    "allowUnauthenticatedIdentities": true,
-    "resourceNameTruncated": "smarto650cc344",
-    "userPoolName": "smartonfhir650cc344_userpool_650cc344",
+    "identityPoolName": "smartonfhir4a826a1c_identitypool_4a826a1c",
+    "allowUnauthenticatedIdentities": false,
+    "resourceNameTruncated": "smarto4a826a1c",
+    "userPoolName": "smartonfhir4a826a1c_userpool_4a826a1c",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,10 +28,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "smarto650cc344_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "smarto4a826a1c_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "650cc344",
-    "resourceName": "smartonfhir650cc344",
+    "sharedId": "4a826a1c",
+    "resourceName": "smartonfhir4a826a1c",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -45,17 +45,12 @@
             "Arn"
         ]
     },
-    "useDefault": "manual",
+    "useDefault": "default",
+    "usernameAttributes": [
+        "email"
+    ],
     "userPoolGroupList": [],
     "serviceName": "Cognito",
-    "dependsOn": [],
-    "thirdPartyAuth": false,
-    "userPoolGroups": false,
-    "adminQueries": false,
-    "triggers": "{}",
-    "hostedUI": false,
-    "parentStack": {
-        "Ref": "AWS::StackId"
-    },
-    "permissions": []
+    "usernameCaseSensitive": false,
+    "dependsOn": []
 }

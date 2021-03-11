@@ -1,6 +1,6 @@
 {
   "auth": {
-    "smartonfhir650cc344": {
+    "smartonfhir4a826a1c": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
