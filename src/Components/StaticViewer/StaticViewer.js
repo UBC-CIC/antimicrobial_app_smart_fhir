@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Grid, Button, Input} from "semantic-ui-react";
+import { Grid, Button } from "semantic-ui-react";
 import DocumentView from "./Documents/DocumentView";
 import ResultView from "./Results/ResultView";
 import "./StaticViewer.css";
