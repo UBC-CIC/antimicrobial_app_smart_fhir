@@ -104,7 +104,7 @@ const MedicationGraph = withDisclosureManager(({ disclosureManager, graphDateSta
                 }
             })
             const medEntries = Object.entries(bin);
-            console.log("medEntries", medEntries);
+
 
             medEntries.forEach(antibioticGroup => {
                 let antibiotics = antibioticGroup[1];

@@ -10,23 +10,25 @@ const observationProcessing = (observations) => {
         let timestamp;
         if (observation.resource.category) {
             if (observation.resource.category[0].coding) {
-                if (observation.resource.category[0].coding[0].display === "vital-signs") {
+                if ((observation.resource.category[0].coding[0].display.toLowerCase() === "vital-signs") ||
+                    (observation.resource.category[0].coding[0].display.toLowerCase() === "vital signs")) {
                     type = "vitals";
-                } else if (observation.resource.category[0].coding[0].display === "laboratory") {
+                } else if (observation.resource.category[0].coding[0].display.toLowerCase() === "laboratory") {
                     type = "laboratory";
-                } else if (observation.resource.category[0].coding[0].display === "social-history") {
+                } else if ((observation.resource.category[0].coding[0].display.toLowerCase() === "social-history") ||
+                    (observation.resource.category[0].coding[0].display.toLowerCase() === "social history")) {
                     type = "social";
-                } else if (observation.resource.category[0].coding[0].display === "imaging") {
+                } else if (observation.resource.category[0].coding[0].display.toLowerCase() === "imaging") {
                     type = "imaging"
-                } else if (observation.resource.category[0].coding[0].display === "procedure") {
+                } else if (observation.resource.category[0].coding[0].display.toLowerCase() === "procedure") {
                     type = "procedure"
-                } else if (observation.resource.category[0].coding[0].display === "survey") {
+                } else if (observation.resource.category[0].coding[0].display.toLowerCase() === "survey") {
                     type = "survey";
-                } else if (observation.resource.category[0].coding[0].display === "exam") {
+                } else if (observation.resource.category[0].coding[0].display.toLowerCase() === "exam") {
                     type = "exam";
-                } else if (observation.resource.category[0].coding[0].display === "therapy") {
+                } else if (observation.resource.category[0].coding[0].display.toLowerCase() === "therapy") {
                     type = "therapy"
-                } else if (observation.resource.category[0].coding[0].display === "activity") {
+                } else if (observation.resource.category[0].coding[0].display.toLowerCase() === "activity") {
                     type = "activity"
                 }
             }
