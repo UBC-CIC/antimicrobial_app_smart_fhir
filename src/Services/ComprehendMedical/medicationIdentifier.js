@@ -1,5 +1,7 @@
 import {Auth} from "aws-amplify";
+/*
 import awsmobile from '../../aws-exports';
+*/
 const aws = require('aws-sdk');
 
 

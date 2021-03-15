@@ -109,7 +109,7 @@ const CultureViewer = (props) => {
         rows.rows = rowData;
         tableData.push(rows);
         setData(tableData);
-    }, [startDate, endDate, organisms])
+    }, [startDate, endDate, organisms, selectedPatient])
 
     return(
         <Grid style={{height: "100%"}}>

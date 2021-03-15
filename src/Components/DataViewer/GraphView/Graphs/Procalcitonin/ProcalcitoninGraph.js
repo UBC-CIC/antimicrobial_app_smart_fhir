@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import ChartJS from "chart.js";
 import {connect} from "react-redux";

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {Grid, Segment, Sidebar, Divider, Button, Label, Icon} from "semantic-ui-react";
 import {connect} from "react-redux";
 import React, { useState, useEffect } from "react";
