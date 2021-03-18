@@ -76,10 +76,6 @@ const observationFilterHelper = (code) => {
           }
           case "442349007": // Venous oxygen saturation [SNOMED]
           case "431314004": // Peripheral oxygen saturation [SNOMED]
-          case "442386008": // Jugular bulb oxygen saturation [SNOMED]
-          case "442381003": // Intracardiac oxygen saturation [SNOMED]
-          case "373638005": // Conjunctival oxygen saturation [SNOMED]
-          case "718059008": // Cerebral oxygen saturation [SNOMED]
           case "442440005": // Capillary oxygen saturation [SNOMED]
           case "442476006": // Arterial oxygen saturation [SNOMED]
           case "103228002": // Hemoglobin saturation with oxygen [SNOMED]
