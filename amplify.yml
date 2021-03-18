@@ -1,0 +1,26 @@
+version: 1
+backend:
+  phases:
+    build:
+      commands:
+        - '# Execute Amplify CLI with the helper script'
+        - amplifyPush --simple
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - nvm use $VERSION_NODE_10
+        - export NODE_OPTIONS="--max-old-space-size=2048"
+        - yarn install
+    build:
+      commands:
+        - nvm use $VERSION_NODE_10
+        - export NODE_OPTIONS="--max-old-space-size=2048"
+        - yarn start:build-prod
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*

@@ -72,7 +72,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "aggregate-translations": "tt-aggregate-translations -l ['en'] -o ./node_modules/terra-i18n/node_modules -f es6",
-    "start:build": "npm run aggregate-translations && npm run start"
+    "start:build": "npm run aggregate-translations && npm run start",
+    "start:build-prod": "npm run aggregate-translations && npm run build"
   },
   "eslintConfig": {
     "extends": [
