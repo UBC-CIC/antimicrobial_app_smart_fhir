@@ -12,6 +12,7 @@ import OxygenSaturationGraph from "./Graphs/OxygenSaturation/OxygenSaturationGra
 import CRPGraph from "./Graphs/CRP/CRPGraph";
 import WBCGraph from "./Graphs/WBC/WBCGraph";
 import ProcedureGraph from "./Graphs/Procedure/ProcedureGraph";
+import ProcalcitoninGraph from "./Graphs/Procalcitonin/ProcalcitoninGraph";
 
 
 
@@ -55,6 +56,10 @@ const GraphView = (props) => {
         }
         case "procedures": {
             graph = <ProcedureGraph />;
+            break;
+        }
+        case "procalcitonin": {
+            graph = <ProcalcitoninGraph />;
             break;
         }
         default:
