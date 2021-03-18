@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {Divider, Grid} from "semantic-ui-react";
+import {Divider, Grid, Loader} from "semantic-ui-react";
 import Flag from "./Flag/Flag";
 import ModalManager from 'terra-application/lib/modal-manager';
 import "./CriticalFlags.css";
@@ -10,22 +10,42 @@ const CriticalFlags = (props) => {
     const {allergies, antibiotics, diseases} = props;
     let allergyList = [];
     if (allergies) {
-        allergyList = allergies.map((allergy, index) => {
-            return <div key={index} style={{padding: "0px"}}><div style={{padding: "0px"}}>{allergy.description}</div><Divider style={{padding: "0px"}} /></div>
-        })
+        if (allergies.length > 0) {
+            allergyList = allergies.map((allergy, index) => {
+                return <div key={index} style={{padding: "0px"}}><div style={{padding: "0px"}}>{allergy.description}</div><Divider style={{padding: "0px"}} /></div>
+            })
+        } else {
+            allergyList = <div key={1} style={{padding: "0px"}}><div style={{paddingTop: "10px"}}><span style={{fontSize: "18px"}}>None</span></div></div>
+        }
+
+    } else {
+        allergyList = <div key={1} style={{padding: "0px"}}><div style={{padding: "0px"}}><Loader active inline='centered' size='small'><strong>Loading ...</strong></Loader></div></div>
     }
+
     let antibioticsList = [];
     if (antibiotics) {
-        antibioticsList = antibiotics.map((antibiotic, index) => {
-            return <div key={index} style={{padding: "0px"}}><div style={{padding: "0px"}}>{antibiotic.description}</div><Divider style={{padding: "0px"}} /></div>
-        })
+        if (antibiotics.length > 0) {
+            antibioticsList = antibiotics.map((antibiotic, index) => {
+                return <div key={index} style={{padding: "0px"}}><div style={{padding: "0px"}}>{antibiotic.description}</div><Divider style={{padding: "0px"}} /></div>
+            })
+        } else {
+            antibioticsList = <div key={1} style={{padding: "0px"}}><div style={{paddingTop: "10px"}}><span style={{fontSize: "18px"}}>None</span></div></div>
+        }
+    } else {
+        antibioticsList = <div key={1} style={{padding: "0px"}}><div style={{padding: "0px"}}><Loader active inline='centered' size='small'><strong>Loading ...</strong></Loader></div></div>
     }
 
     let diseaseList = [];
     if (diseases) {
-        diseaseList = diseases.map((disease, index) => {
-            return <div key={index} style={{padding: "0px"}}><div style={{padding: "0px"}}>{disease.description}</div><Divider style={{padding: "0px"}} /></div>
-        })
+        if (diseases.length > 0) {
+            diseaseList = diseases.map((disease, index) => {
+                return <div key={index} style={{padding: "0px"}}><div style={{padding: "0px"}}>{disease.description}</div><Divider style={{padding: "0px"}} /></div>
+            })
+        } else {
+            diseaseList = <div key={1} style={{padding: "0px"}}><div style={{paddingTop: "10px"}}><span style={{fontSize: "18px"}}>None</span></div></div>
+        }
+    } else {
+        diseaseList = <div key={1} style={{padding: "0px"}}><div style={{padding: "0px"}}><Loader active inline='centered' size='small'><strong>Loading ...</strong></Loader></div></div>
     }
 
 
