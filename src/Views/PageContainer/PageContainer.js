@@ -179,33 +179,6 @@ const PageContainer = (props) => {
                                                 </Menu>
                                             </Grid.Column>
                                         </Grid.Row>
-                                        <Grid.Row style={{backgroundColor: "#4e7a99"}}>
-                                            <Grid.Column textAlign={"center"} verticalAlign={"middle"}>
-                                                <Grid>
-                                                    <Grid.Row>
-                                                        <Grid.Column width={2} />
-                                                        <Grid.Column width={12} textAlign={"center"} verticalAlign={"middle"}>
-                                                            <Grid>
-                                                                <Grid.Row style={{paddingBottom: "0px"}}>
-                                                                    <Grid.Column width={3} textAlign={"center"} verticalAlign={"middle"} >
-                                                                        <Icon size={"small"} name="thumb tack" style={{color: "whitesmoke"}} />
-                                                                    </Grid.Column>
-                                                                    <Grid.Column width={12} textAlign={"left"} verticalAlign={"middle"}>
-                                                                        <span style={{color: "white", fontSize: "14px"}}>Notes</span>
-                                                                    </Grid.Column>
-                                                                </Grid.Row>
-                                                                <Grid.Row style={{paddingTop: "0px"}}>
-                                                                    <Grid.Column>
-                                                                        <TextArea style={{backgroundColor: "#629bc4", width: "100%", minHeight: "100px", color: "whitesmoke"}} />
-                                                                    </Grid.Column>
-                                                                </Grid.Row>
-                                                            </Grid>
-                                                        </Grid.Column>
-                                                        <Grid.Column width={2} />
-                                                    </Grid.Row>
-                                                </Grid>
-                                            </Grid.Column>
-                                        </Grid.Row>
                                     </Grid>
                                 </Grid.Column>
                                 <Grid.Column width={14} style={{padding: "0px", height: "100%", backgroundColor: "#f2f8fc"}}>
