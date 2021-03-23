@@ -41,7 +41,7 @@ Scope definitions below are referenced from [Cerner's SMART on FHIR tutorial](ht
 
 
 ### MedicationRequest Processing Flow Chart:
-<img src="./images/medicationClassificationFlow.png"  width="700"/>
+<img src="./images/medicationClassificationFlow.png"  width="650"/>
 
 - The solution filters out any non-medication allergies (from the AllergyIntolerance resource) by checking the category field of the entry. If the category field does not exists, the allergy description is run through the [AWS Comprehend Medical](https://aws.amazon.com/comprehend/medical/) Detect Entity API to determine if it contains a medication.
 - The solution filters out entries from the Observation resource and checks the code field to determine the type of data it contains. The solution then matches the code against a list of relevant SNOMED or LOINC codes to determine the data type (blood pressure, heart rate, etc.).  
