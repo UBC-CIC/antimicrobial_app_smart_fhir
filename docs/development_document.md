@@ -36,8 +36,13 @@ Scope definitions below are referenced from [Cerner's SMART on FHIR tutorial](ht
 
 ## Filtering and processing patient data for visualization
 
-- The solution checks the medication data (from the Medication resource) for any RxNorm codes (RxCUIs). If it exists, it goes through a series of checks using the [RxNav API](https://mor.nlm.nih.gov/download/rxnav/) to retrieve the corresponding ATC, MeSH, and FMTSE codes to identify if the medications are antibiotics or not. MeSH codes are checked using the [UMLS API](https://documentation.uts.nlm.nih.gov/rest/home.html).
+- The solution checks the medication data (from the Medication resource) for any RxNorm codes (RxCUIs). If it exists, it goes through a series of checks using the [RxNav API](https://mor.nlm.nih.gov/download/rxnav/) to retrieve the corresponding ATC, MeSH, and FMTSE codes to identify if the medications are antibiotics or not. MeSH codes are also checked using the [UMLS API](https://documentation.uts.nlm.nih.gov/rest/home.html).
 - If the no RxNorm codes exist for the medication, it then gets transmitted to the AWS Comprehend Medical Detect Entity API for analysis to extract the medication name from the prescription. After which, the result is sent to the [AWS Comprehend Medical](https://aws.amazon.com/comprehend/medical/) InferRxNorm API to identify a corresponding RxNorm code (RxCUI). After which, it goes through the same identification process as above.
+
+
+### MedicationRequest Processing Flow Chart:
+<img src="./images/medicationClassificationFlow.png"  width="650"/>
+
 - The solution filters out any non-medication allergies (from the AllergyIntolerance resource) by checking the category field of the entry. If the category field does not exists, the allergy description is run through the [AWS Comprehend Medical](https://aws.amazon.com/comprehend/medical/) Detect Entity API to determine if it contains a medication.
 - The solution filters out entries from the Observation resource and checks the code field to determine the type of data it contains. The solution then matches the code against a list of relevant SNOMED or LOINC codes to determine the data type (blood pressure, heart rate, etc.).  
 
