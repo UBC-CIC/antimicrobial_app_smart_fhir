@@ -384,6 +384,11 @@ const ResultView = (props) => {
                         <Divider />
                     </Grid.Column>
                 </Grid.Row>
+                <Grid.Row style={{padding: "0px"}}>
+                    <Grid.Column textAlign={"left"} verticalAlign={"middle"}>
+                        {(searchText !== "")? <span style={{fontSize: "16px"}}><strong>Search results: </strong></span> : null}
+                    </Grid.Column>
+                </Grid.Row>
                 <Grid.Row style={{paddingTop: "0px"}}>
                     <Grid.Column textAlign={"left"} verticalAlign={"middle"}>
                         <Accordion panels={rootPanels} styled fluid />
