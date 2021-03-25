@@ -30,6 +30,10 @@ const CultureViewer = (props) => {
         return (formattedDate <= formattedEnd);
     }
 
+    useEffect(() => {
+        setStartDate(graphDateStart);
+        setEndDate(graphDateEnd);
+    }, [graphDateStart, graphDateEnd])
 
     const handleEndDate = (event, date) => {
         setEndDate(date);
@@ -42,6 +46,7 @@ const CultureViewer = (props) => {
         let tableData = [];
         let rows = {};
         let rowData = [];
+
         organisms.forEach((organism, index) => {
             let description = "N/A";
             let results = "N/A";
@@ -57,15 +62,6 @@ const CultureViewer = (props) => {
                 timestamp = organism.timestamp.toLocaleString();
             }
 
-            if (organism.testResults) {
-                let listItems = organism.testResults.map((entry) => {
-                    return <li key={uuidv4()}>{entry.medication}: <span style={{color: "red"}}>{entry.testResult}</span></li>
-                });
-                results = <ul style={{listStyleType: "none"}}>
-                    {listItems}
-                </ul>
-            }
-
             if (organism.source) {
                 source = organism.source;
             }
@@ -75,7 +71,7 @@ const CultureViewer = (props) => {
 
             if (selectedPatient === "Patient_1") {
                 organism.testResults = [
-                    {medication: "β-lactam", testResult: "R"},
+                    {medication: "β-lactam", testResult: "R"}
                 ];
                 type = "Sample";
                 source = "Urine";
@@ -87,6 +83,15 @@ const CultureViewer = (props) => {
                 ];
                 type = "Wound";
                 source = "Abscess LEG RIGHT";
+            }
+
+            if (organism.testResults) {
+                let listItems = organism.testResults.map((entry) => {
+                    return <li key={uuidv4()}>{entry.medication}: <span style={{color: "red"}}>{entry.testResult}</span></li>
+                });
+                results = <ul style={{listStyleType: "none"}}>
+                    {listItems}
+                </ul>
             }
 
             let entry = {
@@ -106,6 +111,7 @@ const CultureViewer = (props) => {
                 rowData.push(entry);
             }
         });
+
         rows.rows = rowData;
         tableData.push(rows);
         setData(tableData);
