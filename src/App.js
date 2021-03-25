@@ -177,13 +177,7 @@ class App extends React.Component {
           setRawData({observations: observationArray, allergies: allergyArray,
                       medications: medicationArray, conditions: conditionArray, procedures: proceduresArray,
                       diagnosticReports: diagnosticReportArray});
-         /* console.log("patient: ", patient);
-          console.log("observations: ", observation);
-          console.log("allergies: ", allergy);
-          console.log("medications: ", medication);
-          console.log("diagnostic reports: ", diagnosticReports);
-          console.log("conditions: ", conditions);
-          console.log("procedures: ", procedures);*/
+
 
           if (this._isMounted) {
               this.setState({
@@ -237,7 +231,7 @@ class App extends React.Component {
 
 
   return (
-      <ApplicationBase locale={"en"} style={{height: "100vh", width: "100vw"}}>
+      <ApplicationBase locale={"en"} >
           {
               this.props.loginState !== "signedIn" && (
                   <div  className="App" style={{height: "100vh", width: "100vw"}}>

@@ -24,7 +24,7 @@ const antibioticIdentifierAlternate = async (rxNormCodes, tgt) => {
                        atcCodes.push(code);
                    })
                    atcCodes.forEach(code => {
-                       if (code.startsWith("J")) {
+                       if (code.startsWith("J") || code.startsWith("QJ")) {
                            return true;
                        }
                    });
