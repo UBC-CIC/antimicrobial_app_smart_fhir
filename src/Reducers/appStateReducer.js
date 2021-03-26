@@ -1,7 +1,6 @@
 const initialAppState = {
     loadingPatientData: false,
     error: false,
-    tgt: null,
 }
 
 
@@ -20,12 +19,6 @@ const appStateReducer = (appState = initialAppState, action) => {
             return {
                 ...newAppState,
                 loadingPatientData: false,
-            }
-        }
-        case "SET_TGT": {
-            return {
-                ...newAppState,
-                tgt: action.payload,
             }
         }
         case "SET_ERROR_FLAG": {

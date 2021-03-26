@@ -50,7 +50,7 @@ const allergyTableFormater = (allergies) => {
                     <Table.HeaderCell>Reaction</Table.HeaderCell>
                     <Table.HeaderCell>Date</Table.HeaderCell>
                     <Table.HeaderCell>Verification</Table.HeaderCell>
-                    <Table.HeaderCell singleLine>Clinical Status</Table.HeaderCell>
+                    <Table.HeaderCell>Clinical Status</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 

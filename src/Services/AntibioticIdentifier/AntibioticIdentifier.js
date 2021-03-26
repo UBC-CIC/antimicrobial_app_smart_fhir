@@ -1,9 +1,8 @@
-import generateUMLSToken from "../UMLS/generateUMLSToken";
 const axios = require('axios');
 
 
 
-const antibioticIdentifier = async (medicationIdentities, tgt) => {
+const antibioticIdentifier = async (medicationIdentities) => {
     let shouldInclude = false;
 
     let rxNormPrediction = null;
@@ -28,7 +27,7 @@ const antibioticIdentifier = async (medicationIdentities, tgt) => {
 
 
     if (!shouldInclude) {
-        shouldInclude = await rxNormPredictionsHelper(rxNormPredictions, tgt);
+        shouldInclude = await rxNormPredictionsHelper(rxNormPredictions);
     }
 
     return shouldInclude;
@@ -37,77 +36,56 @@ const antibioticIdentifier = async (medicationIdentities, tgt) => {
 //=============================================---HELPER FUNCTIONS---===================================================
 
 // processes the results of Comprehend Medical InferRXNorm
-const rxNormPredictionsHelper = async (rxNormPredictions, tgt) => {
+const rxNormPredictionsHelper = async (rxNormPredictions) => {
 
 
     for (let prediction of rxNormPredictions) {
-            // check the RxNorm database for property codes for our chosen RxConcept
-            // check for ATC and MESH properties for validation
-           // if a match is found, return true
-            if (prediction) {
-                try {
-                    let linkATCEndpoint = `https://rxnav.nlm.nih.gov/REST/rxcui/${prediction.code}/property.json?propName=ATC`;
-                    let rxNormResponseATC = await axios.get(linkATCEndpoint);
-                    let atc = [];
-                    if (rxNormResponseATC) {
-                        if (rxNormResponseATC.data.propConceptGroup) {
-                            let properties = rxNormResponseATC.data.propConceptGroup.propConcept;
-                            if (properties.length > 0) {
-                                properties.forEach(property => {
-                                    atc.push(property.propValue);
-                                });
-                            }
+        try {
+            let meshResponse = await axios.get(`https://rxnav.nlm.nih.gov/REST/rxclass/class/byRxcui.json?rxcui=${prediction.code}&relaSource=MESH`);
+            if (meshResponse) {
+                if (meshResponse.data.rxclassDrugInfoList) {
+                    for (let entry of meshResponse.data.rxclassDrugInfoList.rxclassDrugInfo) {
+                        if (entry.rxclassMinConceptItem.classId === "D000900") {
+                            return true;
                         }
                     }
-
-                    // check if were able to retrieve ATC codes and if it's an antibiotic (starts with "J")
-                    if (atc.length !== 0) {
-                        // eslint-disable-next-line no-loop-func
-                        atc.forEach(entry => {
-                            if (entry.startsWith("J") || entry.startsWith("QJ")) {
-                                return true;
-                            }
-                        })
-                    }
-
-                    // if we don't have an atc, try to retrieve a MESH value (Medical Subject Heading)
-                    // then check if mesh includes code for antibiotics
-                    let mesh = [];
-
-                        let rxNormResponseMESH;
-                            let linkMESHEndpoint = `https://rxnav.nlm.nih.gov/REST/rxcui/${prediction.code}/property.json?propName=MESH`;
-                            rxNormResponseMESH = await axios.get(linkMESHEndpoint);
-                        if (rxNormResponseMESH) {
-                            if (rxNormResponseMESH.data.propConceptGroup) {
-                                let properties = rxNormResponseMESH.data.propConceptGroup.propConcept;
-                                if (properties.length > 0) {
-                                    properties.forEach(property => {
-                                        mesh.push(property.propValue);
-                                    });
-                                }
-                            }
-                        }
-
-                        for (let entry of mesh) {
-                            let token = await generateUMLSToken(tgt);
-                            let authURL = `https://uts-ws.nlm.nih.gov/rest/content/current/source/MSH/${entry}/attributes?includeAttributeNames=PA&ticket=${token}`;
-                            let results = await axios.get(authURL);
-                            if (results.data.result.length > 0) {
-                                for (let entry of results.data.result) {
-                                    if (entry.value === "D000900") {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-
-
-                } catch (error) {
-                    console.error(error);
-                    // fail-safe - return true. Better to include false positives then omit actual antibiotic
-                    return true;
                 }
             }
+
+        } catch (e) {
+            console.log("Error retrieving MeSH information: ", e);
+        }
+
+        try {
+            let atcResponse = await axios.get(`https://rxnav.nlm.nih.gov/REST/rxclass/class/byRxcui.json?rxcui=${prediction.code}&relaSource=ATC`);
+            if (atcResponse) {
+                if (atcResponse.data.rxclassDrugInfoList){
+                    for (let entry of atcResponse.data.rxclassDrugInfoList.rxclassDrugInfo) {
+                        if (entry.rxclassMinConceptItem.classId.startsWith("J") || entry.rxclassMinConceptItem.classId.startsWith("QJ")) {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+        } catch (e) {
+            console.log("Error retrieving ATC information: ", e);
+        }
+
+        try {
+            let fmtsmeResponse = await axios.get(`https://rxnav.nlm.nih.gov/REST/rxclass/class/byRxcui.json?rxcui=${prediction.code}&relaSource=FMTSME&relas=has_tc`);
+            if (fmtsmeResponse) {
+                if (fmtsmeResponse.data.rxclassDrugInfoList){
+                    for (let entry of fmtsmeResponse.data.rxclassDrugInfoList.rxclassDrugInfo) {
+                        if (entry.rxclassMinConceptItem.classId === "N0000178296") {
+                            return true;
+                        }
+                    }
+                }
+            }
+        } catch (e) {
+            console.log("Error retrieving FMTSME information: ", e);
+        }
 
     }
 

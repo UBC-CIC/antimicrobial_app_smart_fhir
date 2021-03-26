@@ -14,14 +14,6 @@ export const unsetLoadingFlag = () => {
     }
 }
 
-// Sets tgt
-export const setTGT = (payload) => {
-    return {
-        type: "SET_TGT",
-        payload: payload,
-    }
-}
-
 // set error Flag
 export const setErrorFlag = () => {
     return {

@@ -8,11 +8,10 @@ import ApplicationLoadingOverlay from 'terra-application/lib/application-loading
 import PageContainer from "./Views/PageContainer/PageContainer";
 import {setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData, setRawData,
     setDiagnosticData, setProcedureData} from "./Actions/patientContextActions";
-import {setLoadingFlag, unsetLoadingFlag, setTGT, setErrorFlag} from "./Actions/appStateActions";
+import {setLoadingFlag, unsetLoadingFlag, setErrorFlag} from "./Actions/appStateActions";
 import {updateLoginState} from "./Actions/loginActions";
 import {Grid} from "semantic-ui-react";
 import Login from "./Components/Authentication/Login";
-import generateTGT from "./Services/UMLS/generateTGT";
 import 'semantic-ui-css/semantic.min.css';
 require('dotenv').config()
 
@@ -33,17 +32,9 @@ class App extends React.Component {
       this._isMounted = true;
       this.setAuthListener();
       const {client, setPatientData, setAllergyData, setMedicationData, setObservationData, setConditionData,
-          setDiagnosticData, setProcedureData, setRawData, setLoadingFlag, unsetLoadingFlag, setTGT, setErrorFlag} = this.props;
+          setDiagnosticData, setProcedureData, setRawData, setLoadingFlag, unsetLoadingFlag, setErrorFlag} = this.props;
       try {
           setLoadingFlag();
-          let tgt;
-          try {
-              tgt = await generateTGT();
-              setTGT(tgt);
-
-          } catch (e) {
-              console.error("Error retrieving UMLS token: ", e);
-          }
 
           let patient = await client.patient.read();
           setPatientData(patient);
@@ -86,7 +77,7 @@ class App extends React.Component {
                       }
                   }
               }
-                  setAllergyData({allergies: allergyArray, tgt: tgt});
+                  setAllergyData({allergies: allergyArray});
               }
           }
 
@@ -108,7 +99,7 @@ class App extends React.Component {
                       }
                   }
               }
-                  setMedicationData({medications: medicationArray, tgt: tgt});
+                  setMedicationData({medications: medicationArray});
               }
           }
          let diagnosticReports;
@@ -285,7 +276,6 @@ const mapDispatchToProps = {
     setDiagnosticData,
     setProcedureData,
     setRawData,
-    setTGT,
     setErrorFlag,
     updateLoginState,
 }

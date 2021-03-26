@@ -67,7 +67,6 @@ export const processMedicationData = (meds) => {
     return async (dispatch) => {
         let antibioticsArray = [];
         let medication = meds.medications;
-        let tgt = meds.tgt;
         for (let medicine of medication) {
             let shouldInclude = false;
             let hasRxNormCode;
@@ -81,7 +80,7 @@ export const processMedicationData = (meds) => {
                     }
                 }
                 if (rxNormCodes.length > 0) {
-                    shouldInclude = await antibioticIdentifierAlternate(rxNormCodes, tgt);
+                    shouldInclude = await antibioticIdentifierAlternate(rxNormCodes);
                 }
             } catch (e) {
 
@@ -117,7 +116,7 @@ export const processMedicationData = (meds) => {
 
             // check if medication is an antibiotic
             if (!shouldInclude) {
-                shouldInclude = await antibioticIdentifier(medicationIdentities, tgt);
+                shouldInclude = await antibioticIdentifier(medicationIdentities);
             }
 
 
