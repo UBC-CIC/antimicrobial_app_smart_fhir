@@ -7,7 +7,7 @@ import "./Login.css";
 
 
 const initialFormState = {
-    email: "", password: "", authCode: "", resetCode: "", formType: "signIn"
+    email: "", password: "", authCode: "", resetCode: ""
 }
 
 function Login(props) {
@@ -19,9 +19,6 @@ function Login(props) {
     const [newVerification, setNewVerification] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        updateFormState(() => ({...formState, formType: loginState}));
-    }, [loginState])
 
     useEffect(() => {
         async function retrieveUser() {
@@ -48,7 +45,6 @@ function Login(props) {
         updateFormState(() => ({...formState, [e.target.name]: e.target.value}))
     }
 
-    const {formType} = formState;
 
     async function signUp() {
         try {
@@ -169,14 +165,14 @@ function Login(props) {
                                         <Grid.Row style={{padding: "0px"}}>
                                             <Grid.Column verticalAlign={"middle"} textAlign={"left"}>
                                                 <div className={"login-wrapper-top"}>
-                                                    <span className={"login-wrapper-top-header"}>{(formType === "signIn")? <span>Sign In</span> : (formType === "signUp")? <span>Sign Up</span> : (formType === "confirmSignUp")? <span>Verify Account</span> : (formType === "forgotPassword" || formType === "resetPassword")? <span>Password Reset</span> : <span>Welcome</span>}</span>
+                                                    <span className={"login-wrapper-top-header"}>{(loginState === "signIn")? <span>Sign In</span> : (loginState === "signUp")? <span>Sign Up</span> : (loginState === "confirmSignUp")? <span>Verify Account</span> : (loginState === "forgotPassword" || loginState === "resetPassword")? <span>Password Reset</span> : <span>Welcome</span>}</span>
                                                 </div>
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
                                             <Grid.Column verticalAlign={"middle"} textAlign={"center"}>
                                                 {
-                                                    formType === "signIn" && (
+                                                    loginState === "signIn" && (
                                                         <Grid>
                                                             <Grid.Row style={{paddingTop: "3px", paddingBottom: "0px"}}>
                                                                 <Grid.Column verticalAlign={"middle"} textAlign={"center"}>
@@ -237,7 +233,7 @@ function Login(props) {
                                                     )
                                                 }
                                                 {
-                                                    formType === "forgotPassword" && (
+                                                    loginState === "forgotPassword" && (
                                                         <Grid>
                                                             <Grid.Row style={{paddingBottom: "0px"}}>
                                                                 <Grid.Column verticalAlign={"middle"} textAlign={"center"} style={{paddingLeft: "30px", paddingRight: "30px"}}>
@@ -270,7 +266,7 @@ function Login(props) {
                                                     )
                                                 }
                                                 {
-                                                    formType === "resetPassword" && (
+                                                    loginState === "resetPassword" && (
                                                         <Grid>
                                                             <Grid.Row style={{paddingBottom: "0px"}}>
                                                                 <Grid.Column verticalAlign={"middle"} textAlign={"center"} style={{paddingLeft: "30px", paddingRight: "30px"}}>
@@ -319,7 +315,7 @@ function Login(props) {
                                                     )
                                                 }
                                                 {
-                                                    formType === "signUp" && (
+                                                    loginState === "signUp" && (
                                                         <Grid>
                                                             <Grid.Row style={{paddingBottom: "0px"}}>
                                                                 <Grid.Column verticalAlign={"middle"} textAlign={"center"} style={{paddingLeft: "30px", paddingRight: "30px"}}>
@@ -362,7 +358,7 @@ function Login(props) {
                                                     )
                                                 }
                                                 {
-                                                    formType === "confirmSignUp" && (
+                                                    loginState === "confirmSignUp" && (
                                                         <Grid>
                                                             <Grid.Row style={{paddingTop: "5px", paddingBottom: "0px"}}>
                                                                 <Grid.Column verticalAlign={"middle"} textAlign={"center"} >
