@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import awsconfig from './aws-exports';
 import reportWebVitals from './reportWebVitals';
 import reducers from "./Reducers";
+
 Amplify.configure(awsconfig);
 
 

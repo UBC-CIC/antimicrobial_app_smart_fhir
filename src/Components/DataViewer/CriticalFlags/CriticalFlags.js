@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {Divider, Grid, Loader} from "semantic-ui-react";
+import {Divider, Grid, Loader, Button} from "semantic-ui-react";
 import Flag from "./Flag/Flag";
 import ModalManager from 'terra-application/lib/modal-manager';
+import CreateEntry from "./CreateEntry/CreateEntry";
 import "./CriticalFlags.css";
 
 const CriticalFlags = (props) => {
@@ -60,7 +61,7 @@ return(
             <Grid.Row>
                 <Grid.Column>
                     <Grid>
-                        <Grid.Row columns={3} style={{height: "80px !important"}}>
+                        <Grid.Row columns={3} style={{height: "80px !important", paddingBottom: "5px"}}>
                             <Grid.Column textAlign={"center"} verticalAlign={"top"}>
                                 <ModalManager>
                                     <Flag title={"Diseases:"} content={diseaseList} modalData={diseases} type={"disease"} alert={(diseases)?  (diseases.length > 0) : false} />
@@ -74,6 +75,23 @@ return(
                             <Grid.Column>
                                 <ModalManager>
                                     <Flag title={"Allergies:"} content={allergyList} modalData={allergies} type={"allergy"} alert={(allergies)? (allergies.length > 0) : false}  />
+                                </ModalManager>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row columns={3} style={{paddingTop: "0px", paddingBottom: "5px"}}>
+                            <Grid.Column>
+                                <ModalManager>
+                                    <CreateEntry type={"disease"} />
+                                </ModalManager>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <ModalManager>
+                                    <CreateEntry type={"antibiotic"} />
+                                </ModalManager>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <ModalManager>
+                                    <CreateEntry type={"allergy"} />
                                 </ModalManager>
                             </Grid.Column>
                         </Grid.Row>
