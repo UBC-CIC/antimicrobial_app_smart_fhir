@@ -20,7 +20,7 @@ Antimicrobial Insights (with Amazon HealthLake) is a prototype FHIR clinical dec
 
 # High Level Architecture
 
-<img src="./docs/images/architecture_diagram.png"  width="500"/>
+<img src="./docs/images/FHIR_HealthLake.png"  width="500"/>
 
 # Development
 To learn more details about this application, please read our [Development Document](./docs/development_document.md) 
