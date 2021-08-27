@@ -238,7 +238,6 @@ class App extends React.Component {
       const {patient} = this.state;
       let name = "";
       if (patient) {
-         console.log("patient debug", patient);
           name = patient.name[0].given[0] + " " + patient.name[0].family;
 
           if (patient.name[0].prefix) {

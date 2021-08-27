@@ -24,13 +24,6 @@ const navigationItems = [
             display: 'Patient 1',
         },
     },
-    {
-        key: 'Patient_2',
-        text: 'Demo Patient 2',
-        metaData: {
-            display: 'Patient 2',
-        },
-    },
 ];
 
 
