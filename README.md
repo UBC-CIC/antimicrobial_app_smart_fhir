@@ -1,5 +1,5 @@
-# Antimicrobial SMART on FHIR App (with Amazon HealthLake Integration)
-Antimicrobial Insights is a prototype SMART on FHIR clinical decision support application that aims to display relevant patient electronic health record (EHR) information to clincial professionals when dealing with infection cases. We hope that this serves as a demonstration of what's possible when third party applications are integrated with Smart on FHIR compatible Electronic Medical Record systems. Specialized views of patient data helps healthcare providers focus on the information that matters.
+# Antimicrobial FHIR App (with Amazon HealthLake Integration)
+Antimicrobial Insights (with Amazon HealthLake) is a prototype FHIR clinical decision support application that aims to display relevant patient electronic health record (EHR) information to clincial professionals when dealing with infection cases. Specialized views of patient data helps healthcare providers focus on the information that matters.
 
 |Index| Description|
 |:----------------|:-----------|
@@ -13,18 +13,9 @@ Antimicrobial Insights is a prototype SMART on FHIR clinical decision support ap
 
 # Stack
 
-* **Front-end** - ReactJS on NodeJS as the core framework. It utilizes the SMART on FHIR framework (FHIR version R4) for EHR launches.
+* **Front-end** - ReactJS on NodeJS as the core framework. It utilizes the FHIR framework (FHIR version R4) and interfaces with Amazon HealthLake.
 * **Hosting** - AWS Amplify.
 * **Backend** - In the backend, we are using AWS Comprehend Medical to aid in patient data classification and filtering. 
-
-# Demo
-Try launching the application yourself using the [live demo application](). You will need to launch the application from a SMART on FHIR compliant EMR emulator. There are a number of of different ones available but we recommend using the [Smart App Launcher Sandbox](https://launch.smarthealthit.org/) as it does not require any code modifications to run. 
-
-You can use the following settings shown below to launch the demo:
-
-*For the "App Launch URL", you can use either "http://localhost:3000/" if you're running this project locally, or if you're using the live demo application, use the URL for the app.*
-
-<img src="./docs/images/smartSandbox.png"  width="500"/>
 
 
 # High Level Architecture
@@ -39,7 +30,7 @@ To deploy this solution into your AWS Account please follow our [Deployment Guid
 
 
 # Changelog
-* March 1, 2021: Initial release.
+* August 27, 2021: Lastest update.
 
 # License
 This project is distributed under  [Apache-2.0](https://github.com/UBC-CIC/antimicrobial_app_smart_fhir/blob/main/LICENSE) 
