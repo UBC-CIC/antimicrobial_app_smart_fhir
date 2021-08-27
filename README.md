@@ -1,4 +1,4 @@
-# Antimicrobial Insights SMART on FHIR Application
+# Antimicrobial Insights SMART on FHIR Application (with Amazon HealthLake Integration -- under development)
 Antimicrobial Insights is a prototype SMART on FHIR clinical decision support application that aims to display relevant patient electronic health record (EHR) information to clincial professionals when dealing with infection cases. We hope that this serves as a demonstration of what's possible when third party applications are integrated with Smart on FHIR compatible Electronic Medical Record systems. Specialized views of patient data helps healthcare providers focus on the information that matters.
 
 |Index| Description|
